@@ -48,12 +48,22 @@ class User extends Authenticatable
         return $this->hasMany(Transaksi::class);
     }
 
-    public function isAdmin()
+    /**
+     * Check if user has admin role.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    public function isPengguna()
+    /**
+     * Check if user has pengguna role.
+     *
+     * @return bool
+     */
+    public function isPengguna(): bool
     {
         return $this->role === 'pengguna';
     }

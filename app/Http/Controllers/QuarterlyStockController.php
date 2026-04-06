@@ -7,9 +7,11 @@ use App\Models\QuarterlyStockOpname;
 use App\Models\Barang;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class QuarterlyStockController extends Controller
 {
@@ -22,70 +24,72 @@ class QuarterlyStockController extends Controller
         $selectedTahun = $request->input('tahun', date('Y'));
         $selectedQuarter = $request->input('quarter', $this->getCurrentQuarter());
 
-        // Get available years from transactions only
-        $availableYears = Transaksi::selectRaw("strftime('%Y', tanggal) as tahun")
-            ->distinct()
-            ->orderBy('tahun', 'desc')
-            ->pluck('tahun')
-            ->toArray();
+        // Cache the heavy queries for 5 minutes
+        $cacheKey = "quarterly_stock_{$selectedTahun}_{$selectedQuarter}";
         
-        // If no transactions, add current year
-        if (empty($availableYears)) {
-            $availableYears[] = date('Y');
-        }
-        $availableYears = array_unique($availableYears);
-        rsort($availableYears);
-
-        // Get quarter date range
-        $quarterRange = QuarterlyStockOpname::getQuarterDateRange($selectedTahun, $selectedQuarter);
-        
-        // Get ACTUAL transaction date range within the quarter
-        $actualStart = Transaksi::whereDate('tanggal', '>=', $quarterRange[0])
-            ->whereDate('tanggal', '<=', $quarterRange[1])
-            ->min('tanggal');
-        
-        $actualEnd = Transaksi::whereDate('tanggal', '>=', $quarterRange[0])
-            ->whereDate('tanggal', '<=', $quarterRange[1])
-            ->max('tanggal');
-
-        // Get barang IDs that have transactions within the quarter
-        $barangIdsWithTransactions = Transaksi::whereDate('tanggal', '>=', $quarterRange[0])
-            ->whereDate('tanggal', '<=', $quarterRange[1])
-            ->distinct()
-            ->pluck('barang_id')
-            ->toArray();
-
-        // Get barangs that have transactions in this quarter
-        $barangs = Barang::whereIn('id', $barangIdsWithTransactions)
-            ->orderBy('nama_barang')
-            ->get();
-
-        // Calculate stock opname for each barang based on ALL transactions up to end of quarter
-        $barangData = $barangs->map(function ($barang) use ($quarterRange) {
-            // Calculate total masuk until end of quarter
-            $totalMasuk = Transaksi::where('barang_id', $barang->id)
-                ->whereDate('tanggal', '<=', $quarterRange[1])
-                ->sum('jumlah_masuk');
+        $cachedData = Cache::remember($cacheKey, 300, function () use ($selectedTahun, $selectedQuarter) {
+            // Get available years from transactions only
+            $availableYears = Transaksi::selectRaw("strftime('%Y', tanggal) as tahun")
+                ->distinct()
+                ->orderBy('tahun', 'desc')
+                ->pluck('tahun')
+                ->toArray();
             
-            // Calculate total keluar until end of quarter
-            $totalKeluar = Transaksi::where('barang_id', $barang->id)
-                ->whereDate('tanggal', '<=', $quarterRange[1])
-                ->sum('jumlah_keluar');
+            // If no transactions, add current year
+            if (empty($availableYears)) {
+                $availableYears[] = date('Y');
+            }
+            $availableYears = array_unique($availableYears);
+            rsort($availableYears);
+
+            // Get quarter date range
+            $quarterRange = QuarterlyStockOpname::getQuarterDateRange($selectedTahun, $selectedQuarter);
             
-            // Stok Opname = sisa stok dari semua transaksi sampai akhir triwulan
-            $stokOpname = $totalMasuk - $totalKeluar;
+            // Get ACTUAL transaction date range within the quarter
+            $actualStart = Transaksi::whereDate('tanggal', '>=', $quarterRange[0])
+                ->whereDate('tanggal', '<=', $quarterRange[1])
+                ->min('tanggal');
+            
+            $actualEnd = Transaksi::whereDate('tanggal', '>=', $quarterRange[0])
+                ->whereDate('tanggal', '<=', $quarterRange[1])
+                ->max('tanggal');
 
-            return (object)[
-                'id' => $barang->id,
-                'nama_barang' => $barang->nama_barang,
-                'satuan' => $barang->satuan,
-                'stok_opname' => $stokOpname,
-            ];
-        })->filter(function ($item) {
-            return $item->stok_opname > 0;
-        })->values();
+            // OPTIMIZED: Get all barang stock data in single query (fixes N+1 problem)
+            $barangData = Barang::select([
+                    'barangs.id',
+                    'barangs.nama_barang',
+                    'barangs.satuan',
+                    \DB::raw('COALESCE(SUM(transaksis.jumlah_masuk), 0) - COALESCE(SUM(transaksis.jumlah_keluar), 0) as stok_opname')
+                ])
+                ->join('transaksis', 'barangs.id', '=', 'transaksis.barang_id')
+                ->whereDate('transaksis.tanggal', '<=', $quarterRange[1])
+                ->whereExists(function ($query) use ($quarterRange) {
+                    $query->select(\DB::raw(1))
+                        ->from('transaksis as t2')
+                        ->whereColumn('t2.barang_id', 'barangs.id')
+                        ->whereDate('t2.tanggal', '>=', $quarterRange[0])
+                        ->whereDate('t2.tanggal', '<=', $quarterRange[1]);
+                })
+                ->groupBy('barangs.id', 'barangs.nama_barang', 'barangs.satuan')
+                ->havingRaw('stok_opname > 0')
+                ->orderBy('barangs.nama_barang')
+                ->get()
+                ->map(function ($item) {
+                    return (object)[
+                        'id' => $item->id,
+                        'nama_barang' => $item->nama_barang,
+                        'satuan' => $item->satuan,
+                        'stok_opname' => $item->stok_opname,
+                    ];
+                });
 
-        // Get quarter labels
+            // Determine actual period label
+            $periodLabel = $this->getPeriodLabel($actualStart, $actualEnd, $selectedQuarter, $selectedTahun);
+
+            return compact('barangData', 'availableYears', 'actualStart', 'actualEnd', 'periodLabel');
+        });
+
+        // Get quarter labels (static, no need to cache)
         $quarters = [
             'Q1' => 'Januari - Maret',
             'Q2' => 'April - Juni',
@@ -93,19 +97,11 @@ class QuarterlyStockController extends Controller
             'Q4' => 'Oktober - Desember',
         ];
 
-        // Determine actual period label
-        $periodLabel = $this->getPeriodLabel($actualStart, $actualEnd, $selectedQuarter, $selectedTahun);
-
-        return view('quarterly-stock.index', compact(
-            'barangData',
-            'availableYears',
-            'selectedTahun',
-            'selectedQuarter',
-            'quarters',
-            'actualStart',
-            'actualEnd',
-            'periodLabel'
-        ));
+        return view('quarterly-stock.index', array_merge($cachedData, [
+            'selectedTahun' => $selectedTahun,
+            'selectedQuarter' => $selectedQuarter,
+            'quarters' => $quarters,
+        ]));
     }
 
     /**
@@ -173,38 +169,33 @@ class QuarterlyStockController extends Controller
         // Get period label for document
         $periodLabel = $this->getPeriodLabelForDoc($actualStart, $actualEnd, $selectedQuarter, $selectedTahun);
 
-        // Get barang IDs that have transactions within the quarter
-        $barangIdsWithTransactions = Transaksi::whereDate('tanggal', '>=', $quarterRange[0])
-            ->whereDate('tanggal', '<=', $quarterRange[1])
-            ->distinct()
-            ->pluck('barang_id')
-            ->toArray();
-
-        // Get barangs
-        $barangs = Barang::whereIn('id', $barangIdsWithTransactions)
-            ->orderBy('nama_barang')
-            ->get();
-
-        // Calculate stock opname for each barang
-        $barangData = $barangs->map(function ($barang) use ($quarterRange) {
-            $totalMasuk = Transaksi::where('barang_id', $barang->id)
-                ->whereDate('tanggal', '<=', $quarterRange[1])
-                ->sum('jumlah_masuk');
-            
-            $totalKeluar = Transaksi::where('barang_id', $barang->id)
-                ->whereDate('tanggal', '<=', $quarterRange[1])
-                ->sum('jumlah_keluar');
-            
-            $stokOpname = $totalMasuk - $totalKeluar;
-
-            return (object)[
-                'nama_barang' => $barang->nama_barang,
-                'satuan' => $barang->satuan,
-                'stok_opname' => $stokOpname,
-            ];
-        })->filter(function ($item) {
-            return $item->stok_opname > 0;
-        })->values();
+        // OPTIMIZED: Get all barang stock data in single query (fixes N+1 problem)
+        $barangData = Barang::select([
+                'barangs.id',
+                'barangs.nama_barang',
+                'barangs.satuan',
+                \DB::raw('COALESCE(SUM(transaksis.jumlah_masuk), 0) - COALESCE(SUM(transaksis.jumlah_keluar), 0) as stok_opname')
+            ])
+            ->join('transaksis', 'barangs.id', '=', 'transaksis.barang_id')
+            ->whereDate('transaksis.tanggal', '<=', $quarterRange[1])
+            ->whereExists(function ($query) use ($quarterRange) {
+                $query->select(\DB::raw(1))
+                    ->from('transaksis as t2')
+                    ->whereColumn('t2.barang_id', 'barangs.id')
+                    ->whereDate('t2.tanggal', '>=', $quarterRange[0])
+                    ->whereDate('t2.tanggal', '<=', $quarterRange[1]);
+            })
+            ->groupBy('barangs.id', 'barangs.nama_barang', 'barangs.satuan')
+            ->havingRaw('stok_opname > 0')
+            ->orderBy('barangs.nama_barang')
+            ->get()
+            ->map(function ($item) {
+                return (object)[
+                    'nama_barang' => $item->nama_barang,
+                    'satuan' => $item->satuan,
+                    'stok_opname' => $item->stok_opname,
+                ];
+            });
 
         // Create PHPWord object
         $phpWord = new PhpWord();

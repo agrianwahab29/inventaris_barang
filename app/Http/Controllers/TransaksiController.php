@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TransaksiExport;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class TransaksiController extends Controller
 {
@@ -100,7 +101,10 @@ class TransaksiController extends Controller
             }
         }
 
-        return view('transaksi.index', compact('transaksis', 'barangs', 'users', 'availableDates', 'availableYears', 'availableMonths', 'monthsByYear'));
+        // Get latest timestamp for polling
+        $latestTimestamp = Transaksi::latest('created_at')->value('created_at');
+
+        return view('transaksi.index', compact('transaksis', 'barangs', 'users', 'availableDates', 'availableYears', 'availableMonths', 'monthsByYear', 'latestTimestamp'));
     }
 
     // Form input barang (gabungan masuk & keluar dalam satu form)
@@ -189,6 +193,7 @@ class TransaksiController extends Controller
             ]);
 
             DB::commit();
+            Cache::flush();
 
             $messages = [];
             if ($jumlahMasuk > 0) {
@@ -312,6 +317,7 @@ class TransaksiController extends Controller
             ]);
 
             DB::commit();
+            Cache::flush();
 
             $messages = ['Transaksi berhasil diupdate'];
             if ($jumlahMasukInput > 0) {
@@ -359,6 +365,7 @@ class TransaksiController extends Controller
         $barang->update(['stok' => $totalMasuk - $totalKeluar]);
 
         $transaksi->delete();
+        Cache::flush();
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus');
     }
 
@@ -404,6 +411,7 @@ class TransaksiController extends Controller
             }
 
             DB::commit();
+            Cache::flush();
             
             $message = $deletedCount . ' transaksi berhasil dihapus';
             if ($skippedCount > 0) {
@@ -541,5 +549,45 @@ class TransaksiController extends Controller
             'satuan' => $barang->satuan,
             'stok_minimum' => $barang->stok_minimum,
         ]);
+    }
+
+    /**
+     * Check for new transactions since given timestamp (API endpoint for polling)
+     */
+    public function checkUpdates(Request $request)
+    {
+        try {
+            $since = $request->query('since');
+            
+            if (!$since) {
+                return response()->json([
+                    'has_new' => false,
+                    'timestamp' => now()->toIso8601String()
+                ]);
+            }
+            
+            $sinceDate = \Carbon\Carbon::parse($since);
+            
+            // Check for new transactions since timestamp
+            $newTransactions = Transaksi::where('created_at', '>', $sinceDate)
+                ->orWhere('updated_at', '>', $sinceDate)
+                ->count();
+            
+            $latestTransaction = Transaksi::latest('created_at')->first();
+            
+            return response()->json([
+                'has_new' => $newTransactions > 0,
+                'count' => $newTransactions,
+                'timestamp' => $latestTransaction ? $latestTransaction->created_at->toIso8601String() : now()->toIso8601String()
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Check updates error: ' . $e->getMessage());
+            return response()->json([
+                'has_new' => false,
+                'error' => 'Invalid timestamp format',
+                'timestamp' => now()->toIso8601String()
+            ], 400);
+        }
     }
 }

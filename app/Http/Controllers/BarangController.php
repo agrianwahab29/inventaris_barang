@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BarangExport;
 
@@ -122,6 +123,7 @@ class BarangController extends Controller
             $message = 'Barang berhasil ditambahkan';
         }
 
+        Cache::flush();
         return redirect()->route('barang.index')->with('success', $message);
     }
 
@@ -164,6 +166,7 @@ class BarangController extends Controller
         $validated = $request->validate($rules);
 
         $barang->update($validated);
+        Cache::flush();
         return redirect()->route('barang.index')->with('success', 'Barang berhasil diupdate');
     }
 
@@ -177,6 +180,7 @@ class BarangController extends Controller
         }
 
         $barang->delete();
+        Cache::flush();
         return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus');
     }
 
@@ -224,6 +228,7 @@ class BarangController extends Controller
             }
 
             DB::commit();
+            Cache::flush();
             
             $message = $deletedCount . ' barang berhasil dihapus.';
             if ($skippedCount > 0) {
@@ -302,6 +307,7 @@ class BarangController extends Controller
             }
 
             DB::commit();
+            Cache::flush();
 
             // Tentukan status untuk response
             $status = 'tersedia';

@@ -1,0 +1,50 @@
+{
+  "project": {
+    "name": "Analisis Sistem Inventaris Kantor",
+    "description": "Project analisis komprehensif untuk sistem inventaris Laravel 8.x",
+    "issues": [
+      {
+        "title": "[ANALYSIS] Security Audit",
+        "description": "## 🔒 Security Audit Sistem\n\n### Tujuan\nMengaudit keamanan aplikasi Laravel untuk mengidentifikasi:\n- Authentication vulnerabilities\n- Authorization gaps\n- Input validation issues\n- Data exposure risks\n\n### Tasks\n- [ ] Review AuthController implementation\n- [ ] Check password hashing (bcrypt)\n- [ ] Verify session management\n- [ ] Check login throttling/rate limiting\n- [ ] Review RoleMiddleware implementation\n- [ ] Check role-based permissions (admin vs pengguna)\n- [ ] Verify route protection\n- [ ] Test for SQL injection vulnerabilities\n- [ ] Check XSS prevention in views\n- [ ] Verify CSRF protection\n- [ ] Check sensitive data exposure in responses\n- [ ] Review API endpoint security\n- [ ] Verify .env file protection\n- [ ] Check for mass assignment protection\n- [ ] Verify query binding usage\n\n### Acceptance Criteria\n- [ ] All security areas reviewed\n- [ ] Vulnerabilities identified and documented\n- [ ] Risk assessment completed\n- [ ] Remediation plan created",
+        "priority": 1,
+        "estimate": 4,
+        "labels": ["analysis", "security", "audit"]
+      },
+      {
+        "title": "[ANALYSIS] Code Architecture Review",
+        "description": "## 🏗️ Code Architecture Review\n\n### Tujuan\nMenganalisis struktur kode Laravel 8.x untuk mengidentifikasi:\n- Design patterns yang digunakan\n- Separation of concerns\n- Code organization\n- Potential refactoring opportunities\n\n### Tasks\n\n**Controller Analysis:**\n- [ ] Review 8 controllers (Auth, Dashboard, Barang, Transaksi, Ruangan, QuarterlyStock, SuratTandaTerima)\n- [ ] Check for Single Responsibility Principle adherence\n- [ ] Identify fat controllers that need service layer extraction\n- [ ] Review role-based access control implementation\n\n**Model Analysis:**\n- [ ] Review 5 models (Barang, Transaksi, Ruangan, User, QuarterlyStockOpname)\n- [ ] Check Eloquent relationships\n- [ ] Review business logic placement\n- [ ] Identify scope for query optimization\n\n**Service Layer Assessment:**\n- [ ] Check if service layer exists\n- [ ] Identify business logic that should be extracted from controllers\n- [ ] Recommend service/repository pattern implementation\n\n**Route Analysis:**\n- [ ] Review 144 lines of routes in web.php\n- [ ] Check route organization\n- [ ] Identify route groups and middleware usage\n- [ ] RESTful route compliance\n\n### Acceptance Criteria\n- [ ] All controllers reviewed\n- [ ] All models reviewed\n- [ ] Architecture report documented\n- [ ] Refactoring recommendations provided",
+        "priority": 1,
+        "estimate": 5,
+        "labels": ["analysis", "architecture", "code-review"]
+      },
+      {
+        "title": "[ANALYSIS] Database Schema Review",
+        "description": "## 🗄️ Database Schema Review\n\n### Tujuan\nMenganalisis struktur database dan migrations untuk:\n- Data integrity\n- Indexing strategy\n- Normalization level\n- Performance optimization opportunities\n\n### Tasks\n\n**Migration Review:**\n- [ ] Review all migration files\n- [ ] Check foreign key constraints\n- [ ] Verify data types appropriateness\n- [ ] Check for missing indexes\n\n**Table Structure Analysis:**\n- [ ] `barang` - Inventory items\n- [ ] `transaksi` - Transactions (masuk/keluar)\n- [ ] `ruangan` - Rooms/locations\n- [ ] `users` - Authentication & roles\n- [ ] `quarterly_stock_opname` - Stock opname records\n\n**Relationship Mapping:**\n- [ ] Document all relationships\n- [ ] Check cascade delete configurations\n- [ ] Verify referential integrity\n- [ ] ERD diagram creation\n\n**Indexing Strategy:**\n- [ ] Identify frequently queried columns\n- [ ] Recommend missing indexes\n- [ ] Check composite index opportunities\n- [ ] Review unique constraints\n\n### Acceptance Criteria\n- [ ] All tables analyzed\n- [ ] All relationships documented\n- [ ] Indexing strategy proposed\n- [ ] Schema report completed",
+        "priority": 1,
+        "estimate": 4,
+        "labels": ["analysis", "database", "schema"]
+      },
+      {
+        "title": "[ANALYSIS] Performance Assessment",
+        "description": "## ⚡ Performance Assessment\n\n### Tujuan\nMenganalisis performa aplikasi untuk mengidentifikasi:\n- Query optimization opportunities\n- Caching strategies\n- N+1 query problems\n- Frontend performance\n\n### Tasks\n\n**Database Query Analysis:**\n- [ ] Review Eloquent queries in controllers\n- [ ] Check for N+1 query problems\n- [ ] Analyze query execution plans\n- [ ] Identify slow queries\n- [ ] Review eager loading usage\n\n**Caching Strategy:**\n- [ ] Check current caching implementation\n- [ ] Identify cacheable data\n- [ ] Recommend caching layers (query, view, config)\n- [ ] Redis/Memcached feasibility\n\n**Frontend Performance:**\n- [ ] Review Blade template efficiency\n- [ ] Check asset compilation\n- [ ] Analyze JavaScript/CSS loading\n- [ ] Image optimization opportunities\n\n**Laravel Optimization:**\n- [ ] Check route caching\n- [ ] Review config caching\n- [ ] Analyze autoloader optimization\n- [ ] Check for unnecessary service providers\n\n### Acceptance Criteria\n- [ ] All controllers analyzed for performance\n- [ ] Query bottlenecks identified\n- [ ] Caching opportunities documented\n- [ ] Performance report completed",
+        "priority": 2,
+        "estimate": 4,
+        "labels": ["analysis", "performance", "optimization"]
+      },
+      {
+        "title": "[ANALYSIS] Technical Debt Assessment",
+        "description": "## 📊 Technical Debt Assessment\n\n### Tujuan\nMengidentifikasi dan mengukur technical debt dalam codebase:\n- Code smells\n- Outdated dependencies\n- Legacy patterns\n- Maintenance burden\n\n### Tasks\n\n**Code Quality Analysis:**\n- [ ] Review code complexity (cyclomatic complexity)\n- [ ] Check for duplicated code\n- [ ] Identify long methods/functions\n- [ ] Review code comments quality\n- [ ] Check naming conventions consistency\n\n**Laravel Version Assessment:**\n- Current: Laravel 8.x (PHP 7.4+)\n- Latest: Laravel 11.x (PHP 8.2+)\n- [ ] Identify deprecated features usage\n- [ ] Check compatibility with newer Laravel versions\n- [ ] Review PHP version constraints\n- [ ] Assess upgrade effort\n\n**Dependency Analysis:**\n- [ ] `laravel/framework: ^8.0` - Check for updates\n- [ ] `maatwebsite/excel: ^3.1` - Review compatibility\n- [ ] `phpoffice/phpword: ^0.18` - Check for updates\n- [ ] `phpunit/phpunit: ^9.3.3` - Testing framework\n\n**Testing Debt:**\n- [ ] Review test coverage gaps (currently 106 tests)\n- [ ] Check for flaky tests\n- [ ] Identify missing edge case tests\n- [ ] Review test maintainability\n\n### Acceptance Criteria\n- [ ] All debt items identified\n- [ ] Prioritization completed\n- [ ] Remediation plan created\n- [ ] Effort estimates provided",
+        "priority": 2,
+        "estimate": 3,
+        "labels": ["analysis", "technical-debt", "refactoring"]
+      },
+      {
+        "title": "[ANALYSIS] Feature Gap Analysis",
+        "description": "## 🔍 Feature Gap Analysis\n\n### Tujuan\nMenganalisis fitur yang ada dan mengidentifikasi:\n- Missing features untuk sistem inventaris lengkap\n- Feature enhancement opportunities\n- User experience improvements\n- Integration possibilities\n\n### Tasks\n\n**Existing Features Review (✅):**\n- [ ] Barang management (CRUD)\n- [ ] Transaksi masuk/keluar\n- [ ] Ruangan management\n- [ ] User management with roles\n- [ ] Dashboard with statistics\n- [ ] Excel export (Barang & Transaksi)\n- [ ] Word document generation (Surat Tanda Terima)\n- [ ] Bulk delete operations\n- [ ] Stock opname quarterly reports\n- [ ] Authentication & authorization\n\n**Missing Core Features (❓):**\n\n*Inventory Management:*\n- [ ] Barcode/QR code support\n- [ ] Stock alerts & notifications\n- [ ] Minimum stock level configuration\n- [ ] Multi-location inventory tracking\n- [ ] Inventory adjustment/stock correction\n- [ ] Stock transfer between locations\n\n*Reporting & Analytics:*\n- [ ] Advanced reporting dashboard\n- [ ] Transaction history reports\n- [ ] Stock movement reports\n- [ ] Usage analytics\n- [ ] Export to PDF\n- [ ] Scheduled reports\n\n*User Experience:*\n- [ ] Search & filter improvements\n- [ ] Bulk operations (import, update)\n- [ ] Data import from CSV/Excel\n- [ ] Mobile-responsive improvements\n- [ ] Dark mode\n\n### Acceptance Criteria\n- [ ] All existing features documented\n- [ ] Missing features identified\n- [ ] Prioritization completed\n- [ ] Roadmap created",
+        "priority": 2,
+        "estimate": 3,
+        "labels": ["analysis", "features", "roadmap"]
+      }
+    ]
+  }
+}
