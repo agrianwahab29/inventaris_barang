@@ -1,14 +1,14 @@
 #!/bin/bash
-# Auto-backup script untuk inventaris-kantor
-# Usage: ./scripts/auto-backup.sh
+# Skrip backup otomatis untuk inventaris-kantor
+# Cara pakai: ./scripts/auto-backup.sh
 
 cd "$(dirname "$0")/.."
 
-# Check apakah ada perubahan
+# Periksa apakah ada perubahan
 if [[ -n $(git status --porcelain) ]]; then
-    echo "📦 Changes detected, creating backup..."
+    echo "📦 Perubahan terdeteksi, membuat backup..."
     
-    # Add semua perubahan
+    # Tambahkan semua perubahan
     git add .
     
     # Commit dengan timestamp
@@ -19,9 +19,9 @@ if [[ -n $(git status --porcelain) ]]; then
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     git push origin "$current_branch"
     
-    echo "✅ Backup completed and pushed to GitHub"
+    echo "✅ Backup selesai dan push ke GitHub"
     echo "📍 Branch: $current_branch"
-    echo "🕐 Time: $timestamp"
+    echo "🕐 Waktu: $timestamp"
 else
-    echo "ℹ️ No changes to backup"
+    echo "ℹ️ Tidak ada perubahan untuk di-backup"
 fi

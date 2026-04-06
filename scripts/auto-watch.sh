@@ -1,45 +1,45 @@
 #!/bin/bash
-# Auto-watch script - monitors file changes and auto-commits/pushes
-# Usage: ./scripts/auto-watch.sh & (run in background)
+# Skrip pemantau otomatis - memantau perubahan file dan melakukan commit/push otomatis
+# Cara pakai: ./scripts/auto-watch.sh & (jalankan di background)
 
 cd "$(dirname "$0")/.."
 
-echo "👁️  Auto-watch started - Monitoring for changes..."
-echo "📍 Repository: $(pwd)"
-echo "🌿 Branch: $(git rev-parse --abbrev-ref HEAD)"
+echo "👁️  Pemantauan otomatis dimulai - Memantau perubahan file..."
+echo "📍 Lokasi repository: $(pwd)"
+echo "🌿 Branch aktif: $(git rev-parse --abbrev-ref HEAD)"
 echo ""
 
-# Function to auto-commit and push
+# Fungsi untuk melakukan commit dan push otomatis
 auto_commit_push() {
-    # Check if there are changes
+    # Periksa apakah ada perubahan
     if [[ -n $(git status --porcelain) ]]; then
-        echo "📦 Changes detected at $(date '+%Y-%m-%d %H:%M:%S')"
+        echo "📦 Perubahan terdeteksi pada $(date '+%Y-%m-%d %H:%M:%S')"
         
-        # Add all changes
+        # Tambahkan semua perubahan
         git add .
         
-        # Get list of changed files for commit message
+        # Dapatkan daftar file yang berubah untuk pesan commit
         changed_files=$(git diff --cached --name-only | head -5 | tr '\n' ', ')
         if [[ ${#changed_files} -gt 50 ]]; then
             changed_files="${changed_files:0:50}..."
         fi
         
-        # Commit with timestamp and changed files
+        # Commit dengan timestamp dan file yang berubah
         timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-        git commit -m "auto: backup at $timestamp - $changed_files"
+        git commit -m "auto: backup pada $timestamp - $changed_files"
         
-        # Push to GitHub
+        # Push ke GitHub
         current_branch=$(git rev-parse --abbrev-ref HEAD)
         if git push origin "$current_branch" 2>/dev/null; then
-            echo "✅ Auto-pushed to GitHub - Branch: $current_branch"
+            echo "✅ Berhasil push otomatis ke GitHub - Branch: $current_branch"
         else
-            echo "❌ Push failed - will retry on next change"
+            echo "❌ Gagal push - akan mencoba lagi pada perubahan berikutnya"
         fi
         echo ""
     fi
 }
 
-# Main loop - check every 30 seconds
+# Loop utama - periksa setiap 30 detik
 while true; do
     auto_commit_push
     sleep 30

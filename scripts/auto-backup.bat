@@ -1,14 +1,14 @@
 @echo off
-REM Auto-backup script untuk inventaris-kantor (Windows)
-REM Usage: scripts\auto-backup.bat
+REM Skrip backup otomatis untuk inventaris-kantor (Windows)
+REM Cara pakai: scripts\auto-backup.bat
 
 cd /d "%~dp0\.."
 
-REM Check apakah ada perubahan
+REM Periksa apakah ada perubahan
 for /f "tokens=*" %%a in ('git status --porcelain') do (
-    echo 📦 Changes detected, creating backup...
+    echo 📦 Perubahan terdeteksi, membuat backup...
     
-    REM Add semua perubahan
+    REM Tambahkan semua perubahan
     git add .
     
     REM Commit dengan timestamp
@@ -18,7 +18,7 @@ for /f "tokens=*" %%a in ('git status --porcelain') do (
         )
     )
     
-    REM Get current branch
+    REM Dapatkan branch aktif
     for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD') do (
         set current_branch=%%i
     )
@@ -26,9 +26,9 @@ for /f "tokens=*" %%a in ('git status --porcelain') do (
     REM Push ke GitHub
     git push origin %current_branch%
     
-    echo ✅ Backup completed and pushed to GitHub
+    echo ✅ Backup selesai dan push ke GitHub
     echo 📍 Branch: %current_branch%
     goto :eof
 )
 
-echo ℹ️ No changes to backup
+echo ℹ️ Tidak ada perubahan untuk di-backup

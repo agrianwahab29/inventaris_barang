@@ -1,16 +1,16 @@
 @echo off
-REM Setup Auto-Watch as Windows Service
-REM Run as Administrator
+REM Setup Auto-Watch sebagai Windows Service
+REM Jalankan sebagai Administrator
 
 echo ==========================================
-echo Setup Auto-Watch Git Backup Service
+echo Setup Layanan Auto-Watch Git Backup
 echo ==========================================
 echo.
 
-REM Check if running as admin
+REM Periksa apakah dijalankan sebagai admin
 net session >nul 2>&1
 if %errorlevel% neq 0 (
-    echo ❌ Please run as Administrator!
+    echo ❌ Harap jalankan sebagai Administrator!
     pause
     exit /b 1
 )
@@ -18,29 +18,25 @@ if %errorlevel% neq 0 (
 set REPO_PATH=C:\laragon\www\inventaris-barang2\inventaris-kantor
 set SCRIPT_PATH=%REPO_PATH%\scripts\auto-watch.bat
 
-echo 📍 Repository: %REPO_PATH%
-echo 📝 Script: %SCRIPT_PATH%
+echo 📍 Lokasi repository: %REPO_PATH%
+echo 📝 Lokasi skrip: %SCRIPT_PATH%
 echo.
 
-REM Create scheduled task to run every 5 minutes
-echo Creating scheduled task...
+REM Buat scheduled task untuk berjalan setiap 5 menit
+echo Membuat scheduled task...
 schtasks /create /tn "GitAutoWatch" /tr "%SCRIPT_PATH%" /sc minute /mo 5 /rl highest /f
 
 if %errorlevel% == 0 (
-    echo ✅ Scheduled task created successfully!
+    echo ✅ Scheduled task berhasil dibuat!
     echo.
-    echo Task will run every 5 minutes
-    echo.
-    echo To start now:
-    echo    schtasks /run /tn "GitAutoWatch"
-    echo.
-    echo To stop:
-    echo    schtasks /end /tn "GitAutoWatch"
-    echo.
-    echo To delete:
-    echo    schtasks /delete /tn "GitAutoWatch" /f
+    echo Task akan berjalan setiap 5 menit
+echo.
+    echo Perintah untuk mengontrol:
+    echo    schtasks /run /tn "GitAutoWatch"    - Jalankan sekarang
+    echo    schtasks /end /tn "GitAutoWatch"     - Hentikan
+    echo    schtasks /delete /tn "GitAutoWatch" /f  - Hapus service
 ) else (
-    echo ❌ Failed to create scheduled task
+    echo ❌ Gagal membuat scheduled task
 )
 
 echo.

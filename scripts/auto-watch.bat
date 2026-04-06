@@ -1,6 +1,6 @@
 @echo off
-REM Auto-watch script for Windows - monitors file changes and auto-commits/pushes
-REM Usage: scripts\auto-watch.bat (run and keep window open)
+REM Skrip pemantau otomatis untuk Windows - memantau perubahan file dan melakukan commit/push otomatis
+REM Cara pakai: scripts\auto-watch.bat (jalankan dan biarkan window tetap terbuka)
 
 cd /d "%~dp0\.."
 
@@ -8,31 +8,31 @@ for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD') do (
     set current_branch=%%i
 )
 
-echo 👁️  Auto-watch started - Monitoring for changes...
-echo 📍 Repository: %cd%
-echo 🌿 Branch: %current_branch%
+echo 👁️  Pemantauan otomatis dimulai - Memantau perubahan file...
+echo 📍 Lokasi repository: %cd%
+echo 🌿 Branch aktif: %current_branch%
 echo.
 echo ⚠️  Jangan tutup window ini! Biarkan berjalan di background.
 echo.
 
 :loop
-REM Check if there are changes
+REM Periksa apakah ada perubahan
 for /f "tokens=*" %%a in ('git status --porcelain') do (
-    echo 📦 Changes detected at %date% %time%
+    echo 📦 Perubahan terdeteksi pada %date% %time%
     
-    REM Add all changes
+    REM Tambahkan semua perubahan
     git add .
     
-    REM Commit with timestamp
-    git commit -m "auto: backup at %date% %time%"
+    REM Commit dengan timestamp
+    git commit -m "auto: backup pada %date% %time%"
     
-    REM Push to GitHub
+    REM Push ke GitHub
     git push origin %current_branch%
     
     if %errorlevel% == 0 (
-        echo ✅ Auto-pushed to GitHub - Branch: %current_branch%
+        echo ✅ Berhasil push otomatis ke GitHub - Branch: %current_branch%
     ) else (
-        echo ❌ Push failed - will retry on next change
+        echo ❌ Gagal push - akan mencoba lagi pada perubahan berikutnya
     )
     echo.
     
@@ -40,6 +40,6 @@ for /f "tokens=*" %%a in ('git status --porcelain') do (
 )
 
 :continue
-REM Wait 30 seconds before checking again
+REM Tunggu 30 detik sebelum memeriksa lagi
 timeout /t 30 /nobreak >nul
 goto :loop
