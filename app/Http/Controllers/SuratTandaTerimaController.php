@@ -143,12 +143,12 @@ class SuratTandaTerimaController extends Controller
             $dataRow->addCell($widths[5], $cellStyle)->addText('', ['size' => 10]);
         }
 
-        // Signature area
+        // Signature area - hanya bagian Mengetahui di kanan bawah
         $section->addText('');
         $section->addText('');
         $section->addText('');
 
-        // Signature table (no borders)
+        // Signature table (no borders) - hanya satu kolom di kanan
         $sigTable = $section->addTable([
             'width' => 100 * 50,
             'unit' => 'pct',
@@ -158,27 +158,20 @@ class SuratTandaTerimaController extends Controller
 
         $rowSig = $sigTable->addRow();
 
-        // Left column - Mengetahui, Kasubag Umum
+        // Left column - Kosong (spacer)
         $leftCell = $rowSig->addCell(5000, ['borderSize' => 0, 'borderColor' => 'FFFFFF']);
-        $leftCell->addText('Mengetahui,', ['size' => 11], ['alignment' => 'center']);
-        $leftCell->addText('Kasubag Umum', ['bold' => true, 'size' => 11], ['alignment' => 'center']);
         $leftCell->addText('');
-        $leftCell->addText('');
-        $leftCell->addText('');
-        $leftCell->addText('');
-        $leftCell->addText('________________________', ['size' => 11], ['alignment' => 'center']);
-        $leftCell->addText('(Nama Kasubag Umum)', ['size' => 10], ['alignment' => 'center']);
 
-        // Right column - Penerima
+        // Right column - Mengetahui dengan format sesuai gambar
         $rightCell = $rowSig->addCell(5000, ['borderSize' => 0, 'borderColor' => 'FFFFFF']);
-        $rightCell->addText('');
-        $rightCell->addText('');
+        $rightCell->addText('Mengetahui,', ['size' => 11], ['alignment' => 'center']);
+        $rightCell->addText('Kasubag Umum', ['size' => 11], ['alignment' => 'center']);
         $rightCell->addText('');
         $rightCell->addText('');
         $rightCell->addText('');
         $rightCell->addText('');
         $rightCell->addText('________________________', ['size' => 11], ['alignment' => 'center']);
-        $rightCell->addText('( ' . $namaPengambil . ' )', ['size' => 10], ['alignment' => 'center']);
+        $rightCell->addText('( Nama Kasubag umum )', ['size' => 10], ['alignment' => 'center']);
 
         // Download
         $filename = 'Surat_Tanda_Terima_' . str_replace(' ', '_', $namaPengambil) . '_' . $tanggalKeluar->format('Y-m-d') . '.docx';
