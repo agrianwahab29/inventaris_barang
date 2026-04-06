@@ -112,10 +112,16 @@ class SuratTandaTerimaController extends Controller
             'spaceAfter' => 200,
         ]);
 
-        // Info section
-        $section->addText('Nama Penerima    : ' . $namaPengambil, ['size' => 11]);
+        // Info section with aligned table (no borders for clean look)
+        $infoTable = $section->addTable([
+            'width' => 100 * 50,
+            'unit' => 'pct',
+            'borderSize' => 0,
+            'borderColor' => 'FFFFFF',
+            'cellMargin' => 0,
+        ]);
+
         $ruanganName = $ruangan ? $ruangan->nama_ruangan : '-';
-        $section->addText('Ruangan          : ' . $ruanganName, ['size' => 11]);
 
         $bulanIndo = [
             1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
@@ -123,7 +129,25 @@ class SuratTandaTerimaController extends Controller
             9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember',
         ];
         $tanggalFormatted = $tanggalKeluar->format('d') . ' ' . ($bulanIndo[$tanggalKeluar->month] ?? '') . ' ' . $tanggalKeluar->format('Y');
-        $section->addText('Tanggal          : ' . $tanggalFormatted, ['size' => 11]);
+
+        // Row 1: Nama Penerima
+        $row1 = $infoTable->addRow();
+        $row1->addCell(2500, ['borderSize' => 0])->addText('Nama Penerima', ['size' => 11]);
+        $row1->addCell(200, ['borderSize' => 0])->addText(':', ['size' => 11]);
+        $row1->addCell(5500, ['borderSize' => 0])->addText($namaPengambil, ['size' => 11]);
+
+        // Row 2: Ruangan
+        $row2 = $infoTable->addRow();
+        $row2->addCell(2500, ['borderSize' => 0])->addText('Ruangan', ['size' => 11]);
+        $row2->addCell(200, ['borderSize' => 0])->addText(':', ['size' => 11]);
+        $row2->addCell(5500, ['borderSize' => 0])->addText($ruanganName, ['size' => 11]);
+
+        // Row 3: Tanggal
+        $row3 = $infoTable->addRow();
+        $row3->addCell(2500, ['borderSize' => 0])->addText('Tanggal', ['size' => 11]);
+        $row3->addCell(200, ['borderSize' => 0])->addText(':', ['size' => 11]);
+        $row3->addCell(5500, ['borderSize' => 0])->addText($tanggalFormatted, ['size' => 11]);
+
         $section->addText('');
 
         // Create table with all borders
