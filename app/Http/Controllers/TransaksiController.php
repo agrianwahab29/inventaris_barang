@@ -87,8 +87,20 @@ class TransaksiController extends Controller
             ->distinct()
             ->orderBy('bulan', 'asc')
             ->pluck('bulan');
+        
+        // Group months by year for the export modal
+        $monthsByYear = [];
+        if ($availableYears->isNotEmpty()) {
+            foreach ($availableYears as $year) {
+                $monthsByYear[$year] = Transaksi::selectRaw("strftime('%m', tanggal) as bulan")
+                    ->whereRaw("strftime('%Y', tanggal) = ?", [$year])
+                    ->distinct()
+                    ->orderBy('bulan', 'asc')
+                    ->pluck('bulan');
+            }
+        }
 
-        return view('transaksi.index', compact('transaksis', 'barangs', 'users', 'availableDates', 'availableYears', 'availableMonths'));
+        return view('transaksi.index', compact('transaksis', 'barangs', 'users', 'availableDates', 'availableYears', 'availableMonths', 'monthsByYear'));
     }
 
     // Form input barang (gabungan masuk & keluar dalam satu form)
