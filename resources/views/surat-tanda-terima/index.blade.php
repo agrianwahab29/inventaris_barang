@@ -155,15 +155,29 @@
     <div class="card-body py-2 px-3">
         <form method="GET" action="{{ route('surat-tanda-terima.index') }}">
             <div class="row g-2 align-items-end">
-                <div class="col-lg-3 col-md-4">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Dari Tanggal</label>
-                    <input type="date" name="tanggal_dari" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" value="{{ request('tanggal_dari') }}">
+                <div class="col-lg-4 col-md-4">
+                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Pengambil</label>
+                    <select name="pengambil" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
+                        <option value="">-- Semua Pengambil --</option>
+                        @foreach($daftarPengambil as $pengambil)
+                            <option value="{{ $pengambil }}" {{ request('pengambil') == $pengambil ? 'selected' : '' }}>
+                                {{ $pengambil }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="col-lg-3 col-md-4">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Sampai Tanggal</label>
-                    <input type="date" name="tanggal_sampai" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" value="{{ request('tanggal_sampai') }}">
+                <div class="col-lg-4 col-md-4">
+                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Tanggal Keluar</label>
+                    <select name="tanggal" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
+                        <option value="">-- Pilih Tanggal --</option>
+                        @foreach($daftarTanggal as $tgl)
+                            <option value="{{ $tgl['value'] }}" {{ request('tanggal') == $tgl['value'] ? 'selected' : '' }}>
+                                {{ $tgl['label'] }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="col-lg-3 col-md-4">
+                <div class="col-lg-4 col-md-4">
                     <div class="d-flex gap-1">
                         <button type="submit" class="btn btn-light flex-fill" style="font-size: 0.75rem; padding: 4px 8px;">
                             <i class="fas fa-filter me-1"></i>Filter

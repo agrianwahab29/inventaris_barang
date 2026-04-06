@@ -17,12 +17,33 @@ class SuratTandaTerimaController extends Controller
         $query = Transaksi::with(['barang', 'ruangan', 'user'])
             ->where('jumlah_keluar', '>', 0);
 
-        // Filter by date
-        if ($request->filled('tanggal_dari')) {
-            $query->whereDate('tanggal_keluar', '>=', $request->tanggal_dari);
+        // Get distinct pengambil for dropdown (exclude NULL/empty)
+        $daftarPengambil = Transaksi::whereNotNull('nama_pengambil')
+            ->where('nama_pengambil', '!=', '')
+            ->distinct()
+            ->orderBy('nama_pengambil')
+            ->pluck('nama_pengambil');
+
+        // Get distinct tanggal_keluar for dropdown
+        $daftarTanggal = Transaksi::whereNotNull('tanggal_keluar')
+            ->distinct()
+            ->orderBy('tanggal_keluar', 'desc')
+            ->pluck('tanggal_keluar')
+            ->map(function($date) {
+                return [
+                    'value' => $date->format('Y-m-d'),
+                    'label' => $date->translatedFormat('d F Y')
+                ];
+            });
+
+        // Filter by pengambil
+        if ($request->filled('pengambil')) {
+            $query->where('nama_pengambil', $request->pengambil);
         }
-        if ($request->filled('tanggal_sampai')) {
-            $query->whereDate('tanggal_keluar', '<=', $request->tanggal_sampai);
+
+        // Filter by single tanggal (not range)
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal_keluar', $request->tanggal);
         }
 
         $transaksis = $query->orderBy('tanggal_keluar', 'desc')->get();
@@ -44,7 +65,7 @@ class SuratTandaTerimaController extends Controller
             ];
         })->values();
 
-        return view('surat-tanda-terima.index', compact('grouped'));
+        return view('surat-tanda-terima.index', compact('grouped', 'daftarPengambil', 'daftarTanggal'));
     }
 
     public function generateDocx(Request $request)
