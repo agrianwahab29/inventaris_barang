@@ -1,0 +1,175 @@
+﻿"Tanggal Input";"Nama Barang";"Jumlah Barang Masuk";"Jumlah Barang Keluar";"Sisa Stok Barang";Satuan;"Tanggal Keluar";"Nama atau Bagian/Ruang yang Mengambil"
+02/01/2026;Buavita;9;1;22;Buah;02/01/2026;"Ruang Perlengkapan"
+02/01/2026;"Kain Lap Meja";7;3;11;Buah;02/01/2026;"Siti Hajarah / Ruang Keuangan"
+02/01/2026;"Lakban Double";13;1;29;Buah;02/01/2026;"Ruang Perlengkapan"
+02/01/2026;Amplop;13;-;28;Dos;-;-
+02/01/2026;"Lem Kertas";-;1;19;Buah;02/01/2026;"Sainudin Husni / Ruang Alih Daya"
+05/01/2026;"Lakban Bening";12;-;19;Buah;-;-
+05/01/2026;"Minuman Kaleng";6;-;16;Jenis;-;-
+05/01/2026;"Brat Brand Drink";11;-;31;Buah;-;-
+05/01/2026;"Serbet Gantung";-;3;11;Buah;05/01/2026;"Hairil Muhammad Indra Jaya / Ruang Kepala Kantor"
+05/01/2026;"Bingkai Foto";9;1;21;Buah;05/01/2026;"Ruang Kepala Kantor"
+06/01/2026;"Sabun Cuci Mobil";-;1;18;Buah;06/01/2026;"Ruang Keuangan"
+06/01/2026;"Gula Pasir";7;3;20;Kilo;06/01/2026;"Ruang Sekretaris"
+06/01/2026;"Kertas HVS Warna Biru";14;-;14;Rim;-;-
+06/01/2026;"Toner Epson L3110 Biru";5;-;17;Botol;-;-
+07/01/2026;"Pulpen Balliner Hijau";-;1;5;Buah;07/01/2026;"Andi Herlina Nur / Ruang Malige"
+07/01/2026;"Tissue Kotak";10;2;19;Kotak;07/01/2026;"Cahyo Waskito Pur Antomo / Ruang Alih Daya"
+07/01/2026;"Sampo Mobil Kit";14;3;29;Buah;07/01/2026;"Nurmiyanti / Ruang Kepala Kantor"
+07/01/2026;"Stick Notes";15;-;35;Buah;-;-
+07/01/2026;"Aqua Botol 330ML";-;5;5;Dos;07/01/2026;"Ruang Sekretaris"
+08/01/2026;"Sendok Makan";8;3;17;Lusin;08/01/2026;"Ruang Kepala Kantor"
+08/01/2026;"Brat Brand Drink";8;3;36;Buah;08/01/2026;"Mulawati / Ruang Alih Daya"
+08/01/2026;"Kopi Sachet";-;2;17;Gantung;08/01/2026;"Hairil Muhammad Indra Jaya / Ruang KSU"
+08/01/2026;"Buavita Jambu";13;3;17;Buah;08/01/2026;"Mifta Huzaena / Ruang Laika"
+08/01/2026;"Air Galon";14;-;25;Galon;-;-
+08/01/2026;"Kertas HVS A4";7;-;27;Rim;-;-
+09/01/2026;"Pengharum Ruangan Bundar";10;2;19;Buah;09/01/2026;"Ruang Malige"
+09/01/2026;Hekter;15;-;29;Buah;-;-
+09/01/2026;"Sapu Lidi";-;2;6;Buah;09/01/2026;"Febriyani Rahayu / Ruang Malige"
+09/01/2026;"Mente Sangrai";6;3;19;Bungkus;09/01/2026;"Ruang Alih Daya"
+09/01/2026;"Lakban Coklat";7;-;20;Buah;-;-
+12/01/2026;"Pengharum Ruangan Bundar";10;-;29;Buah;-;-
+12/01/2026;"Hekter Kecil";7;4;20;Buah;12/01/2026;"Ruang Malige"
+12/01/2026;Teh;-;5;15;Box;12/01/2026;"Noke Nofrianto / Ruang Kepala Kantor"
+12/01/2026;"Sikat Kamar Mandi";-;1;12;Buah;12/01/2026;"Ruang Keuangan"
+12/01/2026;"Pengharum Kamar Mandi Gantung";-;2;17;Buah;12/01/2026;"Ruang Sekretaris"
+13/01/2026;"Balon Lampu 18 Watt";10;5;15;Buah;13/01/2026;"Ruang Keuangan"
+13/01/2026;"Balon Lampu 12 watt";-;4;9;Buah;13/01/2026;"Riskawaty / Ruang KSU"
+13/01/2026;"Cairan Pembersing Toilet";11;3;21;Buah;13/01/2026;"Ruang Keuangan"
+13/01/2026;"Map Ordner";-;4;2;Buah;13/01/2026;"Ruang Alih Daya"
+13/01/2026;"Penjepit Kertas No. 155";13;-;26;Dos;-;-
+14/01/2026;"Hydro Coco";13;4;26;Buah;14/01/2026;"Ruang Sekretaris"
+14/01/2026;"Stick Notes";8;2;41;Buah;14/01/2026;"Febriyani Rahayu / Ruang Malige"
+14/01/2026;"Pengharum Ruangan Bundar";-;5;24;Buah;14/01/2026;"Ruang Laika"
+14/01/2026;"Peluru Hekter";-;2;12;Dos;14/01/2026;"Ruang Sekretaris"
+14/01/2026;"Map Plastik Lubang";19;-;19;Buah;-;-
+15/01/2026;"Mente Goreng";-;1;6;Bungkus;15/01/2026;"Indriati / Ruang Keuangan"
+15/01/2026;"Sapu Lidi";6;2;10;Buah;15/01/2026;"Eka Rohmaniah Apriani / Ruang Malige"
+15/01/2026;"Spon Cuci Piring";-;2;10;Buah;15/01/2026;"Ruang KSU"
+15/01/2026;"Mata Saklar";7;5;15;Buah;15/01/2026;"Sukmawati / Ruang Perlengkapan"
+19/01/2026;"Sapu Lidi";14;-;24;Buah;-;-
+19/01/2026;"Penjepit Kertas No. 280";-;1;18;Dos;19/01/2026;"Hairil Muhammad Indra Jaya / Ruang Keuangan"
+20/01/2026;"Cairan Pengharum Ruangan";12;4;16;Botol;20/01/2026;"Mifta Huzaena / Ruang Alih Daya"
+20/01/2026;"Cairan Pembersih Kaca";-;3;13;Buah;20/01/2026;"Jamaluddin M. / Ruang Alih Daya"
+20/01/2026;"Pengharum Toilet Bundar";10;-;15;Buah;-;-
+20/01/2026;"Map Otner";11;-;16;Buah;-;-
+20/01/2026;"Pengharum Ruangan Gantung";5;-;15;Buah;-;-
+21/01/2026;"Kertas Foto";12;-;30;Bungkus;-;-
+21/01/2026;"Permen Kaleng Foxs";9;5;14;Dos;21/01/2026;"Ruang Kepala Kantor"
+21/01/2026;"Baterai AA";-;1;7;Buah;21/01/2026;"Andi Herlina Nur / Ruang KSU"
+22/01/2026;"Sikat Kamar Mandi";6;-;18;Buah;-;-
+22/01/2026;"Buavita Jambu";10;1;26;Buah;22/01/2026;"Eka Rohmaniah Apriani / Ruang Kepala Kantor"
+22/01/2026;"Pulpen Balliner Hitam";-;1;17;Buah;22/01/2026;"Ruang KSU"
+22/01/2026;"Sendok Sup";9;5;14;Buah;22/01/2026;"Ruang Kepala Kantor"
+23/01/2026;"Gula Sachet";8;-;17;Pak;-;-
+23/01/2026;"Pulpen Balliner Hitam";12;5;24;Buah;23/01/2026;"Fadhilah Nurul Inayah Nasir / Ruang Sekretaris"
+23/01/2026;"Kacang Telur";-;1;8;Bungkus;23/01/2026;"Febriyani Rahayu / Ruang Sekretaris"
+23/01/2026;"Kertas HVS Warna Biru";-;1;13;Rim;23/01/2026;"Ruang Sekretaris"
+23/01/2026;Trigonal;15;3;27;Dos;23/01/2026;"Ruang Keuangan"
+23/01/2026;"Tempat Sampah Kecil";-;1;8;Buah;23/01/2026;"Fitkha Maylana Rahayu / Ruang Perlengkapan"
+26/01/2026;"Pengharum Ruangan Matic";-;2;12;Buah;26/01/2026;"Ruang Perlengkapan"
+26/01/2026;"Gelas Tinggi";7;3;16;Buah;26/01/2026;"Dwidayanto / Ruang Kepala Kantor"
+26/01/2026;"Rak Berkas";5;2;22;Buah;26/01/2026;"Ruang Kepala Kantor"
+26/01/2026;"Baterai Kotak";-;4;1;Buah;26/01/2026;"Ruang Laika"
+26/01/2026;"Minuman Kaleng";-;1;15;Jenis;26/01/2026;"Dwidayanto / Ruang KSU"
+27/01/2026;"Cairan Pembersih Kamar Mandi";6;1;14;Botol;27/01/2026;"Ruang Malige"
+27/01/2026;"Tissue Basah";-;5;0;Buah;27/01/2026;"Hairil Muhammad Indra Jaya / Ruang Alih Daya"
+28/01/2026;"Sendal Jepit";-;4;9;Buah;28/01/2026;"Amran Pamme / Ruang Laika"
+28/01/2026;"Kue Pia";13;1;23;Dos;28/01/2026;"Ruang Keuangan"
+28/01/2026;"Kertas HVS Warna Biru";9;-;22;Rim;-;-
+28/01/2026;"Peruncing Pensil";9;2;13;Buah;28/01/2026;"Zakiyah Mustafa Husba / Ruang Keuangan"
+29/01/2026;Gula;-;2;8;Bungkus;29/01/2026;"Ruang Laika"
+29/01/2026;"Kue Pia";15;-;38;Dos;-;-
+29/01/2026;"Lakban Double";9;-;38;Buah;-;-
+29/01/2026;"Stempel Kantor";14;3;18;Buah;29/01/2026;"Ruang Keuangan"
+30/01/2026;"Isolasi Bening";14;-;30;Buah;-;-
+30/01/2026;"Sikat Kamar Mandi";5;-;23;Buah;-;-
+30/01/2026;"Pengharum Kamar Mandi";8;-;18;Buah;-;-
+30/01/2026;"Toner Epson L3110 Kuning";9;-;29;Botol;-;-
+30/01/2026;"Penjepit Kertas No. 200";10;-;29;Dos;-;-
+30/01/2026;Permen;-;5;0;Jenis;30/01/2026;"Fadhilah Nurul Inayah Nasir / Ruang Kepala Kantor"
+02/02/2026;Amplop;9;1;36;Dos;02/02/2026;"Ruang KSU"
+02/02/2026;"Ultra Sari Kacang Ijo";13;-;27;Buah;-;-
+02/02/2026;"Tempat Tissue";6;4;21;Buah;02/02/2026;"Ruang Sekretaris"
+03/02/2026;"Cairan Pembasmi Nyamuk";12;1;28;Botol;03/02/2026;"Sainudin Husni / Ruang Malige"
+03/02/2026;"Sabun Cuci Mobil";12;2;28;Buah;03/02/2026;"Resgi Silvania / Ruang Malige"
+03/02/2026;"Tissue Gulung";8;5;22;Pak;03/02/2026;"Ruang Kepala Kantor"
+03/02/2026;"Cairan Pembersih Kaca";15;2;26;Buah;03/02/2026;"Noke Nofrianto / Ruang Kepala Kantor"
+03/02/2026;"Wiper Kaca";13;-;14;Buah;-;-
+03/02/2026;"Sikat Toilet";14;1;33;Buah;03/02/2026;"Ruang Kepala Kantor"
+04/02/2026;"Pot Bunga Plastik";12;5;14;Buah;04/02/2026;"Andi Herlina Nur / Ruang Malige"
+04/02/2026;"Sendok Sampah";-;1;10;Buah;04/02/2026;"I Made Ngurah Rai Febrianto / Ruang Kepala Kantor"
+04/02/2026;"Kue Kering";-;5;12;Jenis;04/02/2026;"Ruang Alih Daya"
+04/02/2026;Gula;7;-;15;Bungkus;-;-
+04/02/2026;"Gelas Tinggi";12;1;27;Buah;04/02/2026;"Asri / Ruang Sekretaris"
+04/02/2026;"Semprotan Pengharum Ruangan";15;-;33;Buah;-;-
+05/02/2026;"Kotak Tempat Aqua Gelas";15;1;20;Buah;05/02/2026;"Ruang Keuangan"
+05/02/2026;"Pengharum Kamar Mandi";-;4;14;Buah;05/02/2026;"Ruang Malige"
+05/02/2026;"Pengharaum Kamar Mandi Bundar";14;3;28;Buah;05/02/2026;"Ruang Malige"
+06/02/2026;"Tempat Tissue";-;2;19;Buah;06/02/2026;"Ruang Perlengkapan"
+06/02/2026;Ember;-;3;5;Buah;06/02/2026;"Ruang Alih Daya"
+06/02/2026;"Penjepit Kertas No. 111";13;3;26;Dos;06/02/2026;"Ruang Alih Daya"
+06/02/2026;"Pengharum Ruangan Bundar";15;4;35;Buah;06/02/2026;"Nurmiyanti / Ruang KSU"
+06/02/2026;"Mente Sangrai";10;-;29;Bungkus;-;-
+09/02/2026;"Cairan Anti Sumbat";-;3;2;Botol;09/02/2026;"Riskawaty / Ruang KSU"
+09/02/2026;"Ultra Sari Kacang Ijo";13;2;38;Buah;09/02/2026;"Amran Pamme / Ruang Alih Daya"
+09/02/2026;"Isi Ulang Tabung Pemadam Kebakaran";9;5;13;Buah;09/02/2026;"Ruang KSU"
+10/02/2026;"Alat Pel Otomatis";11;-;22;Buah;-;-
+10/02/2026;"Net Voly";8;-;19;Buah;-;-
+10/02/2026;"Pengharum Kamar Mandi Bundar";11;1;29;Buah;10/02/2026;"Maulita Dewi Iskandar / Ruang Sekretaris"
+10/02/2026;"Pengharum Ruangan Metik";7;2;25;Buah;10/02/2026;"Ruang Laika"
+10/02/2026;"Kain Pencuci Piring";-;2;12;Buah;10/02/2026;"Ruang Laika"
+10/02/2026;"Penjepit Kertas No. 155";9;4;31;Dos;10/02/2026;"Eka Rohmaniah Apriani / Ruang Kepala Kantor"
+11/02/2026;Gunting;5;4;7;Buah;11/02/2026;"Ruang Keuangan"
+11/02/2026;Teh;-;4;11;Box;11/02/2026;"Hairil Muhammad Indra Jaya / Ruang Perlengkapan"
+11/02/2026;"Minuman Oatside";15;5;26;Buah;11/02/2026;"Uzlah Marifat Ariqo / Ruang Laika"
+11/02/2026;"Mente Goreng";-;2;4;Bungkus;11/02/2026;"Muhammad Jihad / Ruang Sekretaris"
+12/02/2026;Teh;9;5;15;Box;12/02/2026;"Andi Herlina Nur / Ruang Sekretaris"
+12/02/2026;"Tissue Basah";17;-;17;Buah;-;-
+12/02/2026;"Toner Epson L3110 Merah";-;2;16;Botol;12/02/2026;"Nurmiyanti / Ruang Sekretaris"
+12/02/2026;"Ultra Sari Kacang Ijo";7;-;45;Buah;-;-
+13/02/2026;"Cairan Pembersih Piring";12;5;20;Botol;13/02/2026;"Sainudin Husni / Ruang Keuangan"
+13/02/2026;Tip-Ex;14;5;28;Buah;13/02/2026;"Ruang Kepala Kantor"
+16/02/2026;"Wiper Lantai Karet";-;2;15;Buah;16/02/2026;"Ruang Laika"
+16/02/2026;"Tissue Kotak";-;5;14;Kotak;16/02/2026;"Ruang Malige"
+16/02/2026;"Pulpen Balliner Warna Biru";7;4;22;Buah;16/02/2026;"Mulawati / Ruang Kepala Kantor"
+16/02/2026;"Sendok Makan";15;-;32;Lusin;-;-
+18/02/2026;"Penjepit Kertas No. 280";10;3;25;Dos;18/02/2026;"Riskawaty / Ruang Alih Daya"
+18/02/2026;"Map Plastik Kancing";6;-;15;Buah;-;-
+18/02/2026;Hekter;15;4;40;Buah;18/02/2026;"Rahim Jamal / Ruang Keuangan"
+18/02/2026;"Cairan Pembersih Piring (Bungkus)";9;4;22;Bungkus;18/02/2026;"Resgi Silvania / Ruang KSU"
+19/02/2026;"Kertas Foto";-;2;28;Bungkus;19/02/2026;"Nurmiyanti / Ruang Kepala Kantor"
+19/02/2026;"Taplak Meja";15;-;28;Buah;-;-
+20/02/2026;"Tempat Sampah";5;-;5;Buah;-;-
+20/02/2026;"Kotak Penyimpanan";14;-;31;Buah;-;-
+23/02/2026;"Cairan Pembersih Tangan";14;2;23;Botol;23/02/2026;"Asri / Ruang Perlengkapan"
+23/02/2026;"Susu Kotak Putih";7;-;12;Buah;-;-
+23/02/2026;"Pengharum Toilet Bundar";8;-;23;Buah;-;-
+23/02/2026;"Keset Kaki";-;1;4;Buah;23/02/2026;"Sainudin Husni / Ruang Sekretaris"
+23/02/2026;"Semprotan Pengharum Ruangan";5;5;33;Buah;23/02/2026;"Ruang Keuangan"
+23/02/2026;"Map Plastik Lubang";9;5;23;Buah;23/02/2026;"Ruang Keuangan"
+24/02/2026;"Mente Sangrai";5;-;34;Bungkus;-;-
+24/02/2026;"Balon Lampu 18 Watt";10;-;25;Buah;-;-
+24/02/2026;Amplop;8;-;44;Dos;-;-
+25/02/2026;"Pulpen Snowman";13;-;26;Buah;-;-
+25/02/2026;"Bingkai Foto";11;4;28;Buah;25/02/2026;"Andi Herlina Nur / Ruang Keuangan"
+26/02/2026;"Penjepit Kertas No. 155";7;-;38;Dos;-;-
+26/02/2026;"Baterai Kotak";8;-;9;Buah;-;-
+27/02/2026;"Pengharum Toilet Bundar";7;1;29;Buah;27/02/2026;"Untung Kustoro / Ruang Kepala Kantor"
+27/02/2026;"Kertas HVS F4";10;3;18;Rim;27/02/2026;"Dwi Pratiwi Husba / Ruang Malige"
+02/03/2026;"Kotak Penyimpanan";8;5;34;Buah;02/03/2026;"Jamaluddin M. / Ruang Perlengkapan"
+02/03/2026;"Minuman Kotak";-;4;2;Buah;02/03/2026;"Ruang Sekretaris"
+02/03/2026;"Map Batik";9;-;15;Buah;-;-
+02/03/2026;"Wiper Lantai Karet";9;-;24;Buah;-;-
+03/03/2026;"Semprotan Pembasmi Nyamuk";14;-;30;Buah;-;-
+03/03/2026;Pulpen;11;3;17;Buah;03/03/2026;"Ruang Malige"
+03/03/2026;"Stempel Kantor";12;1;29;Buah;03/03/2026;"Sainudin Husni / Ruang Kepala Kantor"
+03/03/2026;Amplop;3;1;2;Dos;03/03/2026;"Ruang Sekretaris"
+03/03/2026;"Aqua Gelas";5;2;3;Dos;03/03/2026;"wahab / Ruang Sekretaris"
+03/03/2026;"Aqua Botol 330 ML";5;2;3;Dos;03/03/2026;"Ruang Perlengkapan"
+03/03/2026;"Air Galon";2;1;1;Galon;03/03/2026;"Ruang Sekretaris"
+04/03/2026;"Kantong Sampah";11;4;12;Bungkus;04/03/2026;"Eka Rohmaniah Apriani / Ruang Malige"
+04/03/2026;"Mete Gorong";-;2;6;Bungkus;04/03/2026;"Ruang Laika"
+04/03/2026;"Id Card Pegawai";9;1;25;Buah;04/03/2026;"Febriyani Rahayu / Ruang Perlengkapan"
+04/03/2026;"Sikat Kamar Mandi";13;-;36;Buah;-;-

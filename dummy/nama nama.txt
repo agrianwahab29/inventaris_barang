@@ -1,0 +1,60 @@
+3	Jamaluddin M., S.S., M.Hum.
+	Pinrang, 1 Januari 1975
+4	Sukmawati, S.Pd., M.Hum.
+	Maros, 14 Juni 1978
+5	Nurmiyanti, S.Sos.
+	U. Pandang, 22 April 1979
+6	Andi Herlina Nur, S.S.
+	Watampone, 10 Mei 1971
+7	Dwidayanto, S.E.
+	Kendari, 8 Desember 1978
+8	Indriati, S.E.
+	Kendari, 21 Desember 1979
+9	Hairil Muhammad Indra Jaya  H.G., S.Sos.
+	Baubau, 14 Maret 1980
+10	Siti Hajarah, S.E.
+	Jeneponto, 30 Mei 1981
+11	Amran Pamme, S.Si.
+	Lompo, 16 Juli 1975
+12	Asri, S.S., M.Hum.
+	Labokong, 13 Mei 1972
+13	Zakiyah Mustafa Husba, S.S., M.Sos.
+	Manado, 22 Juni 1976
+14	Riskawaty, A.Md.
+	Kendari, 22 Oktober 1980
+15	Mulawati, S.Pd., M.Sos.
+	Kendari, 12 November 1979
+16	Dwi Pratiwi Husba, S.Pd., M.Hum.
+	Walenna, Luwu, 13 April 1986
+17	Mohammad Hanafi, S.S.
+	U. Pandang, 22 April 1980
+18	Noke Nofrianto, S.S.
+	Kendari, 01 November 1979
+19	Fitkha Maylana Rahayu, S.S.
+	Kulon Progo, 15 Mei 1985
+20	Cahyo Waskito Pur Antomo, S.S.
+	Sleman, 25 Oktober 1988
+21	I Made Ngurah Rai Febrianto, S.ST.
+	Kendari, 13 Februari 1992
+22	Eka Rohmaniah Apriani, S.S.
+	Kendari, 1 April 1995
+23	Maulita Dewi Iskandar, S.Hum.
+	Bogor, 25 Juli 1996
+24	Untung Kustoro, S.Hum.
+	Sragen, 28 November 1994
+25	Mifta Huzaena, S.Hum.
+	Kebumen, 23 Maret 1997
+26	Febriyani Rahayu, S.S.
+	Kendari, 4 Februari 1995
+27	Fadhilah Nurul Inayah Nasir, S.Hum.
+	Pare-Pare, 7 September 1996
+28	Sainudin Husni
+	Baubau, 10 Agustus 1968
+29	Rahim Jamal, S.Kom.
+	Morowali, 25 Desember 1991
+30	Resgi Silvania, S.Pd.
+	Bone, 22 Februari 1999
+31	Uzlah Ma'rifat Ariqo, S.S.
+	Sinjai, 5 Februari 2000
+32	Muhammad Jihad, S.Pd.
+	Muna, 25 Januari 1996

@@ -1,0 +1,533 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Transaksi;
+use App\Models\Barang;
+use App\Models\Ruangan;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TransaksiExport;
+use Illuminate\Support\Facades\DB;
+
+class TransaksiController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Transaksi::with(['barang', 'ruangan', 'user']);
+
+        // Filter berdasarkan user (untuk admin)
+        if ($request->filled('user_id') && Auth::user()->isAdmin()) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        // Filter berdasarkan tipe transaksi
+        if ($request->filled('tipe')) {
+            $query->where('tipe', $request->tipe);
+        }
+
+        // Filter berdasarkan barang
+        if ($request->filled('barang_id')) {
+            $query->where('barang_id', $request->barang_id);
+        }
+
+        // Filter tanggal dari
+        if ($request->filled('tanggal_dari')) {
+            $query->whereDate('tanggal', '>=', $request->tanggal_dari);
+        }
+
+        // Filter tanggal sampai
+        if ($request->filled('tanggal_sampai')) {
+            $query->whereDate('tanggal', '<=', $request->tanggal_sampai);
+        }
+
+        // Filter tanggal keluar (khusus barang keluar)
+        if ($request->filled('tanggal_keluar_dari')) {
+            $query->whereDate('tanggal_keluar', '>=', $request->tanggal_keluar_dari);
+        }
+        if ($request->filled('tanggal_keluar_sampai')) {
+            $query->whereDate('tanggal_keluar', '<=', $request->tanggal_keluar_sampai);
+        }
+
+        // Filter multiple tanggal (untuk export)
+        if ($request->filled('tanggal_list')) {
+            $tanggalList = explode(',', $request->tanggal_list);
+            $query->whereIn(DB::raw('DATE(tanggal)'), $tanggalList);
+        }
+
+        // Filter tahun
+        if ($request->filled('tahun')) {
+            $query->whereRaw("strftime('%Y', tanggal) = ?", [$request->tahun]);
+        }
+
+        // Filter bulan (jika tahun juga dipilih, else gunakan tahun sekarang)
+        if ($request->filled('bulan')) {
+            $tahun = $request->filled('tahun') ? $request->tahun : date('Y');
+            $query->whereRaw("strftime('%Y', tanggal) = ?", [$tahun])
+                  ->whereRaw("strftime('%m', tanggal) = ?", [str_pad($request->bulan, 2, '0', STR_PAD_LEFT)]);
+        }
+
+        $transaksis = $query->orderBy('created_at', 'desc')->paginate(25);
+        $barangs = Barang::orderBy('nama_barang')->get();
+        $users = User::orderBy('name')->get();
+        $availableDates = Transaksi::selectRaw('DATE(tanggal) as tgl')
+            ->distinct()
+            ->orderBy('tgl', 'desc')
+            ->pluck('tgl');
+        
+        $availableYears = Transaksi::selectRaw("strftime('%Y', tanggal) as tahun")
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+        
+        $availableMonths = Transaksi::selectRaw("strftime('%m', tanggal) as bulan")
+            ->distinct()
+            ->orderBy('bulan', 'asc')
+            ->pluck('bulan');
+
+        return view('transaksi.index', compact('transaksis', 'barangs', 'users', 'availableDates', 'availableYears', 'availableMonths'));
+    }
+
+    // Form input barang (gabungan masuk & keluar dalam satu form)
+    public function create()
+    {
+        $barangs = Barang::orderBy('nama_barang')->get();
+        $ruangans = Ruangan::orderBy('nama_ruangan')->get();
+        return view('transaksi.create', compact('barangs', 'ruangans'));
+    }
+
+    // Store transaksi (satu record untuk masuk dan keluar)
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'barang_id' => 'required|exists:barangs,id',
+            'jumlah_masuk' => 'nullable|integer|min:0',
+            'jumlah_keluar' => 'nullable|integer|min:0',
+            'tanggal_masuk' => 'nullable|date',
+            'tanggal_keluar' => 'nullable|date',
+            'ruangan_id' => 'nullable|exists:ruangans,id',
+            'nama_pengambil' => 'nullable|string|max:255',
+            'tipe_pengambil' => 'nullable|in:nama_ruangan,ruangan_saja',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $jumlahMasukInput = (int)($validated['jumlah_masuk'] ?? 0);
+        $jumlahKeluar = (int)($validated['jumlah_keluar'] ?? 0);
+
+        if ($jumlahMasukInput == 0 && $jumlahKeluar == 0) {
+            return back()->withErrors(['jumlah_masuk' => 'Jumlah masuk atau jumlah keluar harus diisi minimal 1'])
+                ->withInput();
+        }
+
+        $barang = Barang::findOrFail($validated['barang_id']);
+        $stokSebelum = $barang->stok;
+        
+        // FIX: Gunakan input user langsung tanpa menambahkan stok sebelum
+        $jumlahMasuk = $jumlahMasukInput;
+        
+        $stokSetelahMasuk = $stokSebelum + $jumlahMasukInput;
+        
+        if ($stokSetelahMasuk < $jumlahKeluar) {
+            return back()->withErrors(['jumlah_keluar' => 'Stok tidak mencukupi. Stok setelah masuk: ' . $stokSetelahMasuk . ', diminta keluar: ' . $jumlahKeluar])
+                ->withInput();
+        }
+
+        $sisaStok = $stokSetelahMasuk - $jumlahKeluar;
+        
+        $tipeTransaksi = 'masuk';
+        $jumlah = $jumlahMasuk;
+        
+        if ($jumlahKeluar > 0 && $jumlahMasukInput > 0) {
+            $tipeTransaksi = 'masuk_keluar';
+        } elseif ($jumlahKeluar > 0 && $jumlahMasukInput == 0) {
+            $tipeTransaksi = 'keluar';
+            $jumlah = $jumlahKeluar;
+        } elseif ($jumlahMasukInput > 0 && $jumlahKeluar == 0) {
+            $tipeTransaksi = 'masuk';
+        }
+
+        $namaPengambil = null;
+        if ($jumlahKeluar > 0 && ($validated['tipe_pengambil'] ?? 'ruangan_saja') === 'nama_ruangan') {
+            $namaPengambil = $validated['nama_pengambil'] ?? null;
+        }
+
+        DB::beginTransaction();
+        try {
+            $barang->update(['stok' => $sisaStok]);
+
+            Transaksi::create([
+                'barang_id' => $validated['barang_id'],
+                'tipe' => $tipeTransaksi,
+                'jumlah_masuk' => $jumlahMasuk,
+                'jumlah_keluar' => $jumlahKeluar,
+                'jumlah' => $jumlah,
+                'stok_sebelum' => $stokSebelum,
+                'stok_setelah_masuk' => $stokSetelahMasuk,
+                'sisa_stok' => $sisaStok,
+                'tanggal' => $validated['tanggal_masuk'] ?? now(),
+                'tanggal_keluar' => $validated['tanggal_keluar'] ?? null,
+                'ruangan_id' => $jumlahKeluar > 0 ? ($validated['ruangan_id'] ?? null) : null,
+                'nama_pengambil' => $namaPengambil,
+                'tipe_pengambil' => $jumlahKeluar > 0 ? ($validated['tipe_pengambil'] ?? null) : null,
+                'user_id' => Auth::id(),
+                'keterangan' => $validated['keterangan'] ?? null,
+            ]);
+
+            DB::commit();
+
+            $messages = [];
+            if ($jumlahMasuk > 0) {
+                $messages[] = 'Barang masuk ' . $jumlahMasuk . ' ' . $barang->satuan;
+            }
+            if ($jumlahKeluar > 0) {
+                $messages[] = 'Barang keluar ' . $jumlahKeluar . ' ' . $barang->satuan;
+            }
+            
+            if ($sisaStok == 0) {
+                $messages[] = 'Stok habis!';
+            } elseif ($sisaStok <= $barang->stok_minimum) {
+                $messages[] = 'Stok minimum!';
+            }
+
+            return redirect()->route('transaksi.index')->with('success', implode(' | ', $messages));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
+    }
+
+    public function show(Transaksi $transaksi)
+    {
+        $transaksi->load(['barang', 'ruangan', 'user']);
+        return view('transaksi.show', compact('transaksi'));
+    }
+
+    // Edit transaksi - Form edit
+    public function edit(Transaksi $transaksi)
+    {
+        $transaksi->load(['barang', 'ruangan', 'user']);
+        $barangs = Barang::orderBy('nama_barang')->get();
+        $ruangans = Ruangan::orderBy('nama_ruangan')->get();
+        return view('transaksi.edit', compact('transaksi', 'barangs', 'ruangans'));
+    }
+
+    // Update transaksi
+    public function update(Request $request, Transaksi $transaksi)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'barang_id' => 'required|exists:barangs,id',
+            'jumlah_masuk' => 'nullable|integer|min:0',
+            'jumlah_keluar' => 'nullable|integer|min:0',
+            'tanggal' => 'required|date',
+            'tanggal_keluar' => 'nullable|date',
+            'ruangan_id' => 'nullable|exists:ruangans,id',
+            'nama_pengambil' => 'nullable|string|max:255',
+            'tipe_pengambil' => 'nullable|in:nama_ruangan,ruangan_saja',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $jumlahMasukInput = (int)($validated['jumlah_masuk'] ?? 0);
+        $jumlahKeluar = (int)($validated['jumlah_keluar'] ?? 0);
+
+        if ($jumlahMasukInput == 0 && $jumlahKeluar == 0) {
+            return back()->withErrors(['jumlah_masuk' => 'Jumlah masuk atau jumlah keluar harus diisi minimal 1'])
+                ->withInput();
+        }
+
+        $barang = Barang::findOrFail($validated['barang_id']);
+        
+        // Hitung selisih untuk update stok barang
+        $oldJumlahMasuk = $transaksi->jumlah_masuk;
+        $oldJumlahKeluar = $transaksi->jumlah_keluar;
+        
+        $stokSebelum = $barang->stok;
+        
+        // Stok sebelum transaksi ini (rollback stok lama)
+        $stokTanpaTransaksiIni = $stokSebelum - ($oldJumlahMasuk - $oldJumlahKeluar);
+        
+        // Terapkan transaksi baru
+        $stokSetelahMasuk = $stokTanpaTransaksiIni + $jumlahMasukInput;
+        $sisaStok = $stokSetelahMasuk - $jumlahKeluar;
+        
+        if ($sisaStok < 0) {
+            return back()->withErrors(['jumlah_keluar' => 'Stok tidak mencukupi. Stok tersedia: ' . $stokSetelahMasuk . ', diminta keluar: ' . $jumlahKeluar])
+                ->withInput();
+        }
+
+        // Tentukan tipe transaksi
+        $tipeTransaksi = 'masuk';
+        $jumlahTotal = $jumlahMasukInput;
+        
+        if ($jumlahKeluar > 0 && $jumlahMasukInput > 0) {
+            $tipeTransaksi = 'masuk_keluar';
+        } elseif ($jumlahKeluar > 0 && $jumlahMasukInput == 0) {
+            $tipeTransaksi = 'keluar';
+            $jumlahTotal = $jumlahKeluar;
+        }
+
+        $namaPengambil = null;
+        // Simpan nama_pengambil jika diisi, tidak tergantung jumlah_keluar
+        if (!empty($validated['nama_pengambil'])) {
+            $namaPengambil = $validated['nama_pengambil'];
+        }
+
+        DB::beginTransaction();
+        try {
+            // Update stok barang
+            $barang->update(['stok' => $sisaStok]);
+
+            // Update transaksi
+            $transaksi->update([
+                'barang_id' => $validated['barang_id'],
+                'tipe' => $tipeTransaksi,
+                'jumlah_masuk' => $jumlahMasukInput,
+                'jumlah_keluar' => $jumlahKeluar,
+                'jumlah' => $jumlahTotal,
+                'stok_sebelum' => $stokTanpaTransaksiIni,
+                'stok_setelah_masuk' => $stokSetelahMasuk,
+                'sisa_stok' => $sisaStok,
+                'tanggal' => $validated['tanggal'],
+                'tanggal_keluar' => $validated['tanggal_keluar'] ?? null,
+                'ruangan_id' => $validated['ruangan_id'] ?? null,
+                'nama_pengambil' => $namaPengambil,
+                'tipe_pengambil' => $validated['tipe_pengambil'] ?? null,
+                'keterangan' => $validated['keterangan'] ?? null,
+            ]);
+
+            DB::commit();
+
+            $messages = ['Transaksi berhasil diupdate'];
+            if ($jumlahMasukInput > 0) {
+                $messages[] = 'Barang masuk ' . $jumlahMasukInput . ' ' . $barang->satuan;
+            }
+            if ($jumlahKeluar > 0) {
+                $messages[] = 'Barang keluar ' . $jumlahKeluar . ' ' . $barang->satuan;
+            }
+            
+            if ($sisaStok == 0) {
+                $messages[] = 'Stok habis!';
+            } elseif ($sisaStok <= $barang->stok_minimum) {
+                $messages[] = 'Stok minimum!';
+            }
+
+            return redirect()->route('transaksi.index')->with('success', implode(' | ', $messages));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
+        }
+    }
+
+    public function destroy(Transaksi $transaksi)
+    {
+        // Cek apakah user adalah admin atau pemilik transaksi
+        $user = Auth::user();
+        
+        if (!$user->isAdmin() && $transaksi->user_id !== $user->id) {
+            return back()->with('error', 'Anda hanya dapat menghapus transaksi yang Anda buat sendiri');
+        }
+
+        // Kembalikan stok barang
+        $barang = $transaksi->barang;
+        
+        // Hitung ulang stok barang berdasarkan seluruh riwayat transaksi untuk konsistensi
+        $totalMasuk = Transaksi::where('barang_id', $barang->id)
+            ->where('id', '!=', $transaksi->id) // Exclude current transaction being deleted
+            ->sum('jumlah_masuk');
+            
+        $totalKeluar = Transaksi::where('barang_id', $barang->id)
+            ->where('id', '!=', $transaksi->id)
+            ->sum('jumlah_keluar');
+            
+        $barang->update(['stok' => $totalMasuk - $totalKeluar]);
+
+        $transaksi->delete();
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus');
+    }
+
+    // Bulk delete transaksi
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        
+        if (empty($ids)) {
+            return back()->with('error', 'Pilih minimal satu transaksi untuk dihapus');
+        }
+
+        $user = Auth::user();
+        
+        DB::beginTransaction();
+        try {
+            $query = Transaksi::with('barang')->whereIn('id', $ids);
+            
+            // Jika bukan admin, hanya bisa hapus transaksi sendiri
+            if (!$user->isAdmin()) {
+                $query->where('user_id', $user->id);
+            }
+            
+            $transaksis = $query->get();
+            $deletedCount = 0;
+            $skippedCount = 0;
+
+            foreach ($transaksis as $transaksi) {
+                // Cek lagi untuk memastikan (security)
+                if (!$user->isAdmin() && $transaksi->user_id !== $user->id) {
+                    $skippedCount++;
+                    continue;
+                }
+                
+                $barang = $transaksi->barang;
+                $transaksi->delete();
+                $deletedCount++;
+                
+                // Recalculate stock for the item after deletion to guarantee accuracy
+                $totalMasuk = Transaksi::where('barang_id', $barang->id)->sum('jumlah_masuk');
+                $totalKeluar = Transaksi::where('barang_id', $barang->id)->sum('jumlah_keluar');
+                $barang->update(['stok' => $totalMasuk - $totalKeluar]);
+            }
+
+            DB::commit();
+            
+            $message = $deletedCount . ' transaksi berhasil dihapus';
+            if ($skippedCount > 0) {
+                $message .= ' (' . $skippedCount . ' transaksi dilewati karena bukan milik Anda)';
+            }
+            
+            return redirect()->route('transaksi.index')->with('success', $message);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function export(Request $request)
+    {
+        Log::debug('=== Export START ===', ['type' => $request->export_type, 'all_input' => $request->all()]);
+        
+        // Convert empty strings to null BEFORE validation
+        $input = $request->all();
+        $allFields = ['tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan', 'tanggal_dari', 'tanggal_sampai', 'tanggal_list', 'user_id'];
+        foreach ($allFields as $field) {
+            if (!isset($input[$field]) || $input[$field] === '' || $input[$field] === '""' || $input[$field] === null) {
+                $input[$field] = null;
+            }
+        }
+        $request->merge($input);
+
+        Log::debug('After merge', ['merged' => $request->all()]);
+        
+        // Convert tahun_bulan to int
+        if ($request->tahun_bulan) $request->request->set('tahun_bulan', (int)$request->tahun_bulan);
+        
+        // Convert bulan values to int (remove leading zeros like "01" -> 1)
+        if ($request->bulan) $request->request->set('bulan', (int)$request->bulan);
+        if ($request->bulan_dari) $request->request->set('bulan_dari', (int)$request->bulan_dari);
+        if ($request->bulan_sampai) $request->request->set('bulan_sampai', (int)$request->bulan_sampai);
+        
+        // Convert tahun values to int
+        if ($request->tahun) $request->request->set('tahun', (int)$request->tahun);
+        if ($request->tahun_dari) $request->request->set('tahun_dari', (int)$request->tahun_dari);
+        if ($request->tahun_sampai) $request->request->set('tahun_sampai', (int)$request->tahun_sampai);
+
+        Log::debug('After integer conversion', ['bulan' => $request->bulan, 'bulan_dari' => $request->bulan_dari, 'bulan_sampai' => $request->bulan_sampai]);
+
+        $request->validate([
+            'export_type' => 'required|in:all,range,dates,year,year_range,month,month_range',
+            'tanggal_dari' => 'nullable|date',
+            'tanggal_sampai' => 'nullable|date',
+            'tanggal_list' => 'nullable|string',
+            'tahun' => 'nullable|integer|min:2000|max:2100',
+            'tahun_dari' => 'nullable|integer|min:2000|max:2100',
+            'tahun_sampai' => 'nullable|integer|min:2000|max:2100',
+            'bulan' => 'nullable|integer|min:1|max:12',
+            'bulan_dari' => 'nullable|integer|min:1|max:12',
+            'bulan_sampai' => 'nullable|integer|min:1|max:12',
+            'tahun_bulan' => 'nullable|integer|min:2000|max:2100',
+        ]);
+        
+        Log::debug('Validation passed');
+        
+        // Validate date range
+        if ($request->export_type === 'range') {
+            if ($request->tanggal_dari && $request->tanggal_sampai) {
+                if ($request->tanggal_dari > $request->tanggal_sampai) {
+                    Log::error('Date range invalid');
+                    return back()->WithError('Tanggal dari harus lebih kecil atau sama dengan tanggal sampai')->withInput();
+                }
+            }
+        }
+        
+        // Validate month export has required fields
+        if ($request->export_type === 'month') {
+            Log::debug('Month validation', ['tahun_bulan' => $request->tahun_bulan, 'bulan' => $request->bulan]);
+            if (!$request->tahun_bulan || !$request->bulan) {
+                Log::error('Month validation failed');
+                return back()->WithError('Pilih tahun dan bulan untuk export')->withInput();
+            }
+        }
+        
+        // Validate month_range has all required fields
+        if ($request->export_type === 'month_range') {
+            if (!$request->tahun_dari || !$request->bulan_dari || !$request->tahun_sampai || !$request->bulan_sampai) {
+                Log::error('Month range validation failed');
+                return back()->WithError('Pilih semua field untuk rentang bulan')->withInput();
+            }
+        }
+
+        $filename = 'Data_Transaksi_' . date('Y-m-d_H-i-s') . '.xlsx';
+        
+        Log::info('Export request', ['type' => $request->export_type, 'params' => $request->only(['tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan', 'tanggal_dari', 'tanggal_sampai'])]);
+        
+        $export = new TransaksiExport(
+            $request->export_type,
+            $request->tanggal_dari,
+            $request->tanggal_sampai,
+            $request->tanggal_list,
+            $request->user_id,
+            $request->tahun,
+            $request->tahun_dari,
+            $request->tahun_sampai,
+            $request->bulan,
+            $request->bulan_dari,
+            $request->bulan_sampai,
+            $request->tahun_bulan
+        );
+        
+        // Use Excel::store and then download from storage
+        $tempFile = 'exports/' . $filename;
+        Log::debug('Storing file', ['path' => $tempFile]);
+        
+        try {
+            Excel::store($export, $tempFile, 'local');
+            Log::info('Export file created SUCCESS', ['file' => $tempFile, 'full_path' => storage_path('app/' . $tempFile)]);
+            
+            // Check if file exists
+            if (!file_exists(storage_path('app/' . $tempFile))) {
+                Log::error('File NOT created');
+                return back()->WithError('File export tidak dibuat');
+            }
+            
+            Log::debug('File exists, preparing download');
+            return response()->download(storage_path('app/' . $tempFile), $filename)->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            Log::error('Export FAILED', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return back()->WithError('Export gagal: ' . $e->getMessage());
+        }
+    }
+
+    public function getBarangInfo($id)
+    {
+        $barang = Barang::findOrFail($id);
+        return response()->json([
+            'stok' => $barang->stok,
+            'satuan' => $barang->satuan,
+            'stok_minimum' => $barang->stok_minimum,
+        ]);
+    }
+}
