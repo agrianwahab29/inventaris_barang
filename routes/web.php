@@ -8,6 +8,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\QuarterlyStockController;
+use App\Http\Controllers\SuratTandaTerimaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,10 @@ Route::middleware(['auth'])->group(function () {
     // Quarterly Stock Opname Routes
     Route::get('/quarterly-stock', [QuarterlyStockController::class, 'index'])->name('quarterly-stock.index');
     Route::post('/quarterly-stock/export', [QuarterlyStockController::class, 'exportDocx'])->name('quarterly-stock.export');
+
+    // Surat Tanda Terima Routes
+    Route::get('/surat-tanda-terima', [SuratTandaTerimaController::class, 'index'])->name('surat-tanda-terima.index');
+    Route::get('/surat-tanda-terima/generate', [SuratTandaTerimaController::class, 'generateDocx'])->name('surat-tanda-terima.generate');
 
     // Ruangan Routes
     Route::get('/ruangan', [RuanganController::class, 'index'])->name('ruangan.index');

@@ -740,6 +740,11 @@
                 Opname Triwulan
             </a>
             
+            <a class="nav-link {{ request()->routeIs('surat-tanda-terima.*') ? 'active' : '' }}" href="{{ route('surat-tanda-terima.index') }}">
+                <i class="fas fa-file-signature"></i>
+                Surat Tanda Terima
+            </a>
+            
             @if(Auth::user()->isAdmin())
             <div class="nav-section">Admin</div>
             
