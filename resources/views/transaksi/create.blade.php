@@ -241,18 +241,8 @@
                 </div>
             </div>
 
-            <!-- Section: Paraf -->
-            <div class="form-section">
-                <div class="section-header">
-                    <div class="section-icon section-info">
-                        <i class="fas fa-sticky-note"></i>
-                    </div>
-                    <div>
-                        <h5 class="mb-1 fw-bold">Paraf</h5>
-                        <p class="mb-0 text-muted small">Kosongkan saja untuk diparaf setelah dicetak</p>
-                    </div>
-                </div>
-                
+            <!-- Section: Paraf (tersembunyi di tampilan, input tetap aktif) -->
+            <div class="form-section d-none">
                 <input type="text" name="keterangan" class="form-control" value="" readonly placeholder="Kolom paraf akan dicetak kosong">
             </div>
 
