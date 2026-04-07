@@ -231,7 +231,7 @@
                                 <div class="info-label mt-2">Status Stok</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="display: none;">
                             <div class="info-item">
                                 <div class="info-value text-secondary" id="infoStokMin">-</div>
                                 <div class="info-label">Stok Minimum</div>
@@ -357,7 +357,7 @@
                 <a href="{{ route('transaksi.index') }}" class="btn-cancel">
                     <i class="fas fa-arrow-left me-2"></i>Batal
                 </a>
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit" id="btnSimpanTransaksi" data-loading-text="Menyimpan...">
                     <i class="fas fa-save"></i>
                     Simpan Transaksi
                 </button>
@@ -369,6 +369,22 @@
 
 @section('scripts')
 <script>
+    // BUG FIX #3: Reset form after successful submission
+    // Check if page was loaded with success message (redirected after submit)
+    @if(session('success'))
+        // Clear URL parameters to prevent form resubmission on back button
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    @endif
+    
+    // Prevent form data persistence on back button
+    if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+        // Page loaded from back/forward button - reset the form
+        document.getElementById('formTransaksi').reset();
+        document.getElementById('infoBoxBarang').style.display = 'none';
+    }
+    
     const barangSelect = document.getElementById('barang_id');
     const jumlahMasukInput = document.getElementById('jumlah_masuk');
     const jumlahKeluarInput = document.getElementById('jumlah_keluar');
@@ -449,6 +465,54 @@
     barangSelect.addEventListener('change', updateCalculations);
     jumlahMasukInput.addEventListener('input', updateCalculations);
     jumlahKeluarInput.addEventListener('input', updateCalculations);
+
+    // Form validation and submit handling (BUG #4 fix)
+    const formTransaksi = document.getElementById('formTransaksi');
+    const btnSimpan = document.getElementById('btnSimpanTransaksi');
+    let isSubmitting = false;
+    
+    formTransaksi.addEventListener('submit', function(e) {
+        // Prevent double submit
+        if (isSubmitting) {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Validate form
+        const barangId = barangSelect.value;
+        const jumlahMasuk = parseInt(jumlahMasukInput.value) || 0;
+        const jumlahKeluar = parseInt(jumlahKeluarInput.value) || 0;
+        const stokSetelahMasuk = stokAwal + jumlahMasuk;
+        const sisaSetelahKeluar = stokSetelahMasuk - jumlahKeluar;
+        
+        if (!barangId) {
+            e.preventDefault();
+            alert('Pilih barang terlebih dahulu');
+            barangSelect.focus();
+            return false;
+        }
+        
+        if (jumlahMasuk === 0 && jumlahKeluar === 0) {
+            e.preventDefault();
+            alert('Isi jumlah masuk atau jumlah keluar minimal 1');
+            return false;
+        }
+        
+        if (sisaSetelahKeluar < 0) {
+            e.preventDefault();
+            alert('Stok tidak mencukupi untuk jumlah keluar yang diminta');
+            jumlahKeluarInput.focus();
+            return false;
+        }
+        
+        // Disable button and show loading state
+        isSubmitting = true;
+        btnSimpan.disabled = true;
+        btnSimpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+        
+        // Form will submit normally, button will be re-enabled on page reload
+        return true;
+    });
 
     // Initialize
     @if(old('barang_id'))

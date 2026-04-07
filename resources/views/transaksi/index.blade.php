@@ -31,6 +31,130 @@
     .export-icon { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 4px; }
     .export-section { animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Fix for dropdown transparency in modal - COMPREHENSIVE */
+    .export-modal .form-select,
+    .export-modal select,
+    #exportModal .form-select,
+    #exportModal select {
+        background-color: #fff !important;
+        background: #fff !important;
+        opacity: 1 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        filter: none !important;
+        border: 1px solid #ced4da !important;
+        color: #212529 !important;
+    }
+    
+    /* Force solid background on dropdown options - AGGRESSIVE FIX */
+    .export-modal .form-select option,
+    .export-modal select option,
+    #exportModal .form-select option,
+    #exportModal select option,
+    select[name="bulan"] option,
+    select[name="bulan_dari"] option,
+    select[name="bulan_sampai"] option,
+    #monthBulan option,
+    #monthRangeBulanDari option,
+    #monthRangeBulanSampai option,
+    #yearRangeDari option,
+    #yearRangeSampai option,
+    #monthTahun option,
+    #monthRangeTahunDari option,
+    #monthRangeTahunSampai option {
+        background-color: #ffffff !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        color: #212529 !important;
+        opacity: 1 !important;
+        -webkit-text-fill-color: #000000 !important;
+        font-weight: 500 !important;
+    }
+    
+    /* Windows/Chrome specific fix */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        .export-modal select option,
+        #exportModal select option {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            text-shadow: none !important;
+        }
+    }
+    
+    /* Firefox specific fix */
+    @-moz-document url-prefix() {
+        .export-modal select option,
+        #exportModal select option {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+    }
+    
+    /* Ensure modal content area has solid background */
+    .export-modal .modal-body,
+    #exportModal .modal-body {
+        background-color: #fff !important;
+    }
+    
+    /* Fix for select elements in month section */
+    #monthSection select,
+    #monthRangeSection select,
+    #yearRangeSection select {
+        background-color: #fff !important;
+        opacity: 1 !important;
+        color: #212529 !important;
+    }
+    
+    #monthSection select option,
+    #monthRangeSection select option,
+    #yearRangeSection select option {
+        background-color: #fff !important;
+        color: #000 !important;
+        color: #212529 !important;
+    }
+    
+    /* Fix dropdown when opened */
+    .export-modal select:focus,
+    #exportModal select:focus {
+        background-color: #fff !important;
+        color: #212529 !important;
+    }
+    
+    /* Ensure optgroup and options are visible */
+    .export-modal select optgroup,
+    #exportModal select optgroup {
+        background-color: #f8f9fa !important;
+        color: #000 !important;
+    }
+    /* Fix for pagination on mobile */
+    @media (max-width: 768px) {
+        .pagination {
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        .pagination .page-item {
+            margin: 1px;
+        }
+        .pagination .page-link {
+            padding: 4px 8px;
+            min-width: 28px;
+            text-align: center;
+        }
+        .pagination-info {
+            font-size: 0.7rem;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    }
+    
+    /* Ensure pagination-info is styled */
+    .pagination-info {
+        font-size: 0.75rem;
+        color: #6c757d;
+    }
 </style>
 @endsection
 
@@ -42,7 +166,7 @@
         <p class="text-muted mb-0 small">Kelola dan pantau semua transaksi</p>
     </div>
     <div class="d-flex gap-2">
-        <button type="button" class="btn btn-success rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#exportModal" style="font-size: 0.75rem;">
+        <button type="button" id="btnExportModal" class="btn btn-success rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#exportModal" style="font-size: 0.75rem;">
             <i class="fas fa-file-excel me-1"></i>Export
         </button>
         <a href="{{ route('transaksi.create') }}" class="btn btn-primary rounded-pill px-3" style="font-size: 0.75rem;">
@@ -50,6 +174,21 @@
         </a>
     </div>
 </div>
+
+<!-- Error Message Display -->
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" style="font-size: 0.75rem;">
+    <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" style="font-size: 0.6rem;"></button>
+</div>
+@endif
+
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show mb-3 auto-dismiss" role="alert" style="font-size: 0.75rem;" data-auto-dismiss="5000">
+    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" style="font-size: 0.6rem;"></button>
+</div>
+@endif
 
 <!-- Stats Cards -->
 <div class="row g-2 mb-3">
@@ -218,6 +357,7 @@
                             <th class="py-2 text-center">Keluar</th>
                             <th class="py-2 text-center">Sisa</th>
                             <th class="py-2">User</th>
+                            <th class="py-2">Pengambil</th>
                             <th class="py-2 text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -243,9 +383,23 @@
                                     <div class="user-avatar">{{ strtoupper(substr($transaksi->user->name, 0, 1)) }}</div>
                                     <div>
                                         <div class="fw-medium" style="font-size: 0.75rem;">{{ $transaksi->user->name }}</div>
-                                        @if($transaksi->jumlah_keluar > 0)<small class="text-muted" style="font-size: 0.625rem;">{{ $transaksi->pengambil_formatted }}</small>@endif
                                     </div>
                                 </div>
+                            </td>
+                            <td class="py-2">
+                                @if($transaksi->jumlah_keluar > 0)
+                                    @if($transaksi->nama_pengambil)
+                                        <div class="fw-medium" style="font-size: 0.75rem;">{{ $transaksi->nama_pengambil }}</div>
+                                    @endif
+                                    @if($transaksi->ruangan)
+                                        <small class="text-muted" style="font-size: 0.625rem;"><i class="fas fa-door-open me-1"></i>{{ $transaksi->ruangan->nama_ruangan }}</small>
+                                    @endif
+                                    @if(!$transaksi->nama_pengambil && !$transaksi->ruangan)
+                                        <span class="text-muted" style="font-size: 0.625rem;">-</span>
+                                    @endif
+                                @else
+                                    <span class="text-muted" style="font-size: 0.625rem;">-</span>
+                                @endif
                             </td>
                             <td class="py-2 text-center">
                                 <div class="d-flex justify-content-center align-items-center gap-1">
@@ -407,7 +561,10 @@
                             <select name="tahun" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                                 <option value="">-- Pilih Tahun --</option>
                                 @forelse($availableYears as $tahun)
-                                    <option value="{{ $tahun }}">{{ $tahun }} ({{ $monthsByYear[$tahun]->count() }} bulan data)</option>
+                                    @php
+                                        $monthCount = isset($monthsByYear[$tahun]) && is_countable($monthsByYear[$tahun]) ? count($monthsByYear[$tahun]) : 0;
+                                    @endphp
+                                    <option value="{{ $tahun }}">{{ $tahun }} ({{ $monthCount }} bulan data)</option>
                                 @empty
                                     <option value="" disabled>Tidak ada data transaksi</option>
                                 @endforelse
@@ -537,6 +694,10 @@ un --</option>
 const monthsByYear = @json($monthsByYear);
 const monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
+// Debug: Log data dari server
+console.log('monthsByYear data:', monthsByYear);
+console.log('Available years:', Object.keys(monthsByYear));
+
 const exportGuides = {
     all: 'Klik <strong>Export</strong> untuk mengunduh seluruh data transaksi dalam format Excel.',
     range: 'Pilih tanggal <strong>awal</strong> dan <strong>akhir</strong>. Hanya tanggal yang ada transaksinya yang muncul di dropdown.',
@@ -549,16 +710,28 @@ const exportGuides = {
 
 // === Export Type Selection ===
 function selectExportType(type) {
-    document.getElementById('export_' + type).checked = true;
+    // BUG FIX: Add null checks to prevent "Cannot set properties of null" error
+    const radioEl = document.getElementById('export_' + type);
+    if (radioEl) radioEl.checked = true;
+    
     document.querySelectorAll('.export-type-card').forEach(c => c.classList.remove('active'));
-    document.querySelector('.export-type-card[onclick*="' + type + '"]')?.classList.add('active');
+    const cardEl = document.querySelector('.export-type-card[onclick*="' + type + '"]');
+    if (cardEl) cardEl.classList.add('active');
+    
     // Hide all sections
     document.querySelectorAll('.export-section').forEach(s => s.style.display = 'none');
+    
     // Show relevant section
     const sectionMap = { range: 'rangeSection', dates: 'datesSection', year: 'yearSection', year_range: 'yearRangeSection', month: 'monthSection', month_range: 'monthRangeSection' };
-    if (sectionMap[type]) document.getElementById(sectionMap[type]).style.display = 'block';
-    // Update guide
-    document.getElementById('exportGuideText').innerHTML = exportGuides[type] || '';
+    if (sectionMap[type]) {
+        const sectionEl = document.getElementById(sectionMap[type]);
+        if (sectionEl) sectionEl.style.display = 'block';
+    }
+    
+    // Update guide - with null check
+    const guideEl = document.getElementById('exportGuideText');
+    if (guideEl) guideEl.innerHTML = exportGuides[type] || '';
+    
     // Clear irrelevant fields
     clearIrrelevantFields(type);
 }
@@ -567,9 +740,17 @@ function clearIrrelevantFields(exportType) {
     const fieldMap = { all: [], range: ['tanggal_dari', 'tanggal_sampai'], dates: ['tanggal_list'], year: ['tahun'], year_range: ['tahun_dari', 'tahun_sampai'], month: ['tahun_bulan', 'bulan'], month_range: ['tahun_dari', 'bulan_dari', 'tahun_sampai', 'bulan_sampai'] };
     const allFields = ['tanggal_dari', 'tanggal_sampai', 'tanggal_list', 'tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan'];
     const relevant = fieldMap[exportType] || [];
-    allFields.forEach(f => { if (!relevant.includes(f)) { const el = document.querySelector('#exportForm [name="' + f + '"]'); if (el) el.value = ''; } });
-    // Reset dropdowns
-    ['rangeDariDropdown', 'rangeSampaiDropdown', 'rangeDariManual', 'rangeSampaiManual'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    allFields.forEach(f => { 
+        if (!relevant.includes(f)) { 
+            const el = document.querySelector('#exportForm [name="' + f + '"]'); 
+            if (el) el.value = ''; 
+        } 
+    });
+    // Reset dropdowns with null checks
+    ['rangeDariDropdown', 'rangeSampaiDropdown', 'rangeDariManual', 'rangeSampaiManual'].forEach(id => { 
+        const el = document.getElementById(id); 
+        if (el) el.value = ''; 
+    });
     selectedDates = [];
     updateDateDisplay();
 }
@@ -578,17 +759,34 @@ function clearIrrelevantFields(exportType) {
 function updateMonthOptions(selectId, year) {
     const sel = document.getElementById(selectId);
     sel.innerHTML = '';
+    
+    console.log('updateMonthOptions called:', selectId, year, monthsByYear);
+    
     if (!year || !monthsByYear[year]) {
         sel.innerHTML = '<option value="">-- Pilih tahun dulu --</option>';
         sel.disabled = true;
         return;
     }
+    
+    // Convert to array if it's an object (from JSON)
+    let months = monthsByYear[year];
+    if (!Array.isArray(months)) {
+        months = Object.values(months);
+    }
+    
+    if (months.length === 0) {
+        sel.innerHTML = '<option value="">-- Tidak ada data --</option>';
+        sel.disabled = true;
+        return;
+    }
+    
     sel.disabled = false;
     sel.innerHTML = '<option value="">-- Pilih Bulan --</option>';
-    monthsByYear[year].forEach(m => {
+    months.forEach(m => {
+        const monthNum = parseInt(m);
         const opt = document.createElement('option');
-        opt.value = m;
-        opt.textContent = monthNames[m];
+        opt.value = monthNum;
+        opt.textContent = monthNames[monthNum];
         sel.appendChild(opt);
     });
 }
@@ -633,17 +831,65 @@ function updateDateDisplay() {
     if (empty) empty.style.display = selectedDates.length > 0 ? 'none' : 'block';
 }
 
-// === Filter sync ===
-function syncFilterDari() { const d = document.getElementById('filterDariDropdown'); if (d.value) document.getElementById('filterDariManual').value = d.value; }
-function syncFilterDariDropdown() { const d = document.getElementById('filterDariDropdown'); const m = document.getElementById('filterDariManual'); d.value = ''; Array.from(d.options).forEach(o => { if (o.value === m.value) d.value = m.value; }); }
-function syncFilterSampai() { const d = document.getElementById('filterSampaiDropdown'); if (d.value) document.getElementById('filterSampaiManual').value = d.value; }
-function syncFilterSampaiDropdown() { const d = document.getElementById('filterSampaiDropdown'); const m = document.getElementById('filterSampaiManual'); d.value = ''; Array.from(d.options).forEach(o => { if (o.value === m.value) d.value = m.value; }); }
+// === Filter sync - ENHANCED TWO-WAY BINDING ===
+function syncFilterDari() { 
+    const d = document.getElementById('filterDariDropdown'); 
+    const m = document.getElementById('filterDariManual');
+    if (d.value) {
+        m.value = d.value;
+        // Trigger change event for any listeners
+        m.dispatchEvent(new Event('change'));
+    }
+}
+
+function syncFilterDariDropdown() { 
+    const d = document.getElementById('filterDariDropdown'); 
+    const m = document.getElementById('filterDariManual');
+    // Reset dropdown first
+    d.value = ''; 
+    // Then try to match
+    for (let i = 0; i < d.options.length; i++) {
+        if (d.options[i].value === m.value) {
+            d.value = m.value;
+            break;
+        }
+    }
+}
+
+function syncFilterSampai() { 
+    const d = document.getElementById('filterSampaiDropdown'); 
+    const m = document.getElementById('filterSampaiManual');
+    if (d.value) {
+        m.value = d.value;
+        // Trigger change event for any listeners
+        m.dispatchEvent(new Event('change'));
+    }
+}
+
+function syncFilterSampaiDropdown() { 
+    const d = document.getElementById('filterSampaiDropdown'); 
+    const m = document.getElementById('filterSampaiManual');
+    // Reset dropdown first
+    d.value = ''; 
+    // Then try to match
+    for (let i = 0; i < d.options.length; i++) {
+        if (d.options[i].value === m.value) {
+            d.value = m.value;
+            break;
+        }
+    }
+}
 
 // === Validation & Submit ===
 function validateAndSubmit() {
     const form = document.getElementById('exportForm');
     const type = document.querySelector('input[name="export_type"]:checked')?.value;
-    if (!type) { alert('Pilih jenis export'); return; }
+    
+    if (!type) { 
+        alert('Pilih jenis export terlebih dahulu'); 
+        return; 
+    }
+    
     let msg = '';
     switch(type) {
         case 'range':
@@ -668,13 +914,34 @@ function validateAndSubmit() {
             if (!document.getElementById('monthRangeTahunDari').value || !document.getElementById('monthRangeBulanDari').value || !document.getElementById('monthRangeTahunSampai').value || !document.getElementById('monthRangeBulanSampai').value) msg = 'Lengkapi semua field rentang bulan';
             break;
     }
-    if (msg) { alert(msg); return; }
+    
+    if (msg) { 
+        alert(msg); 
+        return; 
+    }
+    
     const btn = document.getElementById('exportSubmitBtn');
     const orig = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Memproses...';
+    
+    // Add timeout warning if export takes too long
+    const timeoutWarning = setTimeout(() => {
+        alert('Export sedang diproses. Jika tidak terjadi apa-apa setelah 30 detik, coba refresh halaman dan ulangi.');
+    }, 30000);
+    
+    // Close modal before submitting to improve UX
+    const modal = bootstrap.Modal.getInstance(document.getElementById('exportModal'));
+    if (modal) modal.hide();
+    
     form.submit();
-    setTimeout(() => { btn.disabled = false; btn.innerHTML = orig; }, 3000);
+    
+    // Re-enable button after 5 seconds
+    setTimeout(() => { 
+        clearTimeout(timeoutWarning);
+        btn.disabled = false; 
+        btn.innerHTML = orig; 
+    }, 5000);
 }
 
 // === Bulk Delete ===
@@ -704,12 +971,35 @@ class TransactionPolling {
         this.interval = 30000; // 30 detik
         this.url = '{{ route("api.transactions.check-updates") }}';
         this.failCount = 0;
+        // Don't poll if page was just refreshed after creating transaction
+        this.shouldPoll = !window.location.href.includes('refresh=');
+        // Skip first check if there's a success message (user just created transaction)
+        this.skipFirstCheck = document.querySelector('.alert-success') !== null;
+        this.checkCount = 0;
     }
     start() {
+        if (!this.shouldPoll) {
+            console.log('Polling disabled: page just refreshed after transaction');
+            // Clear the refresh parameter from URL without reloading
+            if (window.history.replaceState) {
+                const cleanUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+            return;
+        }
         if (!this.lastTimestamp) this.lastTimestamp = new Date().toISOString();
-        this.timer = setInterval(() => this.check(), this.interval);
+        // Delay first check by 5 seconds to avoid immediate refresh after creating transaction
+        setTimeout(() => {
+            this.timer = setInterval(() => this.check(), this.interval);
+        }, 5000);
     }
     async check() {
+        this.checkCount++;
+        // Skip first check if there's success message (avoid double notification)
+        if (this.skipFirstCheck && this.checkCount === 1) {
+            console.log('Skipping first poll check due to success message');
+            return;
+        }
         try {
             const r = await fetch(this.url + '?since=' + encodeURIComponent(this.lastTimestamp), {
                 headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'Accept': 'application/json' }
@@ -732,5 +1022,25 @@ class TransactionPolling {
     }
 }
 document.addEventListener('DOMContentLoaded', () => new TransactionPolling().start());
+// === Auto-dismiss alerts ===
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.auto-dismiss').forEach(alert => {
+        const timeout = parseInt(alert.dataset.autoDismiss) || 5000;
+        setTimeout(() => {
+            // Check if element still exists in DOM
+            if (!alert || !document.body.contains(alert)) return;
+            
+            // Manual fade out and remove (avoid Bootstrap Alert API issues)
+            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.opacity = '0';
+            
+            setTimeout(() => {
+                if (alert && alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 500);
+        }, timeout);
+    });
+});
 </script>
 @endsection

@@ -93,8 +93,8 @@ class SuratTandaTerimaController extends Controller
 
         // Create PHPWord
         $phpWord = new PhpWord();
-        $phpWord->setDefaultFontName('Arial');
-        $phpWord->setDefaultFontSize(11);
+        $phpWord->setDefaultFontName('Times New Roman');
+        $phpWord->setDefaultFontSize(12);
 
         $section = $phpWord->addSection([
             'marginTop' => Converter::cmToTwip(2),
@@ -109,8 +109,10 @@ class SuratTandaTerimaController extends Controller
             'size' => 16,
         ], [
             'alignment' => 'center',
-            'spaceAfter' => 200,
         ]);
+
+        // Add one line break after title
+        $section->addText('');
 
         // Info section with aligned table (no borders for clean look)
         $infoTable = $section->addTable([
@@ -130,23 +132,30 @@ class SuratTandaTerimaController extends Controller
         ];
         $tanggalFormatted = $tanggalKeluar->format('d') . ' ' . ($bulanIndo[$tanggalKeluar->month] ?? '') . ' ' . $tanggalKeluar->format('Y');
 
+        // Cell style without borders
+        $noBorderCell = [
+            'borderSize' => 0,
+            'borderColor' => 'FFFFFF',
+            'borderStyle' => 'none',
+        ];
+
         // Row 1: Nama Penerima
         $row1 = $infoTable->addRow();
-        $row1->addCell(2500, ['borderSize' => 0])->addText('Nama Penerima', ['size' => 11]);
-        $row1->addCell(200, ['borderSize' => 0])->addText(':', ['size' => 11]);
-        $row1->addCell(5500, ['borderSize' => 0])->addText($namaPengambil, ['size' => 11]);
+        $row1->addCell(2500, $noBorderCell)->addText('Nama Penerima', ['size' => 11]);
+        $row1->addCell(200, $noBorderCell)->addText(':', ['size' => 11]);
+        $row1->addCell(5500, $noBorderCell)->addText($namaPengambil, ['size' => 11]);
 
         // Row 2: Ruangan
         $row2 = $infoTable->addRow();
-        $row2->addCell(2500, ['borderSize' => 0])->addText('Ruangan', ['size' => 11]);
-        $row2->addCell(200, ['borderSize' => 0])->addText(':', ['size' => 11]);
-        $row2->addCell(5500, ['borderSize' => 0])->addText($ruanganName, ['size' => 11]);
+        $row2->addCell(2500, $noBorderCell)->addText('Ruangan', ['size' => 11]);
+        $row2->addCell(200, $noBorderCell)->addText(':', ['size' => 11]);
+        $row2->addCell(5500, $noBorderCell)->addText($ruanganName, ['size' => 11]);
 
         // Row 3: Tanggal
         $row3 = $infoTable->addRow();
-        $row3->addCell(2500, ['borderSize' => 0])->addText('Tanggal', ['size' => 11]);
-        $row3->addCell(200, ['borderSize' => 0])->addText(':', ['size' => 11]);
-        $row3->addCell(5500, ['borderSize' => 0])->addText($tanggalFormatted, ['size' => 11]);
+        $row3->addCell(2500, $noBorderCell)->addText('Tanggal', ['size' => 11]);
+        $row3->addCell(200, $noBorderCell)->addText(':', ['size' => 11]);
+        $row3->addCell(5500, $noBorderCell)->addText($tanggalFormatted, ['size' => 11]);
 
         $section->addText('');
 
@@ -181,7 +190,7 @@ class SuratTandaTerimaController extends Controller
             $dataRow = $table->addRow();
             
             $dataRow->addCell($widths[0], $cellStyle)->addText($no++, ['size' => 10], $centerAlign);
-            $dataRow->addCell($widths[1], $cellStyle)->addText($transaksi->barang->nama_barang ?? '-', ['size' => 10], $leftAlign);
+            $dataRow->addCell($widths[1], $cellStyle)->addText($transaksi->barang->nama_barang ?? '-', ['size' => 10], $centerAlign);
             $dataRow->addCell($widths[2], $cellStyle)->addText((string) $transaksi->jumlah_keluar, ['size' => 10], $centerAlign);
             $dataRow->addCell($widths[3], $cellStyle)->addText($transaksi->barang->satuan ?? '-', ['size' => 10], $centerAlign);
             $dataRow->addCell($widths[4], $cellStyle)->addText('', ['size' => 10]);

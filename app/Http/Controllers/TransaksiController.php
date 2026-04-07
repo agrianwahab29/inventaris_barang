@@ -93,11 +93,17 @@ class TransaksiController extends Controller
         $monthsByYear = [];
         if ($availableYears->isNotEmpty()) {
             foreach ($availableYears as $year) {
-                $monthsByYear[$year] = Transaksi::selectRaw("strftime('%m', tanggal) as bulan")
+                $months = Transaksi::selectRaw("strftime('%m', tanggal) as bulan")
                     ->whereRaw("strftime('%Y', tanggal) = ?", [$year])
                     ->distinct()
                     ->orderBy('bulan', 'asc')
-                    ->pluck('bulan');
+                    ->pluck('bulan')
+                    ->map(function($month) {
+                        return (int) $month; // Convert to integer
+                    })
+                    ->toArray(); // Convert to plain array
+                
+                $monthsByYear[$year] = $months;
             }
         }
 
@@ -203,9 +209,13 @@ class TransaksiController extends Controller
                 $messages[] = 'Barang keluar ' . $jumlahKeluar . ' ' . $barang->satuan;
             }
             
-            if ($sisaStok == 0) {
+            // BUG FIX #7: Ensure proper integer comparison for stock minimum warning
+            $sisaStokInt = (int) $sisaStok;
+            $stokMinimumInt = (int) $barang->stok_minimum;
+            
+            if ($sisaStokInt === 0) {
                 $messages[] = 'Stok habis!';
-            } elseif ($sisaStok <= $barang->stok_minimum) {
+            } elseif ($sisaStokInt <= $stokMinimumInt && $sisaStokInt > 0) {
                 $messages[] = 'Stok minimum!';
             }
 
@@ -327,9 +337,13 @@ class TransaksiController extends Controller
                 $messages[] = 'Barang keluar ' . $jumlahKeluar . ' ' . $barang->satuan;
             }
             
-            if ($sisaStok == 0) {
+            // BUG FIX #7: Ensure proper integer comparison for stock minimum warning
+            $sisaStokInt = (int) $sisaStok;
+            $stokMinimumInt = (int) $barang->stok_minimum;
+            
+            if ($sisaStokInt === 0) {
                 $messages[] = 'Stok habis!';
-            } elseif ($sisaStok <= $barang->stok_minimum) {
+            } elseif ($sisaStokInt <= $stokMinimumInt && $sisaStokInt > 0) {
                 $messages[] = 'Stok minimum!';
             }
 
@@ -353,16 +367,20 @@ class TransaksiController extends Controller
         // Kembalikan stok barang
         $barang = $transaksi->barang;
         
-        // Hitung ulang stok barang berdasarkan seluruh riwayat transaksi untuk konsistensi
-        $totalMasuk = Transaksi::where('barang_id', $barang->id)
-            ->where('id', '!=', $transaksi->id) // Exclude current transaction being deleted
-            ->sum('jumlah_masuk');
-            
-        $totalKeluar = Transaksi::where('barang_id', $barang->id)
-            ->where('id', '!=', $transaksi->id)
-            ->sum('jumlah_keluar');
-            
-        $barang->update(['stok' => $totalMasuk - $totalKeluar]);
+        // Hitung ulang stok: stok saat ini dikurangi dampak transaksi ini
+        // Jika transaksi masuk: kurangi stok
+        // Jika transaksi keluar: tambahi stok
+        $stokSaatIni = $barang->stok;
+        
+        if ($transaksi->tipe === 'masuk') {
+            $stokBaru = $stokSaatIni - $transaksi->jumlah_masuk;
+        } elseif ($transaksi->tipe === 'keluar') {
+            $stokBaru = $stokSaatIni + $transaksi->jumlah_keluar;
+        } else { // masuk_keluar
+            $stokBaru = $stokSaatIni - $transaksi->jumlah_masuk + $transaksi->jumlah_keluar;
+        }
+        
+        $barang->update(['stok' => max(0, $stokBaru)]);
 
         $transaksi->delete();
         Cache::flush();
@@ -430,6 +448,13 @@ class TransaksiController extends Controller
     {
         Log::debug('=== Export START ===', ['type' => $request->export_type, 'all_input' => $request->all()]);
         
+        // Check if there are any transactions in the database first
+        $transactionCount = Transaksi::count();
+        if ($transactionCount === 0) {
+            Log::warning('Export attempted with no transactions in database');
+            return back()->with('error', 'Tidak ada data transaksi untuk diexport. Silakan tambahkan transaksi terlebih dahulu.')->withInput();
+        }
+        
         // Convert empty strings to null BEFORE validation
         $input = $request->all();
         $allFields = ['tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan', 'tanggal_dari', 'tanggal_sampai', 'tanggal_list', 'user_id'];
@@ -457,19 +482,24 @@ class TransaksiController extends Controller
 
         Log::debug('After integer conversion', ['bulan' => $request->bulan, 'bulan_dari' => $request->bulan_dari, 'bulan_sampai' => $request->bulan_sampai]);
 
-        $request->validate([
-            'export_type' => 'required|in:all,range,dates,year,year_range,month,month_range',
-            'tanggal_dari' => 'nullable|date',
-            'tanggal_sampai' => 'nullable|date',
-            'tanggal_list' => 'nullable|string',
-            'tahun' => 'nullable|integer|min:2000|max:2100',
-            'tahun_dari' => 'nullable|integer|min:2000|max:2100',
-            'tahun_sampai' => 'nullable|integer|min:2000|max:2100',
-            'bulan' => 'nullable|integer|min:1|max:12',
-            'bulan_dari' => 'nullable|integer|min:1|max:12',
-            'bulan_sampai' => 'nullable|integer|min:1|max:12',
-            'tahun_bulan' => 'nullable|integer|min:2000|max:2100',
-        ]);
+        try {
+            $request->validate([
+                'export_type' => 'required|in:all,range,dates,year,year_range,month,month_range',
+                'tanggal_dari' => 'nullable|date',
+                'tanggal_sampai' => 'nullable|date',
+                'tanggal_list' => 'nullable|string',
+                'tahun' => 'nullable|integer|min:2000|max:2100',
+                'tahun_dari' => 'nullable|integer|min:2000|max:2100',
+                'tahun_sampai' => 'nullable|integer|min:2000|max:2100',
+                'bulan' => 'nullable|integer|min:1|max:12',
+                'bulan_dari' => 'nullable|integer|min:1|max:12',
+                'bulan_sampai' => 'nullable|integer|min:1|max:12',
+                'tahun_bulan' => 'nullable|integer|min:2000|max:2100',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Export validation failed', ['errors' => $e->errors()]);
+            return back()->withErrors($e->errors())->withInput();
+        }
         
         Log::debug('Validation passed');
         
@@ -478,7 +508,7 @@ class TransaksiController extends Controller
             if ($request->tanggal_dari && $request->tanggal_sampai) {
                 if ($request->tanggal_dari > $request->tanggal_sampai) {
                     Log::error('Date range invalid');
-                    return back()->WithError('Tanggal dari harus lebih kecil atau sama dengan tanggal sampai')->withInput();
+                    return back()->with('error', 'Tanggal dari harus lebih kecil atau sama dengan tanggal sampai')->withInput();
                 }
             }
         }
@@ -488,7 +518,7 @@ class TransaksiController extends Controller
             Log::debug('Month validation', ['tahun_bulan' => $request->tahun_bulan, 'bulan' => $request->bulan]);
             if (!$request->tahun_bulan || !$request->bulan) {
                 Log::error('Month validation failed');
-                return back()->WithError('Pilih tahun dan bulan untuk export')->withInput();
+                return back()->with('error', 'Pilih tahun dan bulan untuk export')->withInput();
             }
         }
         
@@ -496,7 +526,7 @@ class TransaksiController extends Controller
         if ($request->export_type === 'month_range') {
             if (!$request->tahun_dari || !$request->bulan_dari || !$request->tahun_sampai || !$request->bulan_sampai) {
                 Log::error('Month range validation failed');
-                return back()->WithError('Pilih semua field untuk rentang bulan')->withInput();
+                return back()->with('error', 'Pilih semua field untuk rentang bulan')->withInput();
             }
         }
 
@@ -504,6 +534,7 @@ class TransaksiController extends Controller
         
         Log::info('Export request', ['type' => $request->export_type, 'params' => $request->only(['tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan', 'tanggal_dari', 'tanggal_sampai'])]);
         
+        // Create export instance and pre-check if there's data
         $export = new TransaksiExport(
             $request->export_type,
             $request->tanggal_dari,
@@ -519,25 +550,71 @@ class TransaksiController extends Controller
             $request->tahun_bulan
         );
         
+        // Check if the collection has data before proceeding
+        try {
+            $collection = $export->collection();
+            if ($collection->isEmpty()) {
+                Log::warning('Export has no data for selected criteria', ['type' => $request->export_type]);
+                return back()->with('error', 'Tidak ada data transaksi untuk kriteria yang dipilih. Silakan pilih kriteria lain.')->withInput();
+            }
+        } catch (\Exception $e) {
+            Log::error('Export collection check failed', ['error' => $e->getMessage()]);
+            return back()->with('error', 'Gagal mengambil data transaksi: ' . $e->getMessage())->withInput();
+        }
+        
         // Use Excel::store and then download from storage
         $tempFile = 'exports/' . $filename;
         Log::debug('Storing file', ['path' => $tempFile]);
+        
+        // Ensure exports directory exists
+        $exportsDir = storage_path('app/exports');
+        if (!is_dir($exportsDir)) {
+            if (!mkdir($exportsDir, 0755, true)) {
+                Log::error('Failed to create exports directory', ['path' => $exportsDir]);
+                return back()->with('error', 'Gagal membuat direktori export. Hubungi administrator.')->withInput();
+            }
+        }
+        
+        // Check if directory is writable
+        if (!is_writable($exportsDir)) {
+            Log::error('Exports directory not writable', ['path' => $exportsDir]);
+            return back()->with('error', 'Direktori export tidak dapat ditulis. Hubungi administrator.')->withInput();
+        }
         
         try {
             Excel::store($export, $tempFile, 'local');
             Log::info('Export file created SUCCESS', ['file' => $tempFile, 'full_path' => storage_path('app/' . $tempFile)]);
             
             // Check if file exists
-            if (!file_exists(storage_path('app/' . $tempFile))) {
-                Log::error('File NOT created');
-                return back()->WithError('File export tidak dibuat');
+            $fullPath = storage_path('app/' . $tempFile);
+            if (!file_exists($fullPath)) {
+                Log::error('File NOT created', ['path' => $fullPath]);
+                return back()->with('error', 'File export tidak dapat dibuat. Silakan coba lagi.')->withInput();
             }
             
-            Log::debug('File exists, preparing download');
-            return response()->download(storage_path('app/' . $tempFile), $filename)->deleteFileAfterSend(true);
+            // Check file size
+            $fileSize = filesize($fullPath);
+            if ($fileSize === 0) {
+                Log::error('File created but is empty', ['path' => $fullPath]);
+                unlink($fullPath); // Clean up empty file
+                return back()->with('error', 'File export kosong. Silakan coba lagi.')->withInput();
+            }
+            
+            Log::debug('File exists and has content, preparing download', ['size' => $fileSize]);
+            
+            return response()->download($fullPath, $filename, [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ])->deleteFileAfterSend(true);
+            
+        } catch (\Maatwebsite\Excel\Exceptions\NoTypeDetectedException $e) {
+            Log::error('Export Excel type detection failed', ['error' => $e->getMessage()]);
+            return back()->with('error', 'Format file tidak dikenali. Pastikan PHP extension untuk Excel terinstal.')->withInput();
+        } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
+            Log::error('Export PhpSpreadsheet error', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            return back()->with('error', 'Gagal membuat file Excel: ' . $e->getMessage())->withInput();
         } catch (\Exception $e) {
             Log::error('Export FAILED', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return back()->WithError('Export gagal: ' . $e->getMessage());
+            return back()->with('error', 'Export gagal: ' . $e->getMessage())->withInput();
         }
     }
 
