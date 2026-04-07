@@ -44,9 +44,9 @@ class ComprehensiveDummyDataSeeder extends Seeder
     
     private function createUsers()
     {
-        $this->command->info('👥 Creating users...');
+        $this->command->info('👤 Creating admin user...');
         
-        // Admin user - updateOrCreate to avoid duplicate errors
+        // Single Admin user only - updateOrCreate to avoid duplicate errors
         User::updateOrCreate(
             ['email' => 'admin@example.com'],
             [
@@ -58,29 +58,10 @@ class ComprehensiveDummyDataSeeder extends Seeder
             ]
         );
         
-        // Regular users - set status to nonaktif for dummy users
-        $users = [
-            ['name' => 'Budi Santoso', 'username' => 'budi', 'email' => 'budi@example.com'],
-            ['name' => 'Ani Wijaya', 'username' => 'ani', 'email' => 'ani@example.com'],
-            ['name' => 'Dedi Kurniawan', 'username' => 'dedi', 'email' => 'dedi@example.com'],
-            ['name' => 'Siti Aminah', 'username' => 'siti', 'email' => 'siti@example.com'],
-            ['name' => 'Rudi Hartono', 'username' => 'rudi', 'email' => 'rudi@example.com'],
-        ];
-        
-        foreach ($users as $user) {
-            User::updateOrCreate(
-                ['email' => $user['email']],
-                [
-                    'name' => $user['name'],
-                    'username' => $user['username'],
-                    'password' => Hash::make('password'),
-                    'role' => 'pengguna',
-                    'status' => 'nonaktif', // Set status to nonaktif for dummy users
-                ]
-            );
-        }
-        
-        $this->command->info('✅ Admin password set to: admin123');
+        $this->command->info('✅ Single-Admin system configured');
+        $this->command->info('✅ Admin credentials:');
+        $this->command->info('   Username: admin');
+        $this->command->info('   Password: admin123');
     }
     
     private function createRuangans()

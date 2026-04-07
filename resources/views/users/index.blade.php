@@ -28,6 +28,16 @@
 @endsection
 
 @section('content')
+<!-- Single-Admin System Notice -->
+<div class="alert alert-info d-flex align-items-center mb-4" role="alert">
+    <i class="fas fa-info-circle me-2 fs-5"></i>
+    <div>
+        <strong>Single-Admin System:</strong> Sistem ini dirancang untuk satu administrator yang menginput data. 
+        32 pegawai dapat mengakses laporan tanpa login. 
+        <span class="text-muted">Status user digunakan untuk mengontrol akses login admin.</span>
+    </div>
+</div>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="mb-0"><i class="fas fa-users-cog me-2"></i>Manajemen User</h4>
     <div class="d-flex gap-2">
