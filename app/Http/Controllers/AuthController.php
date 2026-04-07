@@ -129,7 +129,15 @@ class AuthController extends Controller
             return back()->with('error', 'Hanya admin yang dapat menghapus user');
         }
 
-        $ids = $request->input('ids', []);
+        $ids = $request->input('ids', '');
+        
+        // Convert string to array (comma-separated from JavaScript)
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+        
+        // Filter empty values and ensure integers
+        $ids = array_filter(array_map('intval', $ids));
         
         if (empty($ids)) {
             return back()->with('error', 'Pilih minimal satu user untuk dihapus');
