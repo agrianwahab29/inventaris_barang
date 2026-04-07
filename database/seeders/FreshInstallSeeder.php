@@ -34,7 +34,7 @@ class FreshInstallSeeder extends Seeder
         $this->command->info('💡 Tips:');
         $this->command->info('   - Change default password after first login');
         $this->command->info('   - This is a single-admin system');
-        $this->command->info('   - 32 employees can view reports without login');
+        $this->command->info('   - Pegawai dapat mengakses laporan tanpa login');
     }
     
     private function createAdmin()

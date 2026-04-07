@@ -33,7 +33,7 @@
     <i class="fas fa-info-circle me-2 fs-5"></i>
     <div>
         <strong>Single-Admin System:</strong> Sistem ini dirancang untuk satu administrator yang menginput data. 
-        32 pegawai dapat mengakses laporan tanpa login. 
+        Pegawai dapat mengakses laporan tanpa login. 
         <span class="text-muted">Status user digunakan untuk mengontrol akses login admin.</span>
     </div>
 </div>

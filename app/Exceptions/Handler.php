@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -37,5 +38,27 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Get the default error message.
+     * Hide detailed error in production to prevent information leakage.
+     *
+     * @param \Throwable $e
+     * @return string
+     */
+    protected function getErrorMessage(Throwable $e): string
+    {
+        if (app()->environment('production')) {
+            Log::error($e->getMessage(), [
+                'exception' => get_class($e),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return 'Terjadi kesalahan sistem. Silakan coba lagi atau hubungi administrator.';
+        }
+        
+        return $e->getMessage();
     }
 }
