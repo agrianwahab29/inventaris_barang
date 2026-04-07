@@ -73,7 +73,8 @@ class TransaksiController extends Controller
 
         $transaksis = $query->orderBy('created_at', 'desc')->paginate(25);
         $barangs = Barang::orderBy('nama_barang')->get();
-        $users = User::orderBy('name')->get();
+        // Only show active users in filters
+        $users = User::aktif()->orderBy('name')->get();
         $availableDates = Transaksi::selectRaw('DATE(tanggal) as tgl')
             ->distinct()
             ->orderBy('tgl', 'desc')

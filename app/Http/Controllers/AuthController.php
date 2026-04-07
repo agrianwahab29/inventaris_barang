@@ -23,6 +23,17 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            // Check if user is active
+            if (Auth::user()->status !== 'aktif') {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                
+                return redirect('/login')->withErrors([
+                    'username' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+                ])->onlyInput('username');
+            }
+            
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }
