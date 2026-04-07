@@ -289,7 +289,7 @@
                     <th>Kategori</th>
                     <th>Satuan</th>
                     <th class="text-center">Stok</th>
-                    <th class="text-center">Min. Stok</th>
+                    <!-- Kolom Min. Stok disembunyikan - tetap tersimpan di database -->
                     <th>Status</th>
                     <th style="width: 120px;" class="text-center">Aksi</th>
                 </tr>
@@ -332,7 +332,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="text-center">{{ number_format($barang->stok_minimum) }}</td>
+                        <!-- Kolom Min. Stok disembunyikan - tetap tersimpan di database -->
                         <td>
                             @if($barang->stok <= 0)
                                 <span class="status-badge status-out">Stok Habis</span>

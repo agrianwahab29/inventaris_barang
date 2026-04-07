@@ -133,7 +133,7 @@ class TransaksiExport implements FromCollection, WithHeadings, WithStyles, WithM
                 break;
         }
 
-        $data = $query->orderBy('tanggal', 'desc')->get();
+        $data = $query->orderBy('created_at', 'desc')->get();
         
         // Ensure integer values for numeric fields
         $data->transform(function ($item) {

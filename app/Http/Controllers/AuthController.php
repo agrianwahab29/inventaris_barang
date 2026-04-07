@@ -27,7 +27,7 @@ class AuthController extends Controller
             return redirect()->intended('dashboard');
         }
 
-        return back()->withErrors([
+        return redirect('/login')->withErrors([
             'username' => 'Username atau password salah.',
         ])->onlyInput('username');
     }
@@ -41,9 +41,19 @@ class AuthController extends Controller
     }
 
     // Admin only - Manage Users
-    public function indexUsers()
+    public function indexUsers(Request $request)
     {
-        $users = User::paginate(10);
+        $query = User::orderBy('name');
+        
+        // Filter by status if provided, default to showing only active users
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        } else {
+            // Default: show only active users
+            $query->where('status', 'aktif');
+        }
+        
+        $users = $query->paginate(10);
         return view('users.index', compact('users'));
     }
 
@@ -60,6 +70,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|string|min:6',
             'role' => 'required|in:admin,pengguna',
+            'status' => 'required|in:aktif,nonaktif',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -80,6 +91,7 @@ class AuthController extends Controller
             'username' => 'required|string|unique:users,username,' . $user->id . '|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id . '|max:255',
             'role' => 'required|in:admin,pengguna',
+            'status' => 'required|in:aktif,nonaktif',
         ]);
 
         if ($request->filled('password')) {

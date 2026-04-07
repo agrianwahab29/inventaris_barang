@@ -30,9 +30,17 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="mb-0"><i class="fas fa-users-cog me-2"></i>Manajemen User</h4>
-    <a href="{{ route('users.create') }}" class="btn btn-primary">
-        <i class="fas fa-plus me-2"></i>Tambah User
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('users.index', ['status' => 'nonaktif']) }}" class="btn btn-outline-secondary {{ request('status') == 'nonaktif' ? 'active' : '' }}">
+            <i class="fas fa-eye-slash me-2"></i>Lihat Nonaktif
+        </a>
+        <a href="{{ route('users.index') }}" class="btn btn-outline-success {{ !request('status') ? 'active' : '' }}">
+            <i class="fas fa-user-check me-2"></i>User Aktif
+        </a>
+        <a href="{{ route('users.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Tambah User
+        </a>
+    </div>
 </div>
 
 <!-- Bulk Delete Toolbar (Sticky Top) -->
@@ -71,6 +79,7 @@
                         <th>Username</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>Status</th>
                         <th>Dibuat</th>
                         <th>Aksi</th>
                     </tr>
@@ -92,6 +101,11 @@
                                     {{ ucfirst($user->role) }}
                                 </span>
                             </td>
+                            <td>
+                                <span class="badge bg-{{ $user->status == 'aktif' ? 'success' : 'secondary' }}">
+                                    {{ ucfirst($user->status) }}
+                                </span>
+                            </td>
                             <td>{{ $user->created_at->format('d M Y') }}</td>
                             <td>
                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-warning btn-action me-1">
@@ -110,7 +124,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-4">
+                            <td colspan="9" class="text-center py-4">
                                 <i class="fas fa-inbox fa-2x mb-2 text-muted"></i>
                                 <p class="mb-0 text-muted">Tidak ada data user</p>
                             </td>

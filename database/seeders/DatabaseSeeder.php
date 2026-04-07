@@ -107,8 +107,98 @@ class DatabaseSeeder extends Seeder
             Barang::create($barang);
         }
 
+        // Create sample transactions for testing
+        $this->createSampleTransactions();
+
         $this->command->info('Database seeded successfully!');
         $this->command->info('Admin: admin / admin123');
         $this->command->info('User: user / user123');
+        $this->command->info('Sample transactions created!');
+    }
+
+    /**
+     * Create sample transactions for testing
+     */
+    private function createSampleTransactions()
+    {
+        $admin = User::where('username', 'admin')->first();
+        $ruangan = Ruangan::first();
+        
+        // Get some barang for transactions
+        $barang1 = Barang::where('nama_barang', 'Kertas HVS A4')->first();
+        $barang2 = Barang::where('nama_barang', 'Kopi')->first();
+        $barang3 = Barang::where('nama_barang', 'Aqua Botol 330ML')->first();
+
+        if ($barang1 && $admin) {
+            // Transaction 1: Barang Masuk
+            Transaksi::create([
+                'barang_id' => $barang1->id,
+                'user_id' => $admin->id,
+                'tipe' => 'masuk',
+                'jumlah_masuk' => 10,
+                'jumlah_keluar' => 0,
+                'jumlah' => 10,
+                'stok_sebelum' => 2,
+                'stok_setelah_masuk' => 12,
+                'sisa_stok' => 12,
+                'tanggal' => Carbon::now()->subDays(5),
+                'keterangan' => 'Pengadaan rutin bulanan',
+            ]);
+
+            // Transaction 2: Barang Keluar
+            Transaksi::create([
+                'barang_id' => $barang1->id,
+                'user_id' => $admin->id,
+                'ruangan_id' => $ruangan ? $ruangan->id : null,
+                'tipe' => 'keluar',
+                'jumlah_masuk' => 0,
+                'jumlah_keluar' => 3,
+                'jumlah' => 3,
+                'stok_sebelum' => 12,
+                'sisa_stok' => 9,
+                'tanggal' => Carbon::now()->subDays(3),
+                'tanggal_keluar' => Carbon::now()->subDays(3),
+                'nama_pengambil' => 'Budi Santoso',
+                'tipe_pengambil' => 'nama_ruangan',
+                'keterangan' => 'Keperluan rapat',
+            ]);
+        }
+
+        if ($barang2 && $admin) {
+            // Transaction 3: Barang Masuk
+            Transaksi::create([
+                'barang_id' => $barang2->id,
+                'user_id' => $admin->id,
+                'tipe' => 'masuk',
+                'jumlah_masuk' => 5,
+                'jumlah_keluar' => 0,
+                'jumlah' => 5,
+                'stok_sebelum' => 1,
+                'stok_setelah_masuk' => 6,
+                'sisa_stok' => 6,
+                'tanggal' => Carbon::now()->subDays(7),
+                'keterangan' => 'Restock kopi kantor',
+            ]);
+        }
+
+        if ($barang3 && $admin && $ruangan) {
+            // Transaction 4: Barang Keluar with ruangan
+            Transaksi::create([
+                'barang_id' => $barang3->id,
+                'user_id' => $admin->id,
+                'ruangan_id' => $ruangan->id,
+                'tipe' => 'keluar',
+                'jumlah_masuk' => 0,
+                'jumlah_keluar' => 1,
+                'jumlah' => 1,
+                'stok_sebelum' => 2,
+                'sisa_stok' => 1,
+                'tanggal' => Carbon::now()->subDays(2),
+                'tanggal_keluar' => Carbon::now()->subDays(2),
+                'nama_pengambil' => 'Dewi Kusuma',
+                'tipe_pengambil' => 'ruangan_saja',
+                'keterangan' => 'Tamu instansi',
+            ]);
+        }
     }
 }

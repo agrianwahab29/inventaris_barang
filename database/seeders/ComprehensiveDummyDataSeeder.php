@@ -54,10 +54,11 @@ class ComprehensiveDummyDataSeeder extends Seeder
                 'username' => 'admin',
                 'password' => Hash::make('admin123'),
                 'role' => 'admin',
+                'status' => 'aktif', // Admin is active
             ]
         );
         
-        // Regular users
+        // Regular users - set status to nonaktif for dummy users
         $users = [
             ['name' => 'Budi Santoso', 'username' => 'budi', 'email' => 'budi@example.com'],
             ['name' => 'Ani Wijaya', 'username' => 'ani', 'email' => 'ani@example.com'],
@@ -74,6 +75,7 @@ class ComprehensiveDummyDataSeeder extends Seeder
                     'username' => $user['username'],
                     'password' => Hash::make('password'),
                     'role' => 'pengguna',
+                    'status' => 'nonaktif', // Set status to nonaktif for dummy users
                 ]
             );
         }

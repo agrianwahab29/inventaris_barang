@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:8000/transaksi",
+  "loginUser": "admin",
+  "loginPassword": "admin123",
+  "executionArgs": {
+    "projectName": "inventaris-kantor",
+    "projectPath": "C:\\laragon\\www\\inventaris-barang2\\inventaris-kantor",
+    "testIds": [],
+    "additionalInstruction": "Focus on testing ALL export types in the transaksi page: all, range, dates, year, year_range, month, month_range. Test the export modal functionality, verify no JavaScript errors occur when selecting different export types, ensure dropdown bulan is visible (not white text on white background), and verify export files download successfully. Pay special attention to the JavaScript error \"Cannot set properties of null\" that occurs in selectExportType function. Rate limiting has been disabled for web routes.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-EBPtvYWKXZIwwrpsA7_5B2aPoCBYeSu7E28JYGphNp1RxnYT3yJsHwJLg4tJPPwZ07lo9jcUtDk4b8dBqIjGguBS-JzQTCm3kmod25lK8g86dbAGCBQJb3KEa-1yUDPUJNI"
+    }
+  },
+  "serverPort": 19550,
+  "proxy": "http://8ff1075c-c133-4075-90a2-1bc5f33dace3:5HjIFW1QVp1y6cwhOUHiSnlrF4b03I5g@tun.testsprite.com:8080"
+}

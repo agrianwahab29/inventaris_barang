@@ -24,6 +24,10 @@ class RoleMiddleware
         $user = auth()->user();
 
         if ($role === 'admin' && !$user->isAdmin()) {
+            // Return 403 for API/testing requests, redirect for web requests
+            if ($request->expectsJson() || $request->ajax()) {
+                abort(403, 'Akses ditolak. Anda tidak memiliki akses ke halaman ini.');
+            }
             return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini');
         }
 

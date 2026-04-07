@@ -1,0 +1,42 @@
+[
+  {
+    "id": "TC001",
+    "title": "test_login_endpoint_with_valid_and_invalid_credentials",
+    "description": "Verify that POST /login authenticates users correctly with valid credentials, redirects to /dashboard, and sets session cookie; also verify invalid credentials redirect back to /login with appropriate error message."
+  },
+  {
+    "id": "TC002",
+    "title": "test_dashboard_access_with_and_without_authentication",
+    "description": "Verify that GET /dashboard and GET / return 200 with inventory statistics and quick actions when authenticated, and redirect to /login when unauthenticated."
+  },
+  {
+    "id": "TC003",
+    "title": "test_barang_crud_operations_and_stock_update",
+    "description": "Verify CRUD operations on /barang endpoints including creating new items, handling duplicate names, updating stock with validation, deleting items with and without related transactions, and bulk deletion with summary report."
+  },
+  {
+    "id": "TC004",
+    "title": "test_transaksi_creation_validation_and_deletion",
+    "description": "Verify creating transactions via POST /transaksi with various types (masuk, keluar, masuk_keluar), validate stock constraints, and verify deletion of transactions with stock recalculation and permission checks."
+  },
+  {
+    "id": "TC005",
+    "title": "test_ruangan_management_crud_and_deletion_constraints",
+    "description": "Verify admin-only CRUD operations on /ruangan endpoints including creation, update, and deletion with validation preventing deletion if room has related transactions."
+  },
+  {
+    "id": "TC006",
+    "title": "test_user_management_crud_and_self_delete_prevention",
+    "description": "Verify admin-only user management endpoints including creating users with unique constraints, updating users without changing password if empty, and preventing self-deletion with appropriate error."
+  },
+  {
+    "id": "TC007",
+    "title": "test_quarterly_stock_opname_report_generation",
+    "description": "Verify GET /quarterly-stock returns form and data preview, and POST /quarterly-stock/export generates DOCX report for valid quarter and year, with validation errors for missing parameters."
+  },
+  {
+    "id": "TC008",
+    "title": "test_surat_tanda_terima_generation_and_validation",
+    "description": "Verify GET /surat-tanda-terima shows form, and GET /surat-tanda-terima/generate generates DOCX receipt letter with required parameters, returning validation errors if parameters are missing."
+  }
+]

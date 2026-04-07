@@ -1,0 +1,287 @@
+version: "2"
+type: backend
+tech_stack:
+  - PHP 8.0+
+  - Laravel 8.x
+  - SQLite
+  - MySQL
+  - Bootstrap 5
+  - JavaScript
+features:
+  - name: Authentication System
+    description: User login/logout with role-based access control (admin/pengguna)
+    files:
+      - app/Http/Controllers/AuthController.php
+      - resources/views/auth/login.blade.php
+      - app/Models/User.php
+    endpoints:
+      - method: GET
+        path: /login
+        description: Show login form
+        auth_required: false
+      - method: POST
+        path: /login
+        description: Authenticate user
+        auth_required: false
+      - method: POST
+        path: /logout
+        description: Logout user
+        auth_required: true
+    depends_on: []
+
+  - name: Dashboard
+    description: Main dashboard showing inventory statistics and overview
+    files:
+      - app/Http/Controllers/DashboardController.php
+    endpoints:
+      - method: GET
+        path: /
+        description: Dashboard home
+        auth_required: true
+      - method: GET
+        path: /dashboard
+        description: Dashboard
+        auth_required: true
+    depends_on:
+      - Authentication System
+
+  - name: Barang Management
+    description: CRUD operations for inventory items with stock tracking
+    files:
+      - app/Http/Controllers/BarangController.php
+      - app/Models/Barang.php
+      - resources/views/barang/index.blade.php
+      - resources/views/barang/create.blade.php
+      - resources/views/barang/edit.blade.php
+      - resources/views/barang/show.blade.php
+    endpoints:
+      - method: GET
+        path: /barang
+        description: List all items with search, filter, pagination
+        auth_required: true
+      - method: GET
+        path: /barang/create
+        description: Show create form
+        auth_required: true
+      - method: POST
+        path: /barang
+        description: Store new item or add stock to existing
+        auth_required: true
+        request_schema:
+          body: "nama_barang (string), kategori (enum), satuan (string), stok (int), stok_minimum (int), catatan (string|null)"
+        response_schema:
+          "200": Redirect with success message
+          "422": Validation error
+      - method: GET
+        path: /barang/{barang}
+        description: Show item details with transaction history
+        auth_required: true
+      - method: GET
+        path: /barang/{barang}/edit
+        description: Show edit form (admin only)
+        auth_required: true
+      - method: PUT
+        path: /barang/{barang}
+        description: Update item (admin only)
+        auth_required: true
+      - method: DELETE
+        path: /barang/{barang}
+        description: Delete item (admin only)
+        auth_required: true
+      - method: DELETE
+        path: /barang/bulk/delete
+        description: Bulk delete items (admin only)
+        auth_required: true
+      - method: POST
+        path: /barang/{barang}/update-stok
+        description: Quick stock update with auto transaction creation
+        auth_required: true
+      - method: GET
+        path: /barang/export
+        description: Export items to Excel
+        auth_required: true
+    depends_on:
+      - Authentication System
+
+  - name: Transaksi Management
+    description: Transaction tracking for stock in/out with room assignment
+    files:
+      - app/Http/Controllers/TransaksiController.php
+      - app/Models/Transaksi.php
+      - resources/views/transaksi/index.blade.php
+      - resources/views/transaksi/create.blade.php
+      - resources/views/transaksi/edit.blade.php
+      - resources/views/transaksi/show.blade.php
+    endpoints:
+      - method: GET
+        path: /transaksi
+        description: List all transactions with filters
+        auth_required: true
+      - method: GET
+        path: /transaksi/create
+        description: Show create transaction form
+        auth_required: true
+      - method: POST
+        path: /transaksi
+        description: Create transaction (in/out/combined)
+        auth_required: true
+        request_schema:
+          body: "barang_id (int), jumlah_masuk (int|null), jumlah_keluar (int|null), tanggal_masuk (date|null), tanggal_keluar (date|null), ruangan_id (int|null), nama_pengambil (string|null), tipe_pengambil (enum|null), keterangan (string|null)"
+      - method: GET
+        path: /transaksi/{transaksi}
+        description: Show transaction details
+        auth_required: true
+      - method: GET
+        path: /transaksi/{transaksi}/edit
+        description: Show edit form
+        auth_required: true
+      - method: PUT
+        path: /transaksi/{transaksi}
+        description: Update transaction
+        auth_required: true
+      - method: DELETE
+        path: /transaksi/{transaksi}
+        description: Delete transaction with stock recalculation
+        auth_required: true
+      - method: DELETE
+        path: /transaksi/bulk/delete
+        description: Bulk delete transactions
+        auth_required: true
+      - method: GET
+        path: /transaksi/export
+        description: Export transactions with multiple filter options
+        auth_required: true
+      - method: GET
+        path: /api/barang/{id}/info
+        description: Get item info via AJAX
+        auth_required: true
+      - method: GET
+        path: /api/transactions/check-updates
+        description: Poll for new transactions
+        auth_required: true
+    depends_on:
+      - Authentication System
+      - Barang Management
+
+  - name: Ruangan Management
+    description: Room/location management for transaction destination
+    files:
+      - app/Http/Controllers/RuanganController.php
+      - app/Models/Ruangan.php
+      - resources/views/ruangan/index.blade.php
+      - resources/views/ruangan/create.blade.php
+      - resources/views/ruangan/edit.blade.php
+    endpoints:
+      - method: GET
+        path: /ruangan
+        description: List all rooms
+        auth_required: true
+      - method: GET
+        path: /ruangan/create
+        description: Show create form (admin only)
+        auth_required: true
+      - method: POST
+        path: /ruangan
+        description: Store new room (admin only)
+        auth_required: true
+      - method: GET
+        path: /ruangan/{ruangan}
+        description: Show room details
+        auth_required: true
+      - method: GET
+        path: /ruangan/{ruangan}/edit
+        description: Show edit form (admin only)
+        auth_required: true
+      - method: PUT
+        path: /ruangan/{ruangan}
+        description: Update room (admin only)
+        auth_required: true
+      - method: DELETE
+        path: /ruangan/{ruangan}
+        description: Delete room (admin only)
+        auth_required: true
+    depends_on:
+      - Authentication System
+
+  - name: User Management
+    description: Admin-only user management with role assignment
+    files:
+      - app/Http/Controllers/AuthController.php
+      - resources/views/users/index.blade.php
+      - resources/views/users/create.blade.php
+      - resources/views/users/edit.blade.php
+    endpoints:
+      - method: GET
+        path: /users
+        description: List all users (admin only)
+        auth_required: true
+      - method: GET
+        path: /users/create
+        description: Show create form (admin only)
+        auth_required: true
+      - method: POST
+        path: /users
+        description: Store new user (admin only)
+        auth_required: true
+        request_schema:
+          body: "name (string), username (string), email (string), password (string), role (enum: admin, pengguna)"
+      - method: GET
+        path: /users/{user}/edit
+        description: Show edit form (admin only)
+        auth_required: true
+      - method: PUT
+        path: /users/{user}
+        description: Update user (admin only)
+        auth_required: true
+      - method: DELETE
+        path: /users/{user}
+        description: Delete user (admin only)
+        auth_required: true
+      - method: DELETE
+        path: /users/bulk/delete
+        description: Bulk delete users (admin only)
+        auth_required: true
+    depends_on:
+      - Authentication System
+
+  - name: Quarterly Stock Opname
+    description: Generate quarterly stock opname reports
+    files:
+      - app/Http/Controllers/QuarterlyStockController.php
+    endpoints:
+      - method: GET
+        path: /quarterly-stock
+        description: Show stock opname page
+        auth_required: true
+      - method: POST
+        path: /quarterly-stock/export
+        description: Export stock opname to DOCX
+        auth_required: true
+    depends_on:
+      - Authentication System
+      - Barang Management
+
+  - name: Surat Tanda Terima
+    description: Generate receipt letters for transactions
+    files:
+      - app/Http/Controllers/SuratTandaTerimaController.php
+    endpoints:
+      - method: GET
+        path: /surat-tanda-terima
+        description: Show receipt page
+        auth_required: true
+      - method: GET
+        path: /surat-tanda-terima/generate
+        description: Generate receipt DOCX
+        auth_required: true
+    depends_on:
+      - Authentication System
+      - Transaksi Management
+
+known_limitations:
+  - issue: Some bulk delete operations may fail if items have related transactions
+    location: app/Http/Controllers/BarangController.php
+    impact: Users cannot delete items with transaction history
+  - issue: Stock calculation after transaction deletion uses full recalculation
+    location: app/Http/Controllers/TransaksiController.php
+    impact: May be slow with large transaction volumes

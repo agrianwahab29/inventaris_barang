@@ -7,9 +7,17 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "test": "npx playwright test",
+        "test:headed": "npx playwright test --headed",
+        "test:ui": "npx playwright test --ui",
+        "test:debug": "npx playwright test --debug",
+        "test:report": "npx playwright show-report",
+        "e2e": "npx playwright test",
+        "e2e:headed": "npx playwright test --headed"
     },
     "devDependencies": {
+        "@playwright/test": "^1.59.1",
         "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",

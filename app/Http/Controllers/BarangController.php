@@ -83,7 +83,7 @@ class BarangController extends Controller
                 'kategori' => $validated['kategori'],
                 'satuan' => $validated['satuan'],
                 'stok_minimum' => $validated['stok_minimum'],
-                'catatan' => $validated['catatan'],
+                'catatan' => $validated['catatan'] ?? null,
             ]);
 
             Transaksi::create([

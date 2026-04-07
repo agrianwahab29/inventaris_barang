@@ -1,0 +1,32 @@
+<testsuites id="" name="" tests="11" failures="0" skipped="1" errors="0" time="29.868575">
+<testsuite name="transaksi\transaksi.spec.ts" timestamp="2026-04-07T02:02:08.913Z" hostname="chromium" tests="11" failures="0" skipped="1" time="92.654" errors="0">
+<testcase name="Transaksi Flow › should display transaksi list page" classname="transaksi\transaksi.spec.ts" time="8.539">
+</testcase>
+<testcase name="Transaksi Flow › should navigate to create transaksi page" classname="transaksi\transaksi.spec.ts" time="7.883">
+</testcase>
+<testcase name="Transaksi Flow › should create barang masuk transaction" classname="transaksi\transaksi.spec.ts" time="12.502">
+</testcase>
+<testcase name="Transaksi Flow › should create barang keluar transaction" classname="transaksi\transaksi.spec.ts" time="10.839">
+</testcase>
+<testcase name="Transaksi Flow › should show stock info when selecting barang" classname="transaksi\transaksi.spec.ts" time="7.534">
+</testcase>
+<testcase name="Transaksi Flow › should calculate stock correctly for barang masuk" classname="transaksi\transaksi.spec.ts" time="8.445">
+</testcase>
+<testcase name="Transaksi Flow › should validate jumlah keluar not exceeding stock" classname="transaksi\transaksi.spec.ts" time="8.404">
+</testcase>
+<testcase name="Transaksi Flow › should require barang selection" classname="transaksi\transaksi.spec.ts" time="5.714">
+</testcase>
+<testcase name="Transaksi Flow › should export transactions" classname="transaksi\transaksi.spec.ts" time="10.015">
+</testcase>
+<testcase name="Transaksi Flow › should search transactions" classname="transaksi\transaksi.spec.ts" time="6.552">
+</testcase>
+<testcase name="Transaksi Flow › should update stock after transaction" classname="transaksi\transaksi.spec.ts">
+<properties>
+<property name="skip" value="">
+</property>
+</properties>
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+</testsuites>

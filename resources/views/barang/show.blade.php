@@ -31,10 +31,7 @@
                             </span>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="text-muted">Stok Minimum</td>
-                        <td>{{ $barang->stok_minimum }} {{ $barang->satuan }}</td>
-                    </tr>
+                    <!-- Baris Stok Minimum disembunyikan - tetap tersimpan di database -->
                     <tr>
                         <td class="text-muted">Status</td>
                         <td>

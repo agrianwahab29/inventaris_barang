@@ -59,6 +59,18 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status <span class="text-danger">*</span></label>
+                        <select name="status" class="form-select @error('status') is-invalid @enderror" required>
+                            <option value="aktif" {{ old('status', 'aktif') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="nonaktif" {{ old('status') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                        </select>
+                        @error('status')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="text-muted">User nonaktif tidak akan muncul di daftar user, tapi tetap bisa dipilih di form transaksi untuk data historis.</small>
+                    </div>
                     
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('users.index') }}" class="btn btn-secondary">

@@ -1,0 +1,864 @@
+[
+  {
+    "id": "TC001",
+    "title": "Log in and reach dashboard",
+    "description": "Verifies a user can log in with valid credentials and lands on the dashboard successfully.",
+    "category": "Authentication System",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands on the dashboard"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Log out from a protected page",
+    "description": "Verifies a logged-in user can log out and is redirected to the login page.",
+    "category": "Authentication System",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Trigger logout"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is redirected to the login page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Update item stock from item details and record a stock transaction",
+    "description": "Verifies a user can open an item’s details, perform a quick stock update, and see updated stock plus a new transaction entry in the item history.",
+    "category": "Barang Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /barang/create"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique item name into the item name field"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid category"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid unit into the unit field"
+      },
+      {
+        "type": "action",
+        "description": "Fill 10 into the stock field"
+      },
+      {
+        "type": "action",
+        "description": "Fill 1 into the minimum stock field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the item form"
+      },
+      {
+        "type": "action",
+        "description": "Click the newly created item in the item list to open its details"
+      },
+      {
+        "type": "action",
+        "description": "Choose to update stock from the item detail page"
+      },
+      {
+        "type": "action",
+        "description": "Fill a new valid stock value into the stock update field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the stock update"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the item detail shows the updated stock and a new transaction appears in the item transaction history"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Search and filter items in item list",
+    "description": "Verifies users can search and apply a category filter on the item list and see the list update accordingly.",
+    "category": "Barang Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link to the item list"
+      },
+      {
+        "type": "action",
+        "description": "Fill a search term into the item search field"
+      },
+      {
+        "type": "action",
+        "description": "Select a category in the category filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the item list shows results consistent with the applied search and filter"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "View dashboard statistics and navigate via quick action",
+    "description": "Verifies the dashboard shows key statistic cards and a quick action can navigate to a primary workflow page.",
+    "category": "Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard statistics cards are displayed"
+      },
+      {
+        "type": "action",
+        "description": "Use a dashboard quick action to navigate to a primary page such as item list or transaction creation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the destination page content is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Open full transaction list from recent transactions",
+    "description": "Verifies a user can use the dashboard recent transactions section to navigate to the full transaction list page.",
+    "category": "Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify recent transactions are displayed on the dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to view the full transaction list"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the full transaction list page is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC007",
+    "title": "Create receipt letter preview and generate DOCX",
+    "description": "Verifies an authenticated user can fill receipt metadata and item list, preview the letter, and generate a DOCX receipt download.",
+    "category": "Surat Tanda Terima",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /surat-tanda-terima"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique nomor_surat into the nomor surat field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid date into the tanggal field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a sender name into the dari field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a recipient name into the kepada field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid barang_list value into the item list field using the format expected by the page"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the preview of the receipt letter"
+      },
+      {
+        "type": "action",
+        "description": "Trigger document generation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a DOCX file download is initiated"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC008",
+    "title": "Admin creates a new item from the create form",
+    "description": "Verifies an admin can create a new inventory item and is redirected back to the item list with a success confirmation.",
+    "category": "Barang Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /barang/create"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique item name into the item name field"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid category"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid unit into the unit field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid initial stock into the stock field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid minimum stock into the minimum stock field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the item form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is redirected to the item list and a success confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC009",
+    "title": "Export quarterly stock opname as DOCX from preview",
+    "description": "Verifies an authenticated user can export the quarterly stock opname DOCX after previewing the selected quarter and year.",
+    "category": "Quarterly Stock Opname",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /quarterly-stock"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid quarter"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid year"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the preview for the selected period"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the export action to generate the DOCX report"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a DOCX file download is initiated"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC010",
+    "title": "Preview quarterly stock opname for a selected quarter and year",
+    "description": "Verifies an authenticated user can select a quarter and year and see a stock opname preview table for that period.",
+    "category": "Quarterly Stock Opname",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /quarterly-stock"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid quarter"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid year"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the preview for the selected period"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a quarterly stock opname preview table is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC011",
+    "title": "Show receipt preview with entered metadata and item list",
+    "description": "Verifies the receipt preview reflects the user-entered metadata and items before generating the DOCX.",
+    "category": "Surat Tanda Terima",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /surat-tanda-terima"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique nomor_surat into the nomor surat field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid date into the tanggal field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a sender name into the dari field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a recipient name into the kepada field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a barang_list value that contains at least one clearly identifiable item name into the item list field using the format expected by the page"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the preview of the receipt letter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the preview displays the entered nomor_surat and at least one item from the barang_list"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC012",
+    "title": "Admin bulk deletes items and receives relation-protection feedback",
+    "description": "Verifies an admin can select multiple items for bulk deletion and receives UI feedback indicating which items were deleted or blocked due to related transactions.",
+    "category": "Barang Management",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /barang/create"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique item name into the item name field"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid category"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid unit into the unit field"
+      },
+      {
+        "type": "action",
+        "description": "Fill 5 into the stock field"
+      },
+      {
+        "type": "action",
+        "description": "Fill 1 into the minimum stock field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the item form"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more items in the item list using selection controls"
+      },
+      {
+        "type": "action",
+        "description": "Trigger bulk delete"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the bulk delete action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a bulk delete result message is visible indicating deletion success and/or that some items could not be deleted due to related transactions"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC013",
+    "title": "Validate required fields before generating receipt letter",
+    "description": "Verifies the receipt letter cannot be generated when a required field is empty and a validation error is shown.",
+    "category": "Surat Tanda Terima",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /surat-tanda-terima"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique nomor_surat into the nomor surat field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid date into the tanggal field"
+      },
+      {
+        "type": "action",
+        "description": "Leave the dari field empty"
+      },
+      {
+        "type": "action",
+        "description": "Fill a recipient name into the kepada field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid barang_list value into the item list field using the format expected by the page"
+      },
+      {
+        "type": "action",
+        "description": "Trigger document generation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error indication is displayed for required fields"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC014",
+    "title": "Preserve selected quarter and year when returning to quarterly stock page after preview",
+    "description": "Verifies the selected quarter and year remain set after generating a preview so the user does not lose their chosen period.",
+    "category": "Quarterly Stock Opname",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /quarterly-stock"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid quarter"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid year"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the preview for the selected period"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the quarter and year selectors still show the selected values"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC015",
+    "title": "Block export when quarter/year not selected",
+    "description": "Verifies the user cannot export a quarterly stock opname report without selecting the required period inputs and sees a validation indication.",
+    "category": "Quarterly Stock Opname",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /quarterly-stock"
+      },
+      {
+        "type": "action",
+        "description": "Clear the quarter selection if a value is preselected"
+      },
+      {
+        "type": "action",
+        "description": "Clear the year selection if a value is preselected"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the export action to generate the DOCX report"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error indication is displayed for missing required inputs"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC016",
+    "title": "Block receipt generation when barang_list is missing or invalid format",
+    "description": "Verifies the receipt letter cannot be generated when the item list is missing or not in the expected format and a validation indication is shown.",
+    "category": "Surat Tanda Terima",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /surat-tanda-terima"
+      },
+      {
+        "type": "action",
+        "description": "Fill a unique nomor_surat into the nomor surat field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid date into the tanggal field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a sender name into the dari field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a recipient name into the kepada field"
+      },
+      {
+        "type": "action",
+        "description": "Fill an intentionally invalid barang_list value into the item list field"
+      },
+      {
+        "type": "action",
+        "description": "Trigger document generation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error indication is displayed for the item list field"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC017",
+    "title": "Show error on invalid login credentials",
+    "description": "Verifies submitting invalid credentials shows an invalid-credentials error and the user remains unauthenticated.",
+    "category": "Authentication System",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill invalid_user into the username field"
+      },
+      {
+        "type": "action",
+        "description": "Fill wrong_password into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an invalid-credentials error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC018",
+    "title": "Show empty-state preview when quarterly stock opname has no results",
+    "description": "Verifies an authenticated user can preview a selected quarter/year and see an empty result indication when there is no data for that period.",
+    "category": "Quarterly Stock Opname",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_USER}} into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Fill {{LOGIN_PASSWORD}} into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /quarterly-stock"
+      },
+      {
+        "type": "action",
+        "description": "Select a quarter and year combination likely to have no results by choosing a different quarter or year than the current one"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the preview for the selected period"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an empty state indication is displayed for the preview results"
+      }
+    ],
+    "priority": "Low"
+  }
+]

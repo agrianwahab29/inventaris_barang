@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'status',
     ];
 
     /**
@@ -66,5 +67,37 @@ class User extends Authenticatable
     public function isPengguna(): bool
     {
         return $this->role === 'pengguna';
+    }
+
+    /**
+     * Scope for active users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAktif($query)
+    {
+        return $query->where('status', 'aktif');
+    }
+
+    /**
+     * Scope for inactive users.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNonaktif($query)
+    {
+        return $query->where('status', 'nonaktif');
+    }
+
+    /**
+     * Check if user is active.
+     *
+     * @return bool
+     */
+    public function isAktif(): bool
+    {
+        return $this->status === 'aktif';
     }
 }
