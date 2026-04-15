@@ -87,12 +87,399 @@
         color: #6366f1;
     }
     
-    /* Table Styling */
-    .table-container {
+    /* File Cards Grid Layout - NEW DESIGN */
+    .files-container {
         background: #fff;
         border: 1px solid rgba(0,0,0,0.06);
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    
+    .files-header {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    
+    .files-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 1.25rem;
+        padding: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .files-grid {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+            gap: 1rem;
+        }
+    }
+    
+    /* File Card */
+    .file-card {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 1.25rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .file-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.12);
+        border-color: #cbd5e1;
+    }
+    
+    .file-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #f87171 0%, #ef4444 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .file-card:hover::before {
+        opacity: 1;
+    }
+    
+    .file-card.selected {
+        border-color: #6366f1;
+        background: #eef2ff;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    /* Card Header */
+    .card-header-flex {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-checkbox {
+        margin-top: 0.25rem;
+    }
+    
+    .card-checkbox input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    
+    .card-pdf-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        color: #dc2626;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+    }
+    
+    .card-main-info {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .card-filename {
+        font-weight: 600;
+        font-size: 0.9375rem;
+        color: #1e293b;
+        line-height: 1.4;
+        margin-bottom: 0.375rem;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .card-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+    
+    .card-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    /* Card Details Grid */
+    .card-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding: 0.875rem;
+        background: #f8fafc;
+        border-radius: 12px;
+    }
+    
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .detail-label {
+        font-size: 0.6875rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-weight: 600;
+    }
+    
+    .detail-value {
+        font-size: 0.8125rem;
+        color: #334155;
+        font-weight: 500;
+    }
+    
+    .detail-value.muted {
+        color: #94a3b8;
+    }
+    
+    .detail-flow {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.8125rem;
+        color: #334155;
+    }
+    
+    .detail-flow .arrow {
+        color: #cbd5e1;
+        font-size: 0.625rem;
+    }
+    
+    /* Card Footer */
+    .card-footer-flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 0.875rem;
+        border-top: 1px solid #f1f5f9;
+    }
+    
+    .card-uploader {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .uploader-avatar {
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.6875rem;
+        font-weight: 600;
+    }
+    
+    .uploader-name {
+        font-size: 0.75rem;
+        color: #475569;
+        font-weight: 500;
+    }
+    
+    /* Card Actions */
+    .card-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+    
+    .action-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    .action-btn.view {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+    
+    .action-btn.view:hover {
+        background: #bae6fd;
+        transform: scale(1.05);
+    }
+    
+    .action-btn.download {
+        background: #d1fae5;
+        color: #059669;
+    }
+    
+    .action-btn.download:hover {
+        background: #a7f3d0;
+        transform: scale(1.05);
+    }
+    
+    .action-btn.edit {
+        background: #e0e7ff;
+        color: #6366f1;
+    }
+    
+    .action-btn.edit:hover {
+        background: #c7d2fe;
+        transform: scale(1.05);
+    }
+    
+    .action-btn.delete {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+    
+    .action-btn.delete:hover {
+        background: #fecaca;
+        transform: scale(1.05);
+    }
+    
+    /* Empty State - Modern */
+    .empty-state-modern {
+        padding: 4rem 2rem;
+        text-align: center;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 20px;
+        margin: 1.5rem;
+    }
+    
+    .empty-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #fff 0%, #f1f5f9 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+    
+    .empty-icon-wrapper i {
+        font-size: 2.5rem;
+        color: #94a3b8;
+    }
+    
+    .empty-state-modern h4 {
+        color: #475569;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .empty-state-modern p {
+        color: #94a3b8;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Bulk Action Bar */
+    .bulk-action-bar {
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border: 1px solid #c7d2fe;
+        border-radius: 14px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    }
+    
+    /* Header Buttons */
+    .btn-header {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-header-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-header-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        color: white;
+    }
+    
+    .btn-header-outline {
+        background: #fff;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+    }
+    
+    .btn-header-outline:hover {
+        background: #fef2f2;
+        border-color: #fca5a5;
+    }
+    
+    /* Pagination */
+    .pagination-wrapper {
+        padding: 1.25rem 1.5rem;
+        border-top: 1px solid rgba(0,0,0,0.06);
+        background: #f8fafc;
+    }
+    
+    /* Selected Count Badge */
+    .selected-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #6366f1;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .files-grid {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+        
+        .card-details {
+            grid-template-columns: 1fr;
+        }
+        
+        .stat-card {
+            margin-bottom: 1rem;
+        }
     }
     
     .table-header {
@@ -542,164 +929,142 @@
     </div>
 
     <!-- Bulk Actions -->
-    <div class="bulk-action-bar mb-4" id="bulkActionBar" style="display: none;">
+    <div class="bulk-action-bar" id="bulkActionBar" style="display: none;">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-2">
-                <span class="badge-soft badge-soft-primary">
-                    <i class="fas fa-check-square"></i>
+                <span class="selected-badge">
+                    <i class="fas fa-check-circle"></i>
                     <span id="selectedCount">0</span> item dipilih
                 </span>
             </div>
             <div class="d-flex gap-2">
-                <button type="button" class="btn btn-sm btn-light" onclick="selectAll()">
+                <button type="button" class="btn btn-light" onclick="selectAll()">
                     <i class="fas fa-check-square me-1"></i> Pilih Semua
                 </button>
-                <button type="button" class="btn btn-sm btn-danger" onclick="deleteSelected()">
-                    <i class="fas fa-trash me-1"></i> Hapus Terpilih
+                <button type="button" class="btn btn-danger" onclick="deleteSelected()">
+                    <i class="fas fa-trash-alt me-1"></i> Hapus Terpilih
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="table-container">
-        <div class="table-header">
+    <!-- File Cards Grid -->
+    <div class="files-container">
+        <div class="files-header">
             <div class="d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 fw-bold text-secondary">Daftar Berkas</h6>
+                <div class="d-flex align-items-center gap-3">
+                    <div>
+                        <h6 class="mb-0 fw-bold" style="color: #334155; font-size: 1rem;">Daftar Berkas</h6>
+                        <small class="text-muted">{{ $berkas->total() }} dokumen tersedia</small>
+                    </div>
+                    @if($berkas->count() > 0)
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="selectAllCheckbox" onclick="toggleSelectAll()">
+                        <label class="form-check-label small" for="selectAllCheckbox">Pilih Semua</label>
+                    </div>
+                    @endif
+                </div>
                 @if($berkas->hasPages())
-                    <small class="text-muted">{{ $berkas->firstItem() }} - {{ $berkas->lastItem() }} dari {{ $berkas->total() }}</small>
+                    <span class="badge bg-light text-dark border">
+                        {{ $berkas->firstItem() }} - {{ $berkas->lastItem() }} dari {{ $berkas->total() }}
+                    </span>
                 @endif
             </div>
         </div>
-        <div class="table-responsive-wrapper">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th width="40">
-                            <input type="checkbox" class="form-check-input" id="selectAllCheckbox" onclick="toggleSelectAll()">
-                        </th>
-                        <th width="45">No</th>
-                        <th width="280">File</th>
-                        <th width="110">Nomor Surat</th>
-                        <th width="100">Tgl Surat</th>
-                        <th width="140">Perihal</th>
-                        <th width="140">Pengirim / Penerima</th>
-                        <th width="110">Uploader</th>
-                        <th width="65">Size</th>
-                        <th width="50">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($berkas as $index => $item)
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="form-check-input item-checkbox" 
-                                   value="{{ $item->id }}" onchange="updateSelectedCount()">
-                        </td>
-                        <td>
-                            <span class="text-muted">{{ $berkas->firstItem() + $index }}</span>
-                        </td>
-                        <td>
-                            <div class="file-cell">
-                                <div class="file-icon">
-                                    <i class="fas fa-file-pdf"></i>
-                                </div>
-                                <div class="file-info">
-                                    <div class="file-name" title="{{ $item->file_name }}">
-                                        {{ $item->file_name }}
-                                    </div>
-                                    <div class="file-date">
-                                        <i class="far fa-clock me-1"></i>{{ $item->created_at->format('d M Y') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge-soft badge-soft-primary">
-                                {{ $item->nomor_surat ?? '-' }}
-                            </span>
-                        </td>
-                        <td>
-                            @if($item->tanggal_surat)
-                                <span class="text-muted">{{ $item->tanggal_surat->format('d M Y') }}</span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            <span class="text-truncate-custom d-inline-block" title="{{ $item->perihal }}">
-                                {{ $item->perihal ?? '-' }}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="sender-receiver">
-                                <span class="text-dark">{{ $item->pengirim ?? '-' }}</span>
-                                <i class="fas fa-arrow-right arrow"></i>
-                                <span class="text-dark">{{ $item->penerima ?? '-' }}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
-                                     style="width: 26px; height: 26px; font-size: 0.6875rem; font-weight: 600;">
-                                    {{ substr($item->user->name ?? 'U', 0, 1) }}
-                                </div>
-                                <span class="small text-truncate d-inline-block" style="max-width: 70px; font-size: 0.75rem;">{{ $item->user->name ?? 'Unknown' }}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="text-muted small">{{ $item->file_size_human }}</span>
-                        </td>
-                        <td>
-                            <div class="action-dropdown dropdown">
-                                <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('berkas-transaksi.show', $item) }}">
-                                            <i class="fas fa-eye text-info"></i> Detail
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('berkas-transaksi.download', $item) }}">
-                                            <i class="fas fa-download text-success"></i> Download
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('berkas-transaksi.edit', $item) }}">
-                                            <i class="fas fa-edit text-primary"></i> Edit
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <button class="dropdown-item text-danger" onclick="deleteItem('{{ $item->id }}')">
-                                            <i class="fas fa-trash-alt"></i> Hapus
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="10">
-                            <div class="empty-state">
-                                <div class="empty-state-icon">
-                                    <i class="fas fa-folder-open"></i>
-                                </div>
-                                <h5 class="text-muted mb-2">Tidak ada berkas</h5>
-                                <p class="text-muted mb-3">Belum ada dokumen yang diarsipkan</p>
-                                <a href="{{ route('berkas-transaksi.create') }}" class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i>Upload Berkas Pertama
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        
+        @if($berkas->count() > 0)
+        <div class="files-grid">
+            @foreach($berkas as $index => $item)
+            <div class="file-card" id="card-{{ $item->id }}">
+                <!-- Card Header -->
+                <div class="card-header-flex">
+                    <div class="card-checkbox">
+                        <input type="checkbox" class="form-check-input item-checkbox" 
+                               value="{{ $item->id }}" onchange="updateSelectedCount()">
+                    </div>
+                    <div class="card-pdf-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="card-main-info">
+                        <div class="card-filename" title="{{ $item->file_name }}">
+                            {{ $item->file_name }}
+                        </div>
+                        <div class="card-meta">
+                            <span><i class="far fa-calendar-alt"></i> {{ $item->created_at->format('d M Y') }}</span>
+                            <span><i class="fas fa-hdd"></i> {{ $item->file_size_human }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card Details -->
+                <div class="card-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Nomor Surat</span>
+                        <span class="detail-value {{ $item->nomor_surat ? '' : 'muted' }}">
+                            {{ $item->nomor_surat ?? 'Belum diisi' }}
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Tanggal Surat</span>
+                        <span class="detail-value {{ $item->tanggal_surat ? '' : 'muted' }}">
+                            {{ $item->tanggal_surat ? $item->tanggal_surat->format('d M Y') : 'Belum diisi' }}
+                        </span>
+                    </div>
+                    <div class="detail-item" style="grid-column: 1 / -1;">
+                        <span class="detail-label">Perihal</span>
+                        <span class="detail-value {{ $item->perihal ? '' : 'muted' }}">
+                            {{ $item->perihal ?? 'Belum diisi' }}
+                        </span>
+                    </div>
+                    <div class="detail-item" style="grid-column: 1 / -1;">
+                        <span class="detail-label">Pengirim → Penerima</span>
+                        <div class="detail-flow">
+                            <span>{{ $item->pengirim ?? '-' }}</span>
+                            <i class="fas fa-arrow-right arrow"></i>
+                            <span>{{ $item->penerima ?? '-' }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card Footer -->
+                <div class="card-footer-flex">
+                    <div class="card-uploader">
+                        <div class="uploader-avatar">
+                            {{ substr($item->user->name ?? 'U', 0, 1) }}
+                        </div>
+                        <span class="uploader-name">{{ $item->user->name ?? 'Unknown' }}</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="{{ route('berkas-transaksi.show', $item) }}" class="action-btn view" title="Detail">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{{ route('berkas-transaksi.download', $item) }}" class="action-btn download" title="Download">
+                            <i class="fas fa-download"></i>
+                        </a>
+                        <a href="{{ route('berkas-transaksi.edit', $item) }}" class="action-btn edit" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <button type="button" class="action-btn delete" onclick="deleteItem('{{ $item->id }}')" title="Hapus">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @endforeach
         </div>
+        @else
+        <div class="empty-state-modern">
+            <div class="empty-icon-wrapper">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <h4>Belum ada berkas</h4>
+            <p>Mulai upload dokumen untuk mengarsipkannya</p>
+            <a href="{{ route('berkas-transaksi.create') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-cloud-upload-alt me-2"></i>Upload Berkas Pertama
+            </a>
+        </div>
+        @endif
+        
         @if($berkas->hasPages())
         <div class="pagination-wrapper">
             {{ $berkas->links('pagination::bootstrap-5') }}
@@ -840,6 +1205,15 @@ function updateSelectedCount() {
     selectedIds = [];
     document.querySelectorAll('.item-checkbox:checked').forEach(cb => {
         selectedIds.push(cb.value);
+        // Highlight the card
+        const card = document.getElementById('card-' + cb.value);
+        if (card) card.classList.add('selected');
+    });
+    
+    // Remove highlight from unchecked cards
+    document.querySelectorAll('.item-checkbox:not(:checked)').forEach(cb => {
+        const card = document.getElementById('card-' + cb.value);
+        if (card) card.classList.remove('selected');
     });
     
     const count = selectedIds.length;
@@ -859,6 +1233,14 @@ function toggleSelectAll() {
     
     checkboxes.forEach(cb => {
         cb.checked = masterCheckbox.checked;
+        const card = document.getElementById('card-' + cb.value);
+        if (card) {
+            if (masterCheckbox.checked) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        }
     });
     
     updateSelectedCount();
