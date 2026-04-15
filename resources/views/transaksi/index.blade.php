@@ -28,11 +28,47 @@
     .export-modal .modal-header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 12px 12px 0 0; padding: 12px 16px; }
     .date-chip { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 3px 8px; border-radius: 12px; font-size: 0.6875rem; margin: 2px; cursor: pointer; }
     .date-chip:hover { background: #c7d2fe; }
-    /* Export type cards */
-    .export-type-card { border: 2px solid #e5e7eb; border-radius: 10px; padding: 10px 6px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
-    .export-type-card:hover { border-color: #10b981; background: #f0fdf4; }
-    .export-type-card.active { border-color: #10b981; background: #f0fdf4; box-shadow: 0 0 0 3px rgba(16,185,129,0.15); }
-    .export-icon { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 4px; }
+    /* Export type cards - Redesigned */
+    .export-type-card { 
+        border: 2px solid #e5e7eb; 
+        border-radius: 12px; 
+        padding: 16px 12px; 
+        cursor: pointer; 
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+        text-align: center; 
+        background: #ffffff;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .export-type-card:hover { 
+        border-color: #10b981; 
+        background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+    }
+    .export-type-card.active { 
+        border-color: #10b981; 
+        background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%); 
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2), 0 4px 15px rgba(16, 185, 129, 0.1);
+        transform: translateY(-1px);
+    }
+    .export-type-card.active .export-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .export-icon { 
+        width: 44px; 
+        height: 44px; 
+        border-radius: 12px; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 1.125rem; 
+        margin-bottom: 8px;
+        transition: all 0.25s ease;
+    }
     .export-section { animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     
@@ -441,44 +477,33 @@
             </div>
             <form action="{{ route('transaksi.export') }}" method="GET" id="exportForm">
                 <div class="modal-body py-3">
-                    <!-- Step 1: Pilih Jenis -->
+                    <!-- Step 1: Pilih Jenis Export - Redesigned 2x3 Grid -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold" style="font-size: 0.75rem;"><span class="badge bg-primary rounded-pill me-1">1</span> Pilih Jenis Export</label>
-                        <div class="row g-2">
+                        <label class="form-label fw-bold d-flex align-items-center mb-2" style="font-size: 0.8rem;">
+                            <span class="badge bg-primary rounded-pill me-2">1</span> 
+                            Pilih Jenis Export
+                        </label>
+                        <div class="row g-3">
                             @php
-                            $types = [
-                                ['id' => 'all', 'icon' => 'database', 'color' => 'primary', 'label' => 'Semua Data', 'desc' => 'Seluruh riwayat'],
+                            $exportTypes = [
+                                ['id' => 'all', 'icon' => 'database', 'color' => 'primary', 'label' => 'Semua Data', 'desc' => 'Seluruh riwayat transaksi'],
                                 ['id' => 'range', 'icon' => 'calendar-alt', 'color' => 'success', 'label' => 'Rentang Tanggal', 'desc' => 'Dari tanggal A ke B'],
                                 ['id' => 'year', 'icon' => 'calendar', 'color' => 'info', 'label' => 'Per Tahun', 'desc' => 'Satu tahun tertentu'],
-                            ];
-                            $types2 = [
                                 ['id' => 'year_range', 'icon' => 'arrows-alt-h', 'color' => 'primary', 'label' => 'Rentang Tahun', 'desc' => 'Dari tahun X ke Y'],
                                 ['id' => 'month', 'icon' => 'calendar-day', 'color' => 'success', 'label' => 'Per Bulan', 'desc' => 'Satu bulan tertentu'],
                                 ['id' => 'month_range', 'icon' => 'calendar-week', 'color' => 'warning', 'label' => 'Rentang Bulan', 'desc' => 'Dari bulan A ke B'],
                             ];
                             @endphp
-                            @foreach($types as $t)
-                            <div class="col-6 col-md-3">
-                                <div class="export-type-card {{ $t['id'] === 'all' ? 'active' : '' }}" onclick="selectExportType('{{ $t['id'] }}')">
+                            @foreach($exportTypes as $t)
+                            <div class="col-6">
+                                <div class="export-type-card h-100 {{ $t['id'] === 'all' ? 'active' : '' }}" onclick="selectExportType('{{ $t['id'] }}')">
                                     <input class="form-check-input d-none" type="radio" name="export_type" id="export_{{ $t['id'] }}" value="{{ $t['id'] }}" {{ $t['id'] === 'all' ? 'checked' : '' }}>
-                                    <label class="d-block text-center w-100" for="export_{{ $t['id'] }}" style="cursor:pointer;">
-                                        <div class="export-icon bg-{{ $t['color'] }}-subtle text-{{ $t['color'] }}"><i class="fas fa-{{ $t['icon'] }}"></i></div>
-                                        <div class="fw-bold" style="font-size: 0.7rem;">{{ $t['label'] }}</div>
-                                        <div class="text-muted" style="font-size: 0.55rem;">{{ $t['desc'] }}</div>
-                                    </label>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <div class="row g-2 mt-1">
-                            @foreach($types2 as $t)
-                            <div class="col-6 col-md-3">
-                                <div class="export-type-card" onclick="selectExportType('{{ $t['id'] }}')">
-                                    <input class="form-check-input d-none" type="radio" name="export_type" id="export_{{ $t['id'] }}" value="{{ $t['id'] }}">
-                                    <label class="d-block text-center w-100" for="export_{{ $t['id'] }}" style="cursor:pointer;">
-                                        <div class="export-icon bg-{{ $t['color'] }}-subtle text-{{ $t['color'] }}"><i class="fas fa-{{ $t['icon'] }}"></i></div>
-                                        <div class="fw-bold" style="font-size: 0.7rem;">{{ $t['label'] }}</div>
-                                        <div class="text-muted" style="font-size: 0.55rem;">{{ $t['desc'] }}</div>
+                                    <label class="d-flex flex-column align-items-center text-center w-100 h-100" for="export_{{ $t['id'] }}" style="cursor:pointer;">
+                                        <div class="export-icon bg-{{ $t['color'] }}-subtle text-{{ $t['color'] }} mb-2">
+                                            <i class="fas fa-{{ $t['icon'] }}"></i>
+                                        </div>
+                                        <div class="fw-bold text-dark" style="font-size: 0.75rem; line-height: 1.2;">{{ $t['label'] }}</div>
+                                        <div class="text-muted mt-1" style="font-size: 0.65rem; line-height: 1.3;">{{ $t['desc'] }}</div>
                                     </label>
                                 </div>
                             </div>
