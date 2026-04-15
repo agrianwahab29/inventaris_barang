@@ -28,16 +28,16 @@
     .export-modal .modal-header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 12px 12px 0 0; padding: 12px 16px; }
     .date-chip { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 3px 8px; border-radius: 12px; font-size: 0.6875rem; margin: 2px; cursor: pointer; }
     .date-chip:hover { background: #c7d2fe; }
-    /* Export type cards - Redesigned */
+    /* Export type cards - Compact Design */
     .export-type-card { 
         border: 2px solid #e5e7eb; 
-        border-radius: 12px; 
-        padding: 16px 12px; 
+        border-radius: 10px; 
+        padding: 10px 8px; 
         cursor: pointer; 
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
         text-align: center; 
         background: #ffffff;
-        min-height: 120px;
+        min-height: 85px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -45,29 +45,29 @@
     .export-type-card:hover { 
         border-color: #10b981; 
         background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.12);
     }
     .export-type-card.active { 
         border-color: #10b981; 
         background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%); 
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2), 0 4px 15px rgba(16, 185, 129, 0.1);
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2), 0 3px 10px rgba(16, 185, 129, 0.1);
         transform: translateY(-1px);
     }
     .export-type-card.active .export-icon {
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: scale(1.05);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.08);
     }
     .export-icon { 
-        width: 44px; 
-        height: 44px; 
-        border-radius: 12px; 
+        width: 36px; 
+        height: 36px; 
+        border-radius: 10px; 
         display: inline-flex; 
         align-items: center; 
         justify-content: center; 
-        font-size: 1.125rem; 
-        margin-bottom: 8px;
-        transition: all 0.25s ease;
+        font-size: 0.95rem; 
+        margin-bottom: 6px;
+        transition: all 0.2s ease;
     }
     .export-section { animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
@@ -476,14 +476,14 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" style="font-size: 0.75rem;"></button>
             </div>
             <form action="{{ route('transaksi.export') }}" method="GET" id="exportForm">
-                <div class="modal-body py-3">
-                    <!-- Step 1: Pilih Jenis Export - Redesigned 2x3 Grid -->
-                    <div class="mb-3">
+                <div class="modal-body py-2 px-3">
+                    <!-- Step 1: Pilih Jenis Export - Compact 3x2 Grid -->
+                    <div class="mb-2">
                         <label class="form-label fw-bold d-flex align-items-center mb-2" style="font-size: 0.8rem;">
                             <span class="badge bg-primary rounded-pill me-2">1</span> 
                             Pilih Jenis Export
                         </label>
-                        <div class="row g-3">
+                        <div class="row g-2">
                             @php
                             $exportTypes = [
                                 ['id' => 'all', 'icon' => 'database', 'color' => 'primary', 'label' => 'Semua Data', 'desc' => 'Seluruh riwayat transaksi'],
@@ -495,15 +495,15 @@
                             ];
                             @endphp
                             @foreach($exportTypes as $t)
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="export-type-card h-100 {{ $t['id'] === 'all' ? 'active' : '' }}" onclick="selectExportType('{{ $t['id'] }}')">
                                     <input class="form-check-input d-none" type="radio" name="export_type" id="export_{{ $t['id'] }}" value="{{ $t['id'] }}" {{ $t['id'] === 'all' ? 'checked' : '' }}>
                                     <label class="d-flex flex-column align-items-center text-center w-100 h-100" for="export_{{ $t['id'] }}" style="cursor:pointer;">
-                                        <div class="export-icon bg-{{ $t['color'] }}-subtle text-{{ $t['color'] }} mb-2">
+                                        <div class="export-icon bg-{{ $t['color'] }}-subtle text-{{ $t['color'] }}">
                                             <i class="fas fa-{{ $t['icon'] }}"></i>
                                         </div>
-                                        <div class="fw-bold text-dark" style="font-size: 0.75rem; line-height: 1.2;">{{ $t['label'] }}</div>
-                                        <div class="text-muted mt-1" style="font-size: 0.65rem; line-height: 1.3;">{{ $t['desc'] }}</div>
+                                        <div class="fw-bold text-dark" style="font-size: 0.7rem; line-height: 1.2;">{{ $t['label'] }}</div>
+                                        <div class="text-muted" style="font-size: 0.6rem; line-height: 1.2;">{{ $t['desc'] }}</div>
                                     </label>
                                 </div>
                             </div>
@@ -512,7 +512,7 @@
                     </div>
 
                     <!-- Panduan -->
-                    <div id="exportGuide" class="alert alert-light border mb-3 py-2" style="font-size: 0.7rem;">
+                    <div id="exportGuide" class="alert alert-light border mb-2 py-1 px-2" style="font-size: 0.7rem;">
                         <i class="fas fa-lightbulb text-warning me-1"></i>
                         <span id="exportGuideText">Klik <strong>Export</strong> untuk mengunduh seluruh data transaksi dalam format Excel.</span>
                     </div>
