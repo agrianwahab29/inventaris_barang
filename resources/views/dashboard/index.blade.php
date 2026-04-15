@@ -660,44 +660,79 @@
     }
 
     @media (max-width: 767.98px) {
-        /* Reduce space between stat cards and chart on mobile */
+        /* === AGGRESSIVE SPACING REDUCTION FOR MOBILE === */
+        
+        /* Welcome banner - minimal bottom margin */
+        .welcome-banner.mb-4 {
+            margin-bottom: 0.375rem !important;
+        }
+        
+        .welcome-banner .card-body {
+            padding: 12px 14px !important;
+        }
+        
+        .welcome-banner h4 {
+            font-size: 0.9375rem !important;
+            margin-bottom: 0.25rem !important;
+        }
+        
+        .welcome-banner p {
+            font-size: 0.75rem !important;
+        }
+
+        /* Stat cards row - eliminate cumulative gap */
         .stat-cards-row {
-            margin-bottom: 0.75rem !important; /* mb-3 instead of mb-4 */
+            margin-bottom: 0.25rem !important;
+            gap: 0.25rem !important;
         }
 
         .stat-cards-row .col-12 {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0 !important;
+            padding-top: 0.125rem;
+            padding-bottom: 0.125rem;
         }
 
         /* Make stat cards more compact on mobile */
         .stat-cards-row .stat-card {
-            padding: 12px;
+            padding: 10px 12px;
             min-height: auto;
+            border-radius: 12px;
         }
 
         .stat-cards-row .stat-value {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
+            margin-bottom: 2px;
         }
 
         .stat-cards-row .stat-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 16px;
-            margin-bottom: 8px;
+            width: 36px;
+            height: 36px;
+            font-size: 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
         }
 
         .stat-cards-row .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.6875rem;
+            line-height: 1.2;
         }
 
         .stat-cards-row .stat-badge {
-            font-size: 0.625rem;
+            font-size: 0.5625rem;
             padding: 2px 6px;
+            margin-top: 6px;
+            border-radius: 12px;
         }
 
-        /* Chart section tighter spacing on mobile */
+        /* Chart row - tight gap */
         .chart-actions-row {
             margin-top: 0 !important;
+            gap: 0.375rem !important;
+        }
+        
+        /* Bottom row - tight gap */
+        .mt-1 {
+            margin-top: 0.25rem !important;
         }
 
         .chart-empty-state {
@@ -744,7 +779,8 @@
         }
         
         .chart-container {
-            padding: 14px;
+            padding: 12px;
+            border-radius: 12px;
         }
         
         .section-header {
