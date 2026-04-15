@@ -7,35 +7,40 @@
 **Type**: Single Laravel Application (Monolithic)  
 **Purpose**: Sistem manajemen inventaris barang kantor dengan tracking transaksi, stok opname, arsip dokumen digital, dan surat tanda terima  
 **Status**: ✅ **Production Ready** - Responsive design mobile-first (320px - desktop), SQA audit passed  
-**Latest Commit**: `a544aa7` - feat: redesign login page with OpenCode terminal aesthetic
+**Latest Commit**: `466aeee` - feat: redesign login page - professional government theme for Balai Bahasa Sultra
 
 ---
 
 ## 🎨 Design System
 
-### Login Page - Terminal Aesthetic (OpenCode Inspired)
+### Login Page - Professional Government Theme
 
-Halaman login didesain dengan estetika **terminal-inspired** yang profesional dan modern:
+Halaman login didesain dengan tema **profesional pemerintahan** untuk Balai Bahasa Provinsi Sulawesi Tenggara:
 
 | Aspek | Implementasi |
 |-------|--------------|
-| **Background** | `#201d1d` warm near-black (bukan pure black) |
-| **Font** | Berkeley Mono (monospace) - satu font untuk semua elemen |
-| **Brand** | `>_ INVENTARIS` dengan terminal prompt prefix |
-| **Card** | Elevated dark surface `#302c2c` dengan warm transparent border |
-| **Inputs** | Light background `#f8f7f7` dengan border radius 6px |
-| **Button** | Dark fill dengan subtle outline border |
-| **Links** | Accent blue `#007aff` dengan underline |
-| **Error** | Apple red `#ff3b30` dengan subtle red tint background |
+| **Background** | Light gradient `#f0f4f8` → `#e8eef5` (cerah dan bersih) |
+| **Primary Color** | Blue `#1a5fb4` (institusional) |
+| **Accent Color** | Gold `#c5a065` (elegan) |
+| **Logos** | Dual logo (Balai Bahasa + Kemdikbud) |
+| **Card** | White background dengan soft shadow |
+| **Typography** | Georgia serif untuk heading, Segoe UI untuk body |
+| **Button** | Blue gradient dengan shiny hover effect |
+| **Security** | Badge "Sistem Aman & Terenkripsi" |
 
 **Karakteristik Desain:**
-- ✅ Flat design - **no shadows, no gradients**
-- ✅ Warm undertone di seluruh palette (reddish warmth)
-- ✅ Monospace identity yang konsisten
-- ✅ ASCII art divider untuk visual interest
-- ✅ Password visibility toggle
-- ✅ Custom styled checkbox
-- ✅ Fully responsive (mobile-first)
+- ✅ **Berwarna dan cerah** - tidak suram/gelap
+- ✅ **Profesional institusional** - cocok untuk pemerintahan
+- ✅ **Dual logo** - menampilkan identitas institusi
+- ✅ **Typography elegan** - serif untuk heading
+- ✅ **Shiny button effect** - animasi gradient saat hover
+- ✅ **Security badge** - menandakan sistem aman
+- ✅ **No "Lupa Password"** - sesuai permintaan
+- ✅ **Fully responsive** (mobile-first)
+
+**Institusi:**
+- **Nama**: Balai Bahasa Provinsi Sulawesi Tenggara
+- **Induk**: Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi
 
 **File**: `resources/views/auth/login.blade.php`
 
