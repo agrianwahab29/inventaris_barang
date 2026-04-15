@@ -1,218 +1,486 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Aplikasi Inventaris Barang</title>
+    <title>Login - Sistem Inventaris</title>
 
-    <!-- Favicon - Logo Tut Wuri Handayani -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=4">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=4">
     <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=4">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
     <style>
-        * {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        /* OpenCode Design System - Terminal Aesthetic */
+        :root {
+            /* Primary Colors - Warm Dark */
+            --bg-primary: #201d1d;
+            --bg-elevated: #302c2c;
+            --bg-surface: #252222;
+            
+            /* Text Colors - Warm Off-White */
+            --text-primary: #fdfcfc;
+            --text-secondary: #9a9898;
+            --text-muted: #6e6e73;
+            
+            /* Accent Colors */
+            --accent-blue: #007aff;
+            --accent-red: #ff3b30;
+            --border-warm: rgba(15, 0, 0, 0.12);
+            --border-subtle: #646262;
+            --border-hover: #9a9898;
+            
+            /* Input Colors */
+            --input-bg: #f8f7f7;
+            --input-text: #201d1d;
+            --input-placeholder: #6e6e73;
+            --input-border: rgba(15, 0, 0, 0.12);
+            
+            /* Typography */
+            --font-mono: 'Berkeley Mono', 'IBM Plex Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+        }
+
+        /* Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-mono);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        /* Brand Section */
+        .brand {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .brand-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            gap: 12px;
         }
 
+        .brand-prompt {
+            color: var(--accent-blue);
+            font-weight: 400;
+        }
+
+        .brand-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        /* ASCII Art Divider */
+        .ascii-divider {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin: 16px 0;
+            letter-spacing: 2px;
+            opacity: 0.5;
+        }
+
+        /* Login Card */
         .login-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-warm);
+            border-radius: 4px;
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
+            padding: 48px;
         }
 
-        .login-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            padding: 32px 24px;
-            text-align: center;
-            color: white;
+        /* Error Message */
+        .error-message {
+            background-color: rgba(255, 59, 48, 0.1);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-red);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .login-header i {
-            font-size: 3rem;
-            margin-bottom: 12px;
-            opacity: 0.9;
+        .error-icon {
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
-        .login-header h4 {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .login-header p {
-            font-size: 0.8125rem;
-        }
-
-        .login-body {
-            padding: 28px 24px;
-        }
-
-        .form-control {
-            border-radius: 10px;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
-            font-size: 16px; /* Prevents iOS zoom on focus */
-        }
-
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 24px;
         }
 
         .form-label {
-            font-size: 0.875rem;
-            font-weight: 600;
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
 
-        .btn-login {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .form-input {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--input-text);
+            transition: border-color 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .form-input::placeholder {
+            color: var(--input-placeholder);
+        }
+
+        /* Password visibility toggle */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
             border: none;
-            border-radius: 10px;
-            padding: 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            font-size: 0.9375rem;
+            color: var(--input-placeholder);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            padding: 4px 8px;
+            transition: color 0.2s ease;
         }
 
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        .password-toggle:hover {
+            color: var(--input-text);
         }
 
-        .input-group-text {
-            background: transparent;
-            border: 2px solid #e0e0e0;
-            border-right: none;
-            color: #667eea;
+        /* Form Options */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            font-size: 14px;
         }
 
-        .input-group .form-control {
-            border-left: none;
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
         }
 
-        .input-group:focus-within .input-group-text {
-            border-color: #667eea;
+        .checkbox-input {
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 3px;
+            background-color: transparent;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
         }
 
-        /* Mobile adjustments */
+        .checkbox-input:checked {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .checkbox-input:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-primary);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .checkbox-label {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .forgot-link {
+            color: var(--accent-blue);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: opacity 0.2s ease;
+        }
+
+        .forgot-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 2;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--bg-elevated);
+            border-color: var(--border-hover);
+        }
+
+        .btn-submit:active {
+            background-color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        .btn-submit:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        /* Footer */
+        .login-footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer-divider {
+            color: var(--text-muted);
+            margin: 0 8px;
+        }
+
+        /* Responsive Adjustments */
         @media (max-width: 480px) {
             body {
-                padding: 12px;
-                align-items: flex-start;
+                padding: 16px;
+                justify-content: flex-start;
                 padding-top: 10vh;
             }
 
+            .brand {
+                margin-bottom: 32px;
+            }
+
+            .brand-logo {
+                font-size: 24px;
+            }
+
+            .brand-subtitle {
+                font-size: 13px;
+            }
+
             .login-card {
-                border-radius: 16px;
+                padding: 32px 24px;
             }
 
-            .login-header {
-                padding: 24px 16px;
+            .form-group {
+                margin-bottom: 20px;
             }
 
-            .login-header i {
-                font-size: 2.5rem;
-                margin-bottom: 8px;
+            .form-input {
+                padding: 14px 16px;
             }
 
-            .login-header h4 {
-                font-size: 1.125rem;
-            }
-
-            .login-body {
-                padding: 20px 16px;
-            }
-
-            .mb-4 {
-                margin-bottom: 1rem !important;
+            .form-options {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+                margin-bottom: 24px;
             }
         }
 
-        /* Very small screens (iPhone SE, 320px) */
         @media (max-width: 360px) {
             body {
-                padding: 8px;
-                padding-top: 5vh;
+                padding: 12px;
             }
 
-            .login-header {
-                padding: 20px 12px;
+            .login-card {
+                padding: 24px 20px;
             }
 
-            .login-body {
-                padding: 16px 12px;
+            .brand-logo {
+                font-size: 22px;
+                letter-spacing: 0.05em;
             }
+
+            .ascii-divider {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Selection color */
+        ::selection {
+            background-color: var(--accent-blue);
+            color: var(--text-primary);
         }
     </style>
 </head>
 
 <body>
-    <div class="login-card">
-        <div class="login-header">
-            <i class="fas fa-boxes"></i>
-            <h4 class="mb-1">Aplikasi Inventaris</h4>
-            <p class="mb-0 opacity-75">Sistem Manajemen Barang Kantor</p>
+    <!-- Brand Header -->
+    <div class="brand">
+        <div class="brand-logo">
+            <span class="brand-prompt">>_</span>
+            <span>INVENTARIS</span>
         </div>
-
-        <div class="login-body">
-            @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i>{{ $errors->first() }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            @endif
-
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
-
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Username</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        <input type="text" name="username" class="form-control" placeholder="Masukkan username" required
-                            autofocus>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Password</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        <input type="password" name="password" class="form-control" placeholder="Masukkan password"
-                            required>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-login w-100">
-                    <i class="fas fa-sign-in-alt me-2"></i>Masuk
-                </button>
-            </form>
-
-        </div>
+        <div class="ascii-divider">┌─────────────────────────┐</div>
+        <p class="brand-subtitle">Sistem Manajemen Barang</p>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <!-- Login Card -->
+    <div class="login-card">
+        <!-- Error Messages -->
+        @if($errors->any())
+        <div class="error-message" role="alert">
+            <span class="error-icon">✗</span>
+            <span>{{ $errors->first() }}</span>
+        </div>
+        @endif
 
+        <!-- Login Form -->
+        <form method="POST" action="{{ route('login') }}" novalidate>
+            @csrf
+
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    id="username"
+                    name="username" 
+                    class="form-input" 
+                    placeholder="Masukkan username" 
+                    required
+                    autofocus
+                    autocomplete="username"
+                    value="{{ old('username') }}"
+                >
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="password-wrapper">
+                    <input 
+                        type="password" 
+                        id="password"
+                        name="password" 
+                        class="form-input" 
+                        placeholder="Masukkan password"
+                        required
+                        autocomplete="current-password"
+                    >
+                    <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Toggle password visibility">
+                        [show]
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Options -->
+            <div class="form-options">
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" name="remember" class="checkbox-input" id="remember">
+                    <span class="checkbox-label">Ingat saya</span>
+                </label>
+                <a href="#" class="forgot-link">Lupa password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit">
+                Masuk →
+            </button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+        <span>© 2026</span>
+        <span class="footer-divider">|</span>
+        <span>Balai Bahasa</span>
+    </div>
+
+    <!-- Password Toggle Script -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '[hide]';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '[show]';
+            }
+        }
+
+        // Auto-hide error message after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorMessage = document.querySelector('.error-message');
+            if (errorMessage) {
+                setTimeout(() => {
+                    errorMessage.style.opacity = '0';
+                    errorMessage.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        errorMessage.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            }
+        });
+    </script>
+</body>
 </html>
