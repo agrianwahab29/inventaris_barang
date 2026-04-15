@@ -120,6 +120,21 @@
         }
     }
 
+    /* Equal height row for chart and quick actions */
+    .equal-height-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .equal-height-row > [class*="col-"] {
+        display: flex;
+        flex-direction: column;
+    }
+    .equal-height-row .card-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
     .animate-fade-up {
         animation: fadeInUp 0.6s ease-out forwards;
     }
@@ -902,10 +917,10 @@
     </div>
 </div>
 
-<div class="row g-3">
+<div class="row g-3 equal-height-row">
     <!-- Chart Section -->
     <div class="col-lg-8">
-        <div class="chart-container animate-fade-left animate-delay-2" style="height: 380px;">
+        <div class="chart-container animate-fade-left animate-delay-2 d-flex flex-column h-100">
             <div class="section-header">
                 <h5 class="section-title">
                     <i class="fas fa-chart-line" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
@@ -915,13 +930,13 @@
                     <i class="fas fa-arrow-right me-1"></i>Detail
                 </a>
             </div>
-            <div style="position: relative; height: 280px;">
+            <div class="flex-grow-1 position-relative" style="min-height: 250px;">
                 @php
                     $hasChartData = !empty(array_filter($dataMasuk)) || !empty(array_filter($dataKeluar));
                 @endphp
                 
                 @if($hasChartData)
-                    <canvas id="transaksiChart"></canvas>
+                    <canvas id="transaksiChart" style="height: 100%; width: 100%;"></canvas>
                 @else
                     <div class="chart-empty-state">
                         <div class="chart-empty-icon">
@@ -940,7 +955,7 @@
     
     <!-- Quick Actions -->
     <div class="col-lg-4">
-        <div class="chart-container animate-fade-right animate-delay-3">
+        <div class="chart-container animate-fade-right animate-delay-3 h-100">
             <div class="section-header">
                 <h5 class="section-title">
                     <i class="fas fa-bolt" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
