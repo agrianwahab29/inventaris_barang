@@ -849,21 +849,7 @@
     </div>
     
     <div class="col-xl-3 col-md-6 col-6">
-        <div class="stat-card stat-card-danger animate-fade-up animate-delay-4">
-            <div class="stat-icon stat-icon-danger">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="stat-value">{{ number_format($stokRendah + $stokHabis) }}</div>
-            <div class="stat-label">Perlu Perhatian</div>
-            <div class="stat-badge stat-badge-danger">
-                <span class="badge bg-white text-danger me-1" style="font-size: 0.625rem;">{{ $stokHabis }} habis</span>
-                <span class="badge bg-white text-warning" style="font-size: 0.625rem;">{{ $stokRendah }} rendah</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-xl-3 col-md-6 col-6">
-        <div class="stat-card stat-card-info animate-fade-up animate-delay-5">
+        <div class="stat-card stat-card-info animate-fade-up animate-delay-4">
             <div class="stat-icon stat-icon-info">
                 <i class="fas fa-file-pdf"></i>
             </div>
@@ -872,6 +858,23 @@
             <div class="stat-badge" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e4d8c;">
                 <i class="fas fa-calendar-alt"></i>
                 <span>{{ $berkasBulanIni }} bulan ini</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Second Row - Alerts -->
+<div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6 col-6">
+        <div class="stat-card stat-card-danger animate-fade-up animate-delay-5">
+            <div class="stat-icon stat-icon-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-value">{{ number_format($stokRendah + $stokHabis) }}</div>
+            <div class="stat-label">Perlu Perhatian</div>
+            <div class="stat-badge stat-badge-danger">
+                <span class="badge bg-white text-danger me-1" style="font-size: 0.625rem;">{{ $stokHabis }} habis</span>
+                <span class="badge bg-white text-warning" style="font-size: 0.625rem;">{{ $stokRendah }} rendah</span>
             </div>
         </div>
     </div>
