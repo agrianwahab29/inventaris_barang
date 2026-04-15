@@ -71,6 +71,14 @@ class DashboardController extends Controller
                     ->sum('jumlah_keluar');
             }
 
+            // Daily berkas transaksi count for last 7 days
+            $dataBerkas = [];
+            foreach ($tanggalLabels as $index => $label) {
+                $date = \Carbon\Carbon::today()->subDays(6 - $index);
+                $dataBerkas[] = (int) BerkasTransaksi::whereDate('created_at', $date)
+                    ->count();
+            }
+
             return [
                 'totalBarang' => $totalBarang,
                 'totalStok' => $totalStok,
@@ -85,6 +93,7 @@ class DashboardController extends Controller
                 'tanggalLabels' => $tanggalLabels,
                 'dataMasuk' => $dataMasuk,
                 'dataKeluar' => $dataKeluar,
+                'dataBerkas' => $dataBerkas,
             ];
         });
 

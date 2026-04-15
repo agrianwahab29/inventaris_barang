@@ -642,6 +642,23 @@
     }
 
     /* Responsive adjustments */
+    @media (max-width: 991.98px) {
+        .chart-actions-row {
+            flex-direction: column;
+        }
+        .chart-actions-row > div {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+        }
+        .chart-actions-row .h-100 {
+            height: auto !important;
+        }
+        .chart-container {
+            min-height: 350px;
+        }
+    }
+
     @media (max-width: 767.98px) {
         .chart-empty-state {
             min-height: 200px;
@@ -917,14 +934,14 @@
     </div>
 </div>
 
-<div class="row g-3 equal-height-row">
+<div class="row g-3 equal-height-row chart-actions-row">
     <!-- Chart Section -->
-    <div class="col-lg-8">
+    <div class="col-lg-8 col-md-12 col-12">
         <div class="chart-container animate-fade-left animate-delay-2 d-flex flex-column h-100">
             <div class="section-header">
                 <h5 class="section-title">
                     <i class="fas fa-chart-line" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
-                    Grafik Transaksi 7 Hari Terakhir
+                    Grafik Aktivitas 7 Hari Terakhir
                 </h5>
                 <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Detail
@@ -954,7 +971,7 @@
     </div>
     
     <!-- Quick Actions -->
-    <div class="col-lg-4">
+    <div class="col-lg-4 col-md-12 col-12">
         <div class="chart-container animate-fade-right animate-delay-3 h-100">
             <div class="section-header">
                 <h5 class="section-title">
@@ -1147,119 +1164,122 @@
         // Check if chart has data
         const dataMasuk = @json($dataMasuk);
         const dataKeluar = @json($dataKeluar);
-        const hasChartData = dataMasuk.some(v => v > 0) || dataKeluar.some(v => v > 0);
-        
+        const dataBerkas = @json($dataBerkas);
+        const hasChartData = dataMasuk.some(v => v > 0) || dataKeluar.some(v => v > 0) || dataBerkas.some(v => v > 0);
+
         if (hasChartData) {
             // Chart
             const ctx = document.getElementById('transaksiChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: @json($tanggalLabels),
-                datasets: [{
-                    label: 'Barang Masuk',
-                    data: @json($dataMasuk),
-                    backgroundColor: 'rgba(16, 185, 129, 0.25)',
-                    borderColor: '#10b981',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#10b981',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 8,
-                    pointHoverBackgroundColor: '#10b981',
-                    pointHoverBorderColor: '#fff',
-                    pointHoverBorderWidth: 3
-                }, {
-                    label: 'Barang Keluar',
-                    data: @json($dataKeluar),
-                    backgroundColor: 'rgba(245, 158, 11, 0.25)',
-                    borderColor: '#f59e0b',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#f59e0b',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 8,
-                    pointHoverBackgroundColor: '#f59e0b',
-                    pointHoverBorderColor: '#fff',
-                    pointHoverBorderWidth: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @json($tanggalLabels),
+                    datasets: [{
+                        label: 'Barang Masuk',
+                        data: dataMasuk,
+                        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                        borderColor: '#10b981',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        yAxisID: 'y',
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8
+                    }, {
+                        label: 'Barang Keluar',
+                        data: dataKeluar,
+                        backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        yAxisID: 'y',
+                        pointBackgroundColor: '#f59e0b',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 8
+                    }, {
+                        label: 'Berkas Transaksi',
+                        data: dataBerkas,
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#3b82f6',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        fill: false,
+                        yAxisID: 'y1',
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 7
+                    }]
                 },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 15,
-                            font: {
-                                size: 12,
-                                family: 'Inter',
-                                weight: '600'
-                            },
-                            boxWidth: 8
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 12,
+                                font: { size: 11, family: 'Inter', weight: '500' },
+                                boxWidth: 10
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(30, 41, 59, 0.95)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    label += context.parsed.y;
+                                    if (context.dataset.yAxisID === 'y1') label += ' file';
+                                    else label += ' barang';
+                                    return label;
+                                }
+                            }
                         }
                     },
-                    tooltip: {
-                        backgroundColor: 'rgba(30, 41, 59, 0.95)',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        titleFont: {
-                            size: 13,
-                            family: 'Inter',
-                            weight: '600'
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Jumlah Barang', font: { size: 11 } },
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9', drawBorder: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, padding: 8 }
                         },
-                        bodyFont: {
-                            size: 12,
-                            family: 'Inter'
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Jumlah Berkas', font: { size: 11 } },
+                            beginAtZero: true,
+                            grid: { drawOnChartArea: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, padding: 8, color: '#3b82f6' }
                         },
-                        padding: 12,
-                        cornerRadius: 8,
-                        displayColors: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f1f5f9',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                family: 'Inter',
-                                size: 11
-                            },
-                            padding: 10
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                family: 'Inter',
-                                size: 11
-                            },
-                            padding: 10
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, padding: 8 }
                         }
                     }
                 }
-            }
-        });
+            });
         }
     });
 </script>
