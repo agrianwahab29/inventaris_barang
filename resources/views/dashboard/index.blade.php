@@ -137,7 +137,7 @@
 
     /* Welcome Banner */
     .welcome-banner {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 50%, #60a5fa 100%);
         background-size: 200% 200%;
         animation: gradientFlow 8s ease infinite;
         border-radius: 20px;
@@ -202,7 +202,7 @@
     }
     
     .stat-card-primary {
-        --card-gradient: linear-gradient(90deg, #667eea, #764ba2);
+        --card-gradient: linear-gradient(90deg, #1e4d8c, #3b82f6);
     }
     
     .stat-card-success {
@@ -215,6 +215,39 @@
     
     .stat-card-danger {
         --card-gradient: linear-gradient(90deg, #ef4444, #dc2626);
+        animation: attentionPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes attentionPulse {
+        0%, 100% {
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1);
+        }
+        50% {
+            box-shadow: 0 8px 25px -5px rgba(239, 68, 68, 0.4);
+        }
+    }
+    
+    .stat-card-danger:hover {
+        animation: none;
+        box-shadow: 0 20px 40px -15px rgba(239, 68, 68, 0.3);
+    }
+    
+    .stat-card-danger .stat-icon-danger {
+        animation: iconPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes iconPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    
+    .stat-card-danger:hover .stat-icon-danger {
+        animation: none;
+        transform: scale(1.1) rotate(-5deg);
     }
     
     .stat-card-info {
@@ -239,9 +272,9 @@
     }
     
     .stat-icon-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%);
         color: white;
-        box-shadow: 0 8px 16px -8px rgba(102, 126, 234, 0.5);
+        box-shadow: 0 8px 16px -8px rgba(30, 77, 140, 0.5);
     }
     
     .stat-icon-success {
@@ -282,7 +315,7 @@
     .stat-label {
         font-size: 0.8125rem;
         color: #64748b;
-        font-weight: 600;
+        font-weight: 500;
         letter-spacing: 0.025em;
     }
     
@@ -299,8 +332,8 @@
     }
     
     .stat-badge-primary {
-        background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
-        color: #7c3aed;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #1e4d8c;
     }
     
     .stat-badge-success {
@@ -537,9 +570,79 @@
         margin-bottom: 12px;
         animation: pulse 2s ease-in-out infinite;
     }
+    
+    /* Chart Empty State */
+    .chart-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        min-height: 240px;
+        text-align: center;
+        padding: 32px;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 12px;
+        border: 2px dashed #e2e8f0;
+    }
+    
+    .chart-empty-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .chart-empty-icon i {
+        font-size: 1.75rem;
+        color: #1e4d8c;
+    }
+    
+    .chart-empty-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 8px;
+    }
+    
+    .chart-empty-desc {
+        font-size: 0.8125rem;
+        color: #64748b;
+        margin-bottom: 16px;
+        max-width: 320px;
+        line-height: 1.5;
+    }
 
     /* Responsive adjustments */
     @media (max-width: 767.98px) {
+        .chart-empty-state {
+            min-height: 200px;
+            padding: 24px;
+        }
+        
+        .chart-empty-icon {
+            width: 56px;
+            height: 56px;
+        }
+        
+        .chart-empty-icon i {
+            font-size: 1.5rem;
+        }
+        
+        .chart-empty-title {
+            font-size: 0.9375rem;
+        }
+        
+        .chart-empty-desc {
+            font-size: 0.75rem;
+            max-width: 280px;
+        }
+        
         .stat-value {
             font-size: 1.5rem;
         }
@@ -766,7 +869,7 @@
             </div>
             <div class="stat-value" data-count="{{ $totalBerkas }}">{{ number_format($totalBerkas) }}</div>
             <div class="stat-label">Total Berkas Transaksi</div>
-            <div class="stat-badge stat-badge-primary">
+            <div class="stat-badge" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e4d8c;">
                 <i class="fas fa-calendar-alt"></i>
                 <span>{{ $berkasBulanIni }} bulan ini</span>
             </div>
@@ -780,15 +883,32 @@
         <div class="chart-container animate-fade-left animate-delay-2" style="height: 380px;">
             <div class="section-header">
                 <h5 class="section-title">
-                    <i class="fas fa-chart-line" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;"></i>
+                    <i class="fas fa-chart-line" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
                     Grafik Transaksi 7 Hari Terakhir
                 </h5>
-                <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.75rem;">
+                <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Detail
                 </a>
             </div>
             <div style="position: relative; height: 280px;">
-                <canvas id="transaksiChart"></canvas>
+                @php
+                    $hasChartData = !empty(array_filter($dataMasuk)) || !empty(array_filter($dataKeluar));
+                @endphp
+                
+                @if($hasChartData)
+                    <canvas id="transaksiChart"></canvas>
+                @else
+                    <div class="chart-empty-state">
+                        <div class="chart-empty-icon">
+                            <i class="fas fa-chart-area"></i>
+                        </div>
+                        <h6 class="chart-empty-title">Belum Ada Transaksi</h6>
+                        <p class="chart-empty-desc">Tidak ada transaksi dalam 7 hari terakhir. Data akan muncul setelah ada barang masuk atau keluar.</p>
+                        <a href="{{ route('transaksi.create') }}" class="btn btn-sm rounded-pill" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
+                            <i class="fas fa-plus me-1"></i>Tambah Transaksi
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -798,13 +918,13 @@
         <div class="chart-container animate-fade-right animate-delay-3">
             <div class="section-header">
                 <h5 class="section-title">
-                    <i class="fas fa-bolt" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;"></i>
+                    <i class="fas fa-bolt" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
                     Aksi Cepat
                 </h5>
             </div>
             
             <a href="{{ route('transaksi.create') }}" class="quick-action">
-                <div class="quick-action-icon" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #4f46e5;">
+                <div class="quick-action-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e4d8c;">
                     <i class="fas fa-plus"></i>
                 </div>
                 <div class="flex-grow-1">
@@ -837,7 +957,7 @@
             </a>
             
             <a href="{{ route('transaksi.index') }}" class="quick-action">
-                <div class="quick-action-icon" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); color: #db2777;">
+                <div class="quick-action-icon" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color: #0369a1;">
                     <i class="fas fa-history"></i>
                 </div>
                 <div class="flex-grow-1">
@@ -860,7 +980,7 @@
             
             @if(Auth::user()->isAdmin())
             <a href="{{ route('users.index') }}" class="quick-action">
-                <div class="quick-action-icon" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #7c3aed;">
+                <div class="quick-action-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e4d8c;">
                     <i class="fas fa-users-cog"></i>
                 </div>
                 <div class="flex-grow-1">
@@ -920,7 +1040,7 @@
                     <i class="fas fa-clock" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;"></i>
                     Transaksi Terakhir
                 </h5>
-                <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; font-size: 0.75rem;">
+                <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Semua
                 </a>
             </div>
@@ -958,7 +1078,7 @@
                             <i class="fas fa-inbox text-muted" style="font-size: 1.5rem;"></i>
                         </div>
                         <h6 class="text-muted fw-semibold" style="font-size: 0.875rem;">Belum Ada Transaksi</h6>
-                        <a href="{{ route('transaksi.create') }}" class="btn rounded-pill mt-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.75rem;">
+                        <a href="{{ route('transaksi.create') }}" class="btn rounded-pill mt-2" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                             <i class="fas fa-plus me-1"></i>Barang Masuk/Keluar
                         </a>
                     </div>
@@ -973,8 +1093,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Chart
-        const ctx = document.getElementById('transaksiChart').getContext('2d');
+        // Set active menu state for Dashboard
+        const dashboardMenu = document.querySelector('a[href="{{ route('dashboard') }}"]');
+        if (dashboardMenu) {
+            dashboardMenu.classList.add('active');
+            // Add active styling if parent is a list item
+            const parentLi = dashboardMenu.closest('li');
+            if (parentLi) {
+                parentLi.classList.add('active');
+            }
+        }
+        
+        // Check if chart has data
+        const dataMasuk = @json($dataMasuk);
+        const dataKeluar = @json($dataKeluar);
+        const hasChartData = dataMasuk.some(v => v > 0) || dataKeluar.some(v => v > 0);
+        
+        if (hasChartData) {
+            // Chart
+            const ctx = document.getElementById('transaksiChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -982,7 +1119,7 @@
                 datasets: [{
                     label: 'Barang Masuk',
                     data: @json($dataMasuk),
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.25)',
                     borderColor: '#10b981',
                     borderWidth: 3,
                     tension: 0.4,
@@ -998,7 +1135,7 @@
                 }, {
                     label: 'Barang Keluar',
                     data: @json($dataKeluar),
-                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    backgroundColor: 'rgba(245, 158, 11, 0.25)',
                     borderColor: '#f59e0b',
                     borderWidth: 3,
                     tension: 0.4,
@@ -1083,6 +1220,7 @@
                 }
             }
         });
+        }
     });
 </script>
 @endsection
