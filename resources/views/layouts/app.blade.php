@@ -759,15 +759,15 @@
         /* Mobile breakpoint */
         @media (max-width: 575.98px) {
             .top-navbar {
-                padding: 8px 10px;
+                padding: 6px 10px;
             }
             
             .page-title {
-                font-size: 1rem;
+                font-size: 0.9375rem;
             }
             
             .content-area {
-                padding: 8px;
+                padding: 6px 8px;
             }
             
             .card {

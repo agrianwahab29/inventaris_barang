@@ -817,89 +817,162 @@
     }
     
     @media (max-width: 575.98px) {
+        /* Maintain or decrease sizes vs 767.98px — NEVER increase */
         .stat-card {
-            padding: 12px;
+            padding: 8px;
         }
         
         .stat-value {
-            font-size: 1.25rem;
+            font-size: 0.9375rem;
         }
         
         .stat-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 16px;
-            margin-bottom: 8px;
+            width: 28px;
+            height: 28px;
+            font-size: 11px;
+            margin-bottom: 4px;
         }
         
         .stat-badge {
-            font-size: 0.625rem;
-            padding: 4px 8px;
-            margin-top: 8px;
+            font-size: 0.5rem;
+            padding: 2px 6px;
+            margin-top: 3px;
         }
         
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.5625rem;
         }
         
         .chart-container {
             height: auto !important;
-            min-height: 260px;
+            min-height: 200px;
+            padding: 10px;
         }
         
         .section-title {
-            font-size: 0.875rem;
-        }
-        
-        .section-title i {
-            width: 28px;
-            height: 28px;
-            font-size: 12px;
-        }
-        
-        .welcome-banner .btn-lg {
-            padding: 8px 16px;
             font-size: 0.8125rem;
         }
         
+        .section-title i {
+            width: 24px;
+            height: 24px;
+            font-size: 10px;
+        }
+        
+        .welcome-banner .btn-lg {
+            padding: 6px 12px;
+            font-size: 0.6875rem;
+        }
+        
         .quick-action h6 {
-            font-size: 0.8125rem !important;
-        }
-        
-        .quick-action small {
-            font-size: 0.6875rem !important;
-        }
-        
-        .alert-item h6 {
             font-size: 0.75rem !important;
         }
         
+        .quick-action small {
+            font-size: 0.625rem !important;
+        }
+        
+        .quick-action {
+            padding: 8px 10px;
+            margin-bottom: 6px;
+        }
+        
+        .quick-action-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .alert-item {
+            padding: 8px 10px;
+            margin-bottom: 6px;
+        }
+        
+        .alert-item h6 {
+            font-size: 0.6875rem !important;
+        }
+        
+        .transaction-item {
+            padding: 8px 10px;
+            margin-bottom: 4px;
+        }
+        
         .transaction-item h6 {
-            font-size: 0.8125rem !important;
+            font-size: 0.75rem !important;
         }
         
         .custom-scroll {
-            max-height: 240px !important;
+            max-height: 200px !important;
         }
     }
     
     @media (max-width: 374.98px) {
+        /* Ultra-compact for smallest phones — decrease further */
         .stat-card {
-            padding: 10px;
+            padding: 6px;
         }
         
         .stat-value {
-            font-size: 1.125rem;
+            font-size: 0.875rem;
         }
         
         .stat-icon {
-            width: 36px;
-            height: 36px;
-            font-size: 14px;
+            width: 24px;
+            height: 24px;
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+        
+        .stat-label {
+            font-size: 0.5rem;
+        }
+        
+        .stat-badge {
+            font-size: 0.4375rem;
+            padding: 1px 4px;
+            margin-top: 2px;
         }
         
         .chart-container {
-            min-height: 220px;
+            min-height: 180px;
+            padding: 8px;
+        }
+        
+        .welcome-banner .card-body {
+            padding: 8px 10px !important;
+        }
+        
+        .welcome-banner h4 {
+            font-size: 0.75rem !important;
+        }
+        
+        .welcome-banner p {
+            font-size: 0.5625rem !important;
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+        }
+        
+        .quick-action {
+            padding: 6px 8px;
+            margin-bottom: 4px;
+        }
+        
+        .quick-action-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 10px;
+            margin-right: 6px;
+        }
+        
+        .alert-item, .transaction-item {
+            padding: 6px 8px;
+        }
+        
+        .custom-scroll {
+            max-height: 160px !important;
         }
     }
 </style>
