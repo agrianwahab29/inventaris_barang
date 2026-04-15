@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 col-12 mb-3">
         <div class="card table-container">
             <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="fas fa-box me-2"></i>Detail Barang</h5>
@@ -71,7 +71,7 @@
         </div>
     </div>
     
-    <div class="col-md-8">
+    <div class="col-md-8 col-12">
         <div class="card table-container">
             <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="fas fa-history me-2"></i>Riwayat Transaksi</h5>

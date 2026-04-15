@@ -297,7 +297,7 @@ class BarangController extends Controller
                     'jumlah_keluar' => abs($selisih),
                     'jumlah' => abs($selisih),
                     'stok_sebelum' => $stokLama,
-                    'stok_setelah_masuk' => 0,
+                    'stok_setelah_masuk' => $stokBaru,
                     'sisa_stok' => $stokBaru,
                     'tanggal' => now(),
                     'ruangan_id' => null,

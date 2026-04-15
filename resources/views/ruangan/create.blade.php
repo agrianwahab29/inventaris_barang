@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-12 col-md-8">
         <div class="card table-container">
             <div class="card-header bg-primary text-white py-3">
                 <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Tambah Ruangan Baru</h5>
@@ -31,7 +31,7 @@
                         @enderror
                     </div>
                     
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
                         <a href="{{ route('ruangan.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Kembali
                         </a>

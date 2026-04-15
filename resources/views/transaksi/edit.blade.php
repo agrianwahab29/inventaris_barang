@@ -3,8 +3,18 @@
 @section('title', 'Edit Transaksi')
 
 @section('content')
+<style>
+    @media (max-width: 767.98px) {
+        .card-body { padding: 12px; }
+        .card-header h5 { font-size: 1rem; }
+    }
+    @media (max-width: 575.98px) {
+        .card-body { padding: 10px; }
+        .form-label { font-size: 0.8125rem; }
+    }
+</style>
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap" style="gap: 8px;">
         <h1 class="h3 mb-0">Edit Transaksi</h1>
         <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Kembali
@@ -31,7 +41,7 @@
                 @method('PUT')
 
                 <div class="row mb-4">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="barang_id" class="form-label">Barang <span class="text-danger">*</span></label>
                             <select class="form-select @error('barang_id') is-invalid @enderror" id="barang_id" name="barang_id" required>
@@ -85,7 +95,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="jumlah_keluar" class="form-label">Jumlah Keluar</label>
                             <div class="input-group">
@@ -144,7 +154,7 @@
 
                 <hr>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between flex-wrap" style="gap: 8px;">
                     <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">Batal</a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Simpan Perubahan

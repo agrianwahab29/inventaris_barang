@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Aplikasi Inventaris Barang')</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo $__env->yieldContent('title', 'Aplikasi Inventaris Barang'); ?></title>
     
     <!-- Favicon - Logo Tut Wuri Handayani -->
     <!-- PNG Favicon untuk browser modern (tidak stretch) -->
-    <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=3">
+    <link rel="icon" type="image/png" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=3">
     <!-- ICO Fallback untuk browser lama -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=3">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo e(asset('favicon.ico')); ?>?v=3">
     <!-- SVG untuk high-res display -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=3">
+    <link rel="icon" type="image/svg+xml" href="<?php echo e(asset('image/tut-wuri-handayani.svg')); ?>?v=3">
     <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="{{ asset('image/tut-wuri-handayani.png') }}?v=3">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('image/tut-wuri-handayani.png') }}?v=3">
+    <link rel="apple-touch-icon" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=3">
     
     <!-- Force favicon refresh -->
     <meta name="theme-color" content="#1e1b4b">
@@ -58,32 +58,32 @@
         }
 
         /* Enhanced Animations */
-        @keyframes fadeInUp {
+        @keyframes  fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes fadeInLeft {
+        @keyframes  fadeInLeft {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
         }
         
-        @keyframes fadeInRight {
+        @keyframes  fadeInRight {
             from { opacity: 0; transform: translateX(20px); }
             to { opacity: 1; transform: translateX(0); }
         }
         
-        @keyframes scaleIn {
+        @keyframes  scaleIn {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes shimmer {
+        @keyframes  shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
 
-        @keyframes slideDown {
+        @keyframes  slideDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
@@ -658,7 +658,7 @@
         }
         
         /* Animations */
-        @keyframes fadeIn {
+        @keyframes  fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
@@ -934,7 +934,7 @@
         }
     </style>
     
-    @yield('styles')
+    <?php echo $__env->yieldContent('styles'); ?>
 </head>
 <body>
     <!-- Sidebar Overlay for Mobile -->
@@ -953,74 +953,75 @@
         <div class="nav-menu-container">
             <div class="nav-section">Data Umum</div>
             
-            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('dashboard') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard')); ?>">
                 <i class="fas fa-home"></i>
                 Dashboard
             </a>
             
-            <a class="nav-link {{ request()->routeIs('barang.*') ? 'active' : '' }}" href="{{ route('barang.index') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('barang.*') ? 'active' : ''); ?>" href="<?php echo e(route('barang.index')); ?>">
                 <i class="fas fa-box"></i>
                 Barang
             </a>
             
-            <a class="nav-link {{ request()->routeIs('ruangan.*') ? 'active' : '' }}" href="{{ route('ruangan.index') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('ruangan.*') ? 'active' : ''); ?>" href="<?php echo e(route('ruangan.index')); ?>">
                 <i class="fas fa-door-open"></i>
                 Ruangan
             </a>
             
             <div class="nav-section">Transaksi</div>
             
-            <a class="nav-link {{ request()->routeIs('transaksi.create') ? 'active' : '' }}" href="{{ route('transaksi.create') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('transaksi.create') ? 'active' : ''); ?>" href="<?php echo e(route('transaksi.create')); ?>">
                 <i class="fas fa-plus-circle"></i>
                 Barang Masuk/Keluar
             </a>
             
-            <a class="nav-link {{ request()->routeIs('transaksi.index') ? 'active' : '' }}" href="{{ route('transaksi.index') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('transaksi.index') ? 'active' : ''); ?>" href="<?php echo e(route('transaksi.index')); ?>">
                 <i class="fas fa-history"></i>
                 Riwayat
             </a>
             
-            <a class="nav-link {{ request()->routeIs('quarterly-stock.*') ? 'active' : '' }}" href="{{ route('quarterly-stock.index') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('quarterly-stock.*') ? 'active' : ''); ?>" href="<?php echo e(route('quarterly-stock.index')); ?>">
                 <i class="fas fa-calendar-check"></i>
                 Opname Triwulan
             </a>
             
-            <a class="nav-link {{ request()->routeIs('surat-tanda-terima.*') ? 'active' : '' }}" href="{{ route('surat-tanda-terima.index') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('surat-tanda-terima.*') ? 'active' : ''); ?>" href="<?php echo e(route('surat-tanda-terima.index')); ?>">
                 <i class="fas fa-file-signature"></i>
                 Surat Tanda Terima
             </a>
             
-            <a class="nav-link {{ request()->routeIs('berkas-transaksi.*') ? 'active' : '' }}" href="{{ route('berkas-transaksi.index') }}">
+            <a class="nav-link <?php echo e(request()->routeIs('berkas-transaksi.*') ? 'active' : ''); ?>" href="<?php echo e(route('berkas-transaksi.index')); ?>">
                 <i class="fas fa-file-pdf"></i>
                 Berkas Transaksi
             </a>
             
-            @if(Auth::user()->isAdmin())
+            <?php if(Auth::user()->isAdmin()): ?>
             <div class="nav-section">
                 <i class="fas fa-shield-alt me-1"></i> Admin Panel
             </div>
             
-            <a class="nav-link nav-link-admin {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+            <a class="nav-link nav-link-admin <?php echo e(request()->routeIs('users.*') ? 'active' : ''); ?>" href="<?php echo e(route('users.index')); ?>">
                 <div class="nav-icon-wrapper">
                     <i class="fas fa-user-shield"></i>
                 </div>
                 <span class="nav-text">Manajemen User</span>
                 <span class="admin-badge">Admin</span>
             </a>
-            @endif
+            <?php endif; ?>
         </div>
         
         <div class="sidebar-footer">
             <div class="user-card">
                 <div class="user-avatar">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    <?php echo e(strtoupper(substr(Auth::user()->name, 0, 1))); ?>
+
                 </div>
                 <div class="user-info">
-                    <div class="user-name">{{ Auth::user()->name }}</div>
-                    <div class="user-role">{{ ucfirst(Auth::user()->role) }}</div>
+                    <div class="user-name"><?php echo e(Auth::user()->name); ?></div>
+                    <div class="user-role"><?php echo e(ucfirst(Auth::user()->role)); ?></div>
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
+                <form action="<?php echo e(route('logout')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
                     <button type="submit" class="logout-btn" title="Logout">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
@@ -1036,35 +1037,37 @@
             <div>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                        @yield('breadcrumb')
+                        <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>">Home</a></li>
+                        <?php echo $__env->yieldContent('breadcrumb'); ?>
                     </ol>
                 </nav>
-                <h1 class="page-title">@yield('page_title', 'Dashboard')</h1>
+                <h1 class="page-title"><?php echo $__env->yieldContent('page_title', 'Dashboard'); ?></h1>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <span class="text-muted navbar-date-full">{{ now()->format('l, d F Y') }}</span>
-                <span class="text-muted navbar-date-short" style="display: none;">{{ now()->format('d M Y') }}</span>
+                <span class="text-muted navbar-date-full"><?php echo e(now()->format('l, d F Y')); ?></span>
+                <span class="text-muted navbar-date-short" style="display: none;"><?php echo e(now()->format('d M Y')); ?></span>
             </div>
         </div>
         
         <!-- Content Area -->
         <div class="content-area">
-            @if(session('success'))
+            <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show animate-fade-in mb-4" role="alert">
-                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                    <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            <?php endif; ?>
             
-            @if(session('error'))
+            <?php if(session('error')): ?>
                 <div class="alert alert-danger alert-dismissible fade show animate-fade-in mb-4" role="alert">
-                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                    <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            <?php endif; ?>
             
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </div>
     </div>
     
@@ -1092,6 +1095,7 @@
         }, 5000);
     </script>
     
-    @yield('scripts')
+    <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH C:\laragon\www\inventaris-barang2\inventaris-kantor\resources\views/layouts/app.blade.php ENDPATH**/ ?>

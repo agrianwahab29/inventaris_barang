@@ -1,12 +1,10 @@
-@extends('layouts.app')
-
-@section('title', 'Manajemen User - Aplikasi Inventaris')
-@section('page_title', 'Manajemen User')
-@section('breadcrumb')
+<?php $__env->startSection('title', 'Manajemen User - Aplikasi Inventaris'); ?>
+<?php $__env->startSection('page_title', 'Manajemen User'); ?>
+<?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item active">Manajemen User</li>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
     /* Stats Cards */
     .stat-card {
@@ -361,7 +359,7 @@
         animation: slideDown 0.3s ease-out;
     }
 
-    @keyframes slideDown {
+    @keyframes  slideDown {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
     }
@@ -518,16 +516,16 @@
         }
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Stats Cards -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-xl-3 col-md-6">
         <div class="stat-card total">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <div class="stat-value">{{ $stats['total'] }}</div>
+                    <div class="stat-value"><?php echo e($stats['total']); ?></div>
                     <div class="stat-label">Total User</div>
                 </div>
                 <div class="stat-icon">
@@ -540,7 +538,7 @@
         <div class="stat-card active">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <div class="stat-value">{{ $stats['aktif'] }}</div>
+                    <div class="stat-value"><?php echo e($stats['aktif']); ?></div>
                     <div class="stat-label">User Aktif</div>
                 </div>
                 <div class="stat-icon">
@@ -553,7 +551,7 @@
         <div class="stat-card admin">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <div class="stat-value">{{ $stats['admin'] }}</div>
+                    <div class="stat-value"><?php echo e($stats['admin']); ?></div>
                     <div class="stat-label">Administrator</div>
                 </div>
                 <div class="stat-icon">
@@ -566,7 +564,7 @@
         <div class="stat-card user">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <div class="stat-value">{{ $stats['pengguna'] }}</div>
+                    <div class="stat-value"><?php echo e($stats['pengguna']); ?></div>
                     <div class="stat-label">User Biasa</div>
                 </div>
                 <div class="stat-icon">
@@ -593,18 +591,18 @@
             </div>
             <div class="vr d-none d-md-block" style="height: 32px; background: #e2e8f0;"></div>
             <div class="d-flex gap-2">
-                <a href="{{ route('users.index', ['status' => 'all']) }}" class="btn btn-sm {{ request('status') === 'all' ? 'btn-primary' : 'btn-outline-primary' }}">
+                <a href="<?php echo e(route('users.index', ['status' => 'all'])); ?>" class="btn btn-sm <?php echo e(request('status') === 'all' ? 'btn-primary' : 'btn-outline-primary'); ?>">
                     <i class="fas fa-users me-1"></i>Semua
                 </a>
-                <a href="{{ route('users.index') }}" class="btn btn-sm {{ !request('status') || request('status') === 'aktif' ? 'btn-success' : 'btn-outline-success' }}">
+                <a href="<?php echo e(route('users.index')); ?>" class="btn btn-sm <?php echo e(!request('status') || request('status') === 'aktif' ? 'btn-success' : 'btn-outline-success'); ?>">
                     <i class="fas fa-check-circle me-1"></i>Aktif
                 </a>
-                <a href="{{ route('users.index', ['status' => 'nonaktif']) }}" class="btn btn-sm {{ request('status') == 'nonaktif' ? 'btn-secondary' : 'btn-outline-secondary' }}">
+                <a href="<?php echo e(route('users.index', ['status' => 'nonaktif'])); ?>" class="btn btn-sm <?php echo e(request('status') == 'nonaktif' ? 'btn-secondary' : 'btn-outline-secondary'); ?>">
                     <i class="fas fa-ban me-1"></i>Nonaktif
                 </a>
             </div>
         </div>
-        <a href="{{ route('users.create') }}" class="btn btn-primary">
+        <a href="<?php echo e(route('users.create')); ?>" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i>Tambah User
         </a>
     </div>
@@ -612,9 +610,9 @@
 
 <!-- Bulk Delete Toolbar (Sticky Top) -->
 <div id="bulkToolbar" class="bulk-toolbar" style="display: none;">
-    <form id="bulkDeleteForm" action="{{ route('users.bulkDelete') }}" method="POST">
-        @csrf
-        @method('DELETE')
+    <form id="bulkDeleteForm" action="<?php echo e(route('users.bulkDelete')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('DELETE'); ?>
         <input type="hidden" name="ids" id="bulkIds" value="">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -636,71 +634,74 @@
 
 <!-- User Cards Container -->
 <div class="users-container" id="usersContainer">
-    @if($users->count() > 0)
+    <?php if($users->count() > 0): ?>
         <div class="user-card-grid" id="userCardGrid">
-            @foreach($users as $user)
-                <div class="user-grid-card" data-user-id="{{ $user->id }}">
-                    @if($user->id !== Auth::id())
-                        <input type="checkbox" class="form-check-input user-checkbox item-checkbox" value="{{ $user->id }}" data-checkbox="user-{{ $user->id }}">
-                    @endif
+            <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="user-grid-card" data-user-id="<?php echo e($user->id); ?>">
+                    <?php if($user->id !== Auth::id()): ?>
+                        <input type="checkbox" class="form-check-input user-checkbox item-checkbox" value="<?php echo e($user->id); ?>" data-checkbox="user-<?php echo e($user->id); ?>">
+                    <?php endif; ?>
                     
                     <div class="user-grid-card-header">
-                        <div class="user-avatar {{ $user->role }}">
-                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        <div class="user-avatar <?php echo e($user->role); ?>">
+                            <?php echo e(strtoupper(substr($user->name, 0, 1))); ?>
+
                         </div>
                         <div class="user-info">
-                            <div class="user-name">{{ $user->name }}</div>
-                            <div class="user-email">{{ $user->email }}</div>
+                            <div class="user-name"><?php echo e($user->name); ?></div>
+                            <div class="user-email"><?php echo e($user->email); ?></div>
                             <div class="user-meta">
-                                <span class="user-badge {{ $user->role }}">{{ ucfirst($user->role) }}</span>
-                                <span class="user-badge {{ $user->status }}">{{ ucfirst($user->status) }}</span>
+                                <span class="user-badge <?php echo e($user->role); ?>"><?php echo e(ucfirst($user->role)); ?></span>
+                                <span class="user-badge <?php echo e($user->status); ?>"><?php echo e(ucfirst($user->status)); ?></span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="user-grid-card-footer">
                         <div class="user-date">
-                            <i class="far fa-calendar-alt me-1"></i>{{ $user->created_at->format('d M Y') }}
+                            <i class="far fa-calendar-alt me-1"></i><?php echo e($user->created_at->format('d M Y')); ?>
+
                         </div>
                         <div class="user-actions">
-                            <a href="{{ route('users.edit', $user) }}" class="btn-icon edit" title="Edit">
+                            <a href="<?php echo e(route('users.edit', $user)); ?>" class="btn-icon edit" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            @if($user->id !== Auth::id())
-                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
-                                    @csrf
-                                    @method('DELETE')
+                            <?php if($user->id !== Auth::id()): ?>
+                                <form action="<?php echo e(route('users.destroy', $user)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="btn-icon delete" title="Hapus">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                            @endif
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
-    @else
+    <?php else: ?>
         <div class="empty-state">
             <i class="fas fa-users-slash"></i>
             <h5 class="text-muted mb-2">Tidak ada data user</h5>
             <p class="text-muted mb-3">Belum ada user yang terdaftar dalam sistem.</p>
-            <a href="{{ route('users.create') }}" class="btn btn-primary">
+            <a href="<?php echo e(route('users.create')); ?>" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>Tambah User Pertama
             </a>
         </div>
-    @endif
+    <?php endif; ?>
 </div>
 
 <!-- Pagination -->
-@if($users->hasPages())
+<?php if($users->hasPages()): ?>
     <div class="d-flex justify-content-center mt-4">
-        {{ $users->links() }}
-    </div>
-@endif
-@endsection
+        <?php echo e($users->links()); ?>
 
-@section('scripts')
+    </div>
+<?php endif; ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
 <script>
     // View Toggle
     const viewCard = document.getElementById('viewCard');
@@ -807,4 +808,5 @@
         });
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\inventaris-barang2\inventaris-kantor\resources\views/users/index.blade.php ENDPATH**/ ?>

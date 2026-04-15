@@ -20,11 +20,12 @@ class CreateBerkasTransaksisTable extends Migration
             $table->string('perihal')->nullable()->comment('Perihal/keperluan dokumen');
             $table->string('pengirim')->nullable()->comment('Pihak yang menyerahkan');
             $table->string('penerima')->nullable()->comment('Pihak yang menerima');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->comment('User yang upload');
-            $table->string('file_path')->comment('Path file PDF');
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict')->comment('User yang upload');
+            $table->string('file_path')->comment('Path file relatif terhadap storage');
+            $table->index('file_path');
             $table->string('file_name')->comment('Nama asli file');
             $table->string('file_size')->nullable()->comment('Ukuran file');
-            $table->string('file_mime')->default('application/pdf')->comment('MIME type');
+            $table->string('file_mime')->comment('MIME type file'); // No default
             $table->text('keterangan')->nullable()->comment('Keterangan tambahan');
             $table->timestamps();
             

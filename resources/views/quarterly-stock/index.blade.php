@@ -82,6 +82,41 @@
         font-size: 0.875rem;
         opacity: 0.9;
     }
+    
+    @media (max-width: 767.98px) {
+        .stat-box {
+            padding: 12px;
+        }
+        .stat-box div[style*="font-size: 1.5rem"] {
+            font-size: 1.25rem !important;
+        }
+        .quarter-btn {
+            padding: 8px 14px;
+            font-size: 0.8125rem;
+        }
+        .filter-card .card-body {
+            padding: 1rem;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .stat-box div[style*="font-size: 1.5rem"] {
+            font-size: 1.1rem !important;
+        }
+        .stat-box div[style*="font-size: 1.75rem"] {
+            font-size: 1.25rem !important;
+        }
+        .quarter-selector {
+            gap: 6px;
+        }
+        .quarter-btn {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+        .filter-card .card-body {
+            padding: 0.75rem;
+        }
+    }
 </style>
 @endsection
 
@@ -91,7 +126,7 @@
         <div class="card filter-card">
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-md-3 mb-3 mb-md-0">
+                    <div class="col-md-3 col-12 mb-3 mb-md-0">
                         <label class="form-label text-white mb-1" style="font-size: 0.75rem; opacity: 0.8;">Tahun</label>
                         <select name="tahun" id="filterTahun" class="form-select" style="background: rgba(255,255,255,0.9);">
                             @foreach($availableYears as $year)
@@ -99,7 +134,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9 col-12">
                         <label class="form-label text-white mb-2" style="font-size: 0.75rem; opacity: 0.8;">Pilih Triwulan</label>
                         <div class="quarter-selector">
                             @foreach($quarters as $q => $label)
@@ -142,8 +177,8 @@
 </div>
 
 {{-- Statistics --}}
-<div class="row mb-4">
-    <div class="col-4">
+<div class="row g-2 mb-4">
+    <div class="col-6 col-md-4">
         <div class="stat-box stat-total">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
@@ -154,7 +189,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-6 col-md-4">
         <div class="stat-box stat-positive">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
@@ -165,7 +200,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-6 col-md-4">
         <div class="stat-box stat-zero">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
@@ -190,13 +225,13 @@
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-hover mb-0" style="min-width: 600px;">
                         <thead class="bg-light">
                             <tr>
                                 <th style="width: 60px;" class="text-center">No</th>
                                 <th>Nama Barang</th>
                                 <th style="width: 120px;" class="text-center">Satuan</th>
-                                <th style="width: 150px;" class="text-center">Stok Opname (SO)</th>
+                                <th style="width: 150px;" class="text-center">JUMLAH STOK TERCATAT</th>
                             </tr>
                         </thead>
                         <tbody>

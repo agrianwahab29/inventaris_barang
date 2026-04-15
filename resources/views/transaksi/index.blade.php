@@ -195,17 +195,83 @@
         font-size: 0.75rem;
         color: #6c757d;
     }
+    
+    @media (max-width: 767.98px) {
+        .stat-box {
+            padding: 10px;
+        }
+        
+        .stat-box h4 {
+            font-size: 1rem !important;
+        }
+        
+        .filter-card .row.g-2 {
+            row-gap: 6px;
+        }
+        
+        .bulk-toolbar {
+            margin: -12px -12px 10px -12px;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .stat-box {
+            padding: 8px;
+            border-radius: 8px;
+        }
+        
+        .stat-box h4 {
+            font-size: 0.9375rem !important;
+        }
+        
+        .stat-box p {
+            font-size: 0.625rem !important;
+        }
+        
+        .filter-card .card-body {
+            padding: 8px !important;
+        }
+        
+        .bulk-toolbar {
+            margin: -8px -8px 8px -8px;
+            padding: 8px 10px;
+        }
+        
+        .bulk-toolbar .d-flex {
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        /* Export type cards 2-per-row on mobile */
+        .export-type-card {
+            padding: 8px 6px;
+            min-height: 70px;
+        }
+        
+        .export-icon {
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+    }
+    
+    @media (max-width: 374.98px) {
+        .stat-box h4 {
+            font-size: 0.875rem !important;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <!-- Header Section -->
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap" style="gap: 8px;">
     <div>
         <h5 class="mb-0 fw-bold">Riwayat Transaksi</h5>
         <p class="text-muted mb-0 small">Kelola dan pantau semua transaksi</p>
     </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 flex-wrap">
         <button type="button" id="btnExportModal" class="btn btn-success rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#exportModal" style="font-size: 0.75rem;">
             <i class="fas fa-file-excel me-1"></i>Export
         </button>
@@ -215,24 +281,12 @@
     </div>
 </div>
 
-<!-- Error Message Display -->
-@if(session('error'))
-<div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" style="font-size: 0.75rem;">
-    <i class="fas fa-exclamation-triangle me-2"></i>{{ session('error') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" style="font-size: 0.6rem;"></button>
-</div>
-@endif
-
-@if(session('success'))
-<div class="alert alert-success alert-dismissible fade show mb-3 auto-dismiss" role="alert" style="font-size: 0.75rem;" data-auto-dismiss="5000">
-    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" style="font-size: 0.6rem;"></button>
-</div>
-@endif
+{{-- Session messages are handled by the layout (layouts/app.blade.php) --}}
+{{-- Removing duplicate alerts that were showing alongside layout alerts --}}
 
 <!-- Stats Cards -->
 <div class="row g-2 mb-3">
-    <div class="col-md-4">
+    <div class="col-md-4 col-4">
         <div class="stat-box stat-masuk">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -243,7 +297,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-4">
         <div class="stat-box stat-keluar">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -254,7 +308,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-4">
         <div class="stat-box stat-total">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -283,7 +337,7 @@
         <form method="GET" action="{{ route('transaksi.index') }}">
             <div class="row g-2 align-items-end">
                 @if(Auth::user()->isAdmin())
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">User</label>
                     <select name="user_id" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">Semua</option>
@@ -293,7 +347,7 @@
                     </select>
                 </div>
                 @endif
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Tipe</label>
                     <select name="tipe" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">Semua</option>
@@ -301,7 +355,7 @@
                         <option value="keluar" {{ request('tipe') == 'keluar' ? 'selected' : '' }}>Keluar</option>
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Barang</label>
                     <select name="barang_id" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">Semua</option>
@@ -310,7 +364,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Dari</label>
                     <select id="filterDariDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="syncFilterDari()">
                         <option value="">-- Pilih --</option>
@@ -320,7 +374,7 @@
                     </select>
                     <input type="date" name="tanggal_dari" id="filterDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" value="{{ request('tanggal_dari') }}" onchange="syncFilterDariDropdown()">
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Sampai</label>
                     <select id="filterSampaiDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="syncFilterSampai()">
                         <option value="">-- Pilih --</option>
@@ -330,7 +384,7 @@
                     </select>
                     <input type="date" name="tanggal_sampai" id="filterSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" value="{{ request('tanggal_sampai') }}" onchange="syncFilterSampaiDropdown()">
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Tahun</label>
                     <select name="tahun" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">Semua</option>
@@ -341,7 +395,7 @@
                         @endforelse
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Bulan</label>
                     <select name="bulan" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">Semua</option>
@@ -350,7 +404,7 @@
                         @endfor
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-2 col-md-4 col-6">
                     <div class="d-flex gap-1">
                         <button type="submit" class="btn btn-light flex-fill" style="font-size: 0.75rem; padding: 4px 8px;"><i class="fas fa-filter me-1"></i>Filter</button>
                         <a href="{{ route('transaksi.index') }}" class="btn btn-outline-light" style="font-size: 0.75rem; padding: 4px 8px;" title="Reset"><i class="fas fa-undo"></i></a>
@@ -385,7 +439,7 @@
     <div class="card transaction-card border-0 shadow">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover mb-0 align-middle" id="transaksiTable" style="font-size: 0.75rem;">
+                <table class="table table-hover mb-0 align-middle" id="transaksiTable" style="font-size: 0.75rem; min-width: 900px;">
                     <thead class="bg-light">
                         <tr>
                             <th class="py-2 px-3" width="40"><input type="checkbox" class="form-check-input" id="selectAllHeader" style="font-size: 0.75rem;"></th>
@@ -469,7 +523,7 @@
 
 <!-- Export Modal -->
 <div class="modal fade export-modal" id="exportModal" tabindex="-1">
-    <div class="modal-dialog modal-lg" style="font-size: 0.8125rem;">
+    <div class="modal-dialog modal-lg modal-fullscreen-sm-down" style="font-size: 0.8125rem;">
         <div class="modal-content">
             <div class="modal-header py-2">
                 <h6 class="modal-title fw-bold"><i class="fas fa-file-excel me-2"></i>Export Data Transaksi</h6>
@@ -495,7 +549,7 @@
                             ];
                             @endphp
                             @foreach($exportTypes as $t)
-                            <div class="col-4">
+                            <div class="col-6 col-md-4">
                                 <div class="export-type-card h-100 {{ $t['id'] === 'all' ? 'active' : '' }}" onclick="selectExportType('{{ $t['id'] }}')">
                                     <input class="form-check-input d-none" type="radio" name="export_type" id="export_{{ $t['id'] }}" value="{{ $t['id'] }}" {{ $t['id'] === 'all' ? 'checked' : '' }}>
                                     <label class="d-flex flex-column align-items-center text-center w-100 h-100" for="export_{{ $t['id'] }}" style="cursor:pointer;">
@@ -571,12 +625,12 @@
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tanggal <span class="text-muted fw-normal">(Pilih tanggal bebas)</span></label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Dari Tanggal</label>
                                     <input type="date" name="tanggal_dari" id="rangeDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" onchange="validateDateRange()">
                                     <small class="text-muted" style="font-size: 0.5rem;">Klik icon kalender untuk memilih tanggal</small>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Sampai Tanggal</label>
                                     <input type="date" name="tanggal_sampai" id="rangeSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" onchange="validateDateRange()">
                                     <small class="text-muted" style="font-size: 0.5rem;">Klik icon kalender untuk memilih tanggal</small>
@@ -680,7 +734,7 @@
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tahun</label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Dari Tahun</label>
                                     <select name="tahun_dari" id="yearRangeDari" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;" onchange="filterYearRangeSampai()">
                                         <option value="">-- Pilih --</option>
@@ -691,7 +745,7 @@
                                         @endforelse
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Sampai Tahun</label>
                                     <select name="tahun_sampai" id="yearRangeSampai" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                                         <option value="">-- Pilih --</option>
@@ -746,7 +800,7 @@
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Pilih Bulan</label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Tahun</label>
                                     <select name="tahun_bulan" id="monthTahun" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;" onchange="updateMonthOptions('monthBulan', this.value)">
                                         <option value="">-- Pilih Tahun --</option>
@@ -757,7 +811,7 @@
                                         @endforelse
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Bulan <small class="text-success">(hanya bulan yang ada datanya)</small></label>
                                     <select name="bulan" id="monthBulan" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;" disabled>
                                         <option value="">-- Pilih tahun dulu --</option>
@@ -807,7 +861,7 @@
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Bulan</label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="border-end pe-2">
                                         <div class="text-muted fw-bold mb-1" style="font-size: 0.625rem;"><i class="fas fa-play text-success me-1" style="font-size: 0.5rem;"></i>DARI</div>
                                         <select name="tahun_dari" id="monthRangeTahunDari" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="updateMonthOptions('monthRangeBulanDari', this.value)">
@@ -824,7 +878,7 @@ un --</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="ps-2">
                                         <div class="text-muted fw-bold mb-1" style="font-size: 0.625rem;"><i class="fas fa-stop text-danger me-1" style="font-size: 0.5rem;"></i>SAMPAI</div>
                                         <select name="tahun_sampai" id="monthRangeTahunSampai" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="updateMonthOptions('monthRangeBulanSampai', this.value)">
@@ -1195,25 +1249,5 @@ class TransactionPolling {
     }
 }
 document.addEventListener('DOMContentLoaded', () => new TransactionPolling().start());
-// === Auto-dismiss alerts ===
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.auto-dismiss').forEach(alert => {
-        const timeout = parseInt(alert.dataset.autoDismiss) || 5000;
-        setTimeout(() => {
-            // Check if element still exists in DOM
-            if (!alert || !document.body.contains(alert)) return;
-            
-            // Manual fade out and remove (avoid Bootstrap Alert API issues)
-            alert.style.transition = 'opacity 0.5s ease';
-            alert.style.opacity = '0';
-            
-            setTimeout(() => {
-                if (alert && alert.parentNode) {
-                    alert.parentNode.removeChild(alert);
-                }
-            }, 500);
-        }, timeout);
-    });
-});
 </script>
 @endsection

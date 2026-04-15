@@ -1,13 +1,13 @@
-@extends('layouts.app')
 
-@section('title', 'Dashboard - Aplikasi Inventaris')
 
-@section('page_title', 'Dashboard')
+<?php $__env->startSection('title', 'Dashboard - Aplikasi Inventaris'); ?>
 
-@section('styles')
+<?php $__env->startSection('page_title', 'Dashboard'); ?>
+
+<?php $__env->startSection('styles'); ?>
 <style>
     /* Keyframe Animations */
-    @keyframes fadeInUp {
+    @keyframes  fadeInUp {
         from {
             opacity: 0;
             transform: translateY(30px);
@@ -18,7 +18,7 @@
         }
     }
     
-    @keyframes fadeInLeft {
+    @keyframes  fadeInLeft {
         from {
             opacity: 0;
             transform: translateX(-30px);
@@ -29,7 +29,7 @@
         }
     }
     
-    @keyframes fadeInRight {
+    @keyframes  fadeInRight {
         from {
             opacity: 0;
             transform: translateX(30px);
@@ -40,7 +40,7 @@
         }
     }
     
-    @keyframes scaleIn {
+    @keyframes  scaleIn {
         from {
             opacity: 0;
             transform: scale(0.9);
@@ -51,7 +51,7 @@
         }
     }
     
-    @keyframes pulse {
+    @keyframes  pulse {
         0%, 100% {
             transform: scale(1);
         }
@@ -60,7 +60,7 @@
         }
     }
     
-    @keyframes shimmer {
+    @keyframes  shimmer {
         0% {
             background-position: -200% 0;
         }
@@ -69,7 +69,7 @@
         }
     }
     
-    @keyframes float {
+    @keyframes  float {
         0%, 100% {
             transform: translateY(0);
         }
@@ -78,7 +78,7 @@
         }
     }
     
-    @keyframes countUp {
+    @keyframes  countUp {
         from {
             opacity: 0;
             transform: translateY(10px);
@@ -89,7 +89,7 @@
         }
     }
     
-    @keyframes slideIn {
+    @keyframes  slideIn {
         from {
             opacity: 0;
             transform: translateX(-100%);
@@ -100,7 +100,7 @@
         }
     }
     
-    @keyframes gradientFlow {
+    @keyframes  gradientFlow {
         0% {
             background-position: 0% 50%;
         }
@@ -676,9 +676,9 @@
         }
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Welcome Banner -->
 <div class="welcome-banner mb-4 animate-fade-up">
     <div class="card-body p-4 position-relative">
@@ -686,14 +686,14 @@
             <div class="col-md-8">
                 <h4 class="text-white mb-2 fw-bold">
                     <i class="fas fa-hand-sparkles me-2"></i>
-                    Selamat Datang, {{ Auth::user()->name }}!
+                    Selamat Datang, <?php echo e(Auth::user()->name); ?>!
                 </h4>
                 <p class="text-white-50 mb-0" style="font-size: 0.9375rem;">
                     Kelola inventaris barang dengan mudah dan efisien. Semua yang Anda butuhkan ada di sini.
                 </p>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <a href="{{ route('transaksi.create') }}" class="btn btn-light btn-lg rounded-pill px-4 py-2 fw-semibold" style="font-size: 0.875rem;">
+                <a href="<?php echo e(route('transaksi.create')); ?>" class="btn btn-light btn-lg rounded-pill px-4 py-2 fw-semibold" style="font-size: 0.875rem;">
                     <i class="fas fa-plus-circle me-2"></i>Barang Masuk/Keluar
                 </a>
             </div>
@@ -708,11 +708,11 @@
             <div class="stat-icon stat-icon-primary">
                 <i class="fas fa-boxes"></i>
             </div>
-            <div class="stat-value" data-count="{{ $totalBarang }}">{{ number_format($totalBarang) }}</div>
+            <div class="stat-value" data-count="<?php echo e($totalBarang); ?>"><?php echo e(number_format($totalBarang)); ?></div>
             <div class="stat-label">Total Jenis Barang</div>
             <div class="stat-badge stat-badge-primary">
                 <i class="fas fa-cube"></i>
-                <span>{{ number_format($totalStok) }} total stok</span>
+                <span><?php echo e(number_format($totalStok)); ?> total stok</span>
             </div>
         </div>
     </div>
@@ -722,11 +722,11 @@
             <div class="stat-icon stat-icon-success">
                 <i class="fas fa-arrow-down"></i>
             </div>
-            <div class="stat-value">{{ number_format($dataMasuk[6] ?? 0) }}</div>
+            <div class="stat-value"><?php echo e(number_format($dataMasuk[6] ?? 0)); ?></div>
             <div class="stat-label">Barang Masuk Hari Ini</div>
             <div class="stat-badge stat-badge-success">
                 <i class="fas fa-calendar-day"></i>
-                <span>{{ now()->format('d M Y') }}</span>
+                <span><?php echo e(now()->format('d M Y')); ?></span>
             </div>
         </div>
     </div>
@@ -736,11 +736,11 @@
             <div class="stat-icon stat-icon-warning">
                 <i class="fas fa-arrow-up"></i>
             </div>
-            <div class="stat-value">{{ number_format($dataKeluar[6] ?? 0) }}</div>
+            <div class="stat-value"><?php echo e(number_format($dataKeluar[6] ?? 0)); ?></div>
             <div class="stat-label">Barang Keluar Hari Ini</div>
             <div class="stat-badge stat-badge-warning">
                 <i class="fas fa-exchange-alt"></i>
-                <span>{{ $transaksiHariIni }} transaksi</span>
+                <span><?php echo e($transaksiHariIni); ?> transaksi</span>
             </div>
         </div>
     </div>
@@ -750,11 +750,11 @@
             <div class="stat-icon stat-icon-danger">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <div class="stat-value">{{ number_format($stokRendah + $stokHabis) }}</div>
+            <div class="stat-value"><?php echo e(number_format($stokRendah + $stokHabis)); ?></div>
             <div class="stat-label">Perlu Perhatian</div>
             <div class="stat-badge stat-badge-danger">
-                <span class="badge bg-white text-danger me-1" style="font-size: 0.625rem;">{{ $stokHabis }} habis</span>
-                <span class="badge bg-white text-warning" style="font-size: 0.625rem;">{{ $stokRendah }} rendah</span>
+                <span class="badge bg-white text-danger me-1" style="font-size: 0.625rem;"><?php echo e($stokHabis); ?> habis</span>
+                <span class="badge bg-white text-warning" style="font-size: 0.625rem;"><?php echo e($stokRendah); ?> rendah</span>
             </div>
         </div>
     </div>
@@ -764,11 +764,11 @@
             <div class="stat-icon stat-icon-info">
                 <i class="fas fa-file-pdf"></i>
             </div>
-            <div class="stat-value" data-count="{{ $totalBerkas }}">{{ number_format($totalBerkas) }}</div>
+            <div class="stat-value" data-count="<?php echo e($totalBerkas); ?>"><?php echo e(number_format($totalBerkas)); ?></div>
             <div class="stat-label">Total Berkas Transaksi</div>
             <div class="stat-badge stat-badge-primary">
                 <i class="fas fa-calendar-alt"></i>
-                <span>{{ $berkasBulanIni }} bulan ini</span>
+                <span><?php echo e($berkasBulanIni); ?> bulan ini</span>
             </div>
         </div>
     </div>
@@ -783,7 +783,7 @@
                     <i class="fas fa-chart-line" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;"></i>
                     Grafik Transaksi 7 Hari Terakhir
                 </h5>
-                <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.75rem;">
+                <a href="<?php echo e(route('transaksi.index')); ?>" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Detail
                 </a>
             </div>
@@ -803,7 +803,7 @@
                 </h5>
             </div>
             
-            <a href="{{ route('transaksi.create') }}" class="quick-action">
+            <a href="<?php echo e(route('transaksi.create')); ?>" class="quick-action">
                 <div class="quick-action-icon" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #4f46e5;">
                     <i class="fas fa-plus"></i>
                 </div>
@@ -814,7 +814,7 @@
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>
             
-            <a href="{{ route('quarterly-stock.index') }}" class="quick-action">
+            <a href="<?php echo e(route('quarterly-stock.index')); ?>" class="quick-action">
                 <div class="quick-action-icon" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #059669;">
                     <i class="fas fa-calendar-check"></i>
                 </div>
@@ -825,7 +825,7 @@
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>
             
-            <a href="{{ route('barang.index') }}" class="quick-action">
+            <a href="<?php echo e(route('barang.index')); ?>" class="quick-action">
                 <div class="quick-action-icon" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #d97706;">
                     <i class="fas fa-box-open"></i>
                 </div>
@@ -836,7 +836,7 @@
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>
             
-            <a href="{{ route('transaksi.index') }}" class="quick-action">
+            <a href="<?php echo e(route('transaksi.index')); ?>" class="quick-action">
                 <div class="quick-action-icon" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); color: #db2777;">
                     <i class="fas fa-history"></i>
                 </div>
@@ -847,7 +847,7 @@
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>
             
-            <a href="{{ route('berkas-transaksi.index') }}" class="quick-action">
+            <a href="<?php echo e(route('berkas-transaksi.index')); ?>" class="quick-action">
                 <div class="quick-action-icon" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #dc2626;">
                     <i class="fas fa-file-pdf"></i>
                 </div>
@@ -858,8 +858,8 @@
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>
             
-            @if(Auth::user()->isAdmin())
-            <a href="{{ route('users.index') }}" class="quick-action">
+            <?php if(Auth::user()->isAdmin()): ?>
+            <a href="<?php echo e(route('users.index')); ?>" class="quick-action">
                 <div class="quick-action-icon" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #7c3aed;">
                     <i class="fas fa-users-cog"></i>
                 </div>
@@ -869,7 +869,7 @@
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -883,23 +883,24 @@
                     <i class="fas fa-bell" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;"></i>
                     Peringatan Stok
                 </h5>
-                <a href="{{ route('barang.index', ['status' => 'rendah']) }}" class="btn btn-sm btn-outline-danger rounded-pill" style="font-size: 0.6875rem;">
+                <a href="<?php echo e(route('barang.index', ['status' => 'rendah'])); ?>" class="btn btn-sm btn-outline-danger rounded-pill" style="font-size: 0.6875rem;">
                     Semua
                 </a>
             </div>
             
             <div style="max-height: 320px; overflow-y: auto;" class="custom-scroll">
-                @forelse($barangStokRendah as $barang)
-                    <a href="{{ route('barang.show', $barang->id) }}" class="alert-item {{ $barang->isStokHabis() ? 'alert-danger-item' : 'alert-warning-item' }} text-decoration-none">
+                <?php $__empty_1 = true; $__currentLoopData = $barangStokRendah; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <a href="<?php echo e(route('barang.show', $barang->id)); ?>" class="alert-item <?php echo e($barang->isStokHabis() ? 'alert-danger-item' : 'alert-warning-item'); ?> text-decoration-none">
                         <div class="flex-grow-1" style="min-width: 0;">
-                            <h6 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.8125rem;">{{ $barang->nama_barang }}</h6>
-                            <small class="text-muted" style="font-size: 0.6875rem;">{{ $barang->kategori }}</small>
+                            <h6 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.8125rem;"><?php echo e($barang->nama_barang); ?></h6>
+                            <small class="text-muted" style="font-size: 0.6875rem;"><?php echo e($barang->kategori); ?></small>
                         </div>
-                        <span class="badge {{ $barang->isStokHabis() ? 'bg-danger' : 'bg-warning text-dark' }} rounded-pill ms-2" style="font-size: 0.625rem;">
-                            {{ $barang->stok }} {{ $barang->satuan }}
+                        <span class="badge <?php echo e($barang->isStokHabis() ? 'bg-danger' : 'bg-warning text-dark'); ?> rounded-pill ms-2" style="font-size: 0.625rem;">
+                            <?php echo e($barang->stok); ?> <?php echo e($barang->satuan); ?>
+
                         </span>
                     </a>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="empty-state">
                         <div class="empty-state-icon" style="background: #d1fae5;">
                             <i class="fas fa-check-circle text-success" style="font-size: 1.5rem;"></i>
@@ -907,7 +908,7 @@
                         <h6 class="text-muted fw-semibold" style="font-size: 0.875rem;">Semua Stok Aman</h6>
                         <p class="text-muted mb-0" style="font-size: 0.75rem;">Tidak ada barang dengan stok rendah</p>
                     </div>
-                @endforelse
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -920,56 +921,59 @@
                     <i class="fas fa-clock" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;"></i>
                     Transaksi Terakhir
                 </h5>
-                <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; font-size: 0.75rem;">
+                <a href="<?php echo e(route('transaksi.index')); ?>" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Semua
                 </a>
             </div>
             
             <div style="max-height: 320px; overflow-y: auto;" class="custom-scroll">
-                @forelse($transaksiTerakhir as $transaksi)
-                    <a href="{{ route('transaksi.show', $transaksi->id) }}" class="transaction-item text-decoration-none">
-                        <div class="transaction-icon {{ $transaksi->tipe == 'masuk' ? 'transaction-masuk' : 'transaction-keluar' }}">
-                            <i class="fas fa-arrow-{{ $transaksi->tipe == 'masuk' ? 'down' : 'up' }}"></i>
+                <?php $__empty_1 = true; $__currentLoopData = $transaksiTerakhir; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaksi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <a href="<?php echo e(route('transaksi.show', $transaksi->id)); ?>" class="transaction-item text-decoration-none">
+                        <div class="transaction-icon <?php echo e($transaksi->tipe == 'masuk' ? 'transaction-masuk' : 'transaction-keluar'); ?>">
+                            <i class="fas fa-arrow-<?php echo e($transaksi->tipe == 'masuk' ? 'down' : 'up'); ?>"></i>
                         </div>
                         <div class="flex-grow-1" style="min-width: 0; overflow: hidden;">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div style="min-width: 0; overflow: hidden;">
-                                    <h6 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.875rem;">{{ $transaksi->barang->nama_barang }}</h6>
+                                    <h6 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.875rem;"><?php echo e($transaksi->barang->nama_barang); ?></h6>
                                     <small class="text-muted" style="font-size: 0.75rem;">
-                                        <i class="fas fa-user me-1"></i>{{ $transaksi->user->name }}
-                                        @if($transaksi->tipe == 'keluar' && $transaksi->ruangan)
+                                        <i class="fas fa-user me-1"></i><?php echo e($transaksi->user->name); ?>
+
+                                        <?php if($transaksi->tipe == 'keluar' && $transaksi->ruangan): ?>
                                             <span class="mx-1">•</span>
-                                            <i class="fas fa-door-open me-1"></i>{{ $transaksi->ruangan->nama_ruangan }}
-                                        @endif
+                                            <i class="fas fa-door-open me-1"></i><?php echo e($transaksi->ruangan->nama_ruangan); ?>
+
+                                        <?php endif; ?>
                                     </small>
                                 </div>
                                 <div class="text-end" style="white-space: nowrap;">
-                                    <span class="badge {{ $transaksi->tipe == 'masuk' ? 'bg-success' : 'bg-warning text-dark' }} rounded-pill mb-1" style="font-size: 0.6875rem;">
-                                        {{ $transaksi->tipe == 'masuk' ? '+' : '-' }}{{ $transaksi->jumlah }} {{ $transaksi->barang->satuan }}
+                                    <span class="badge <?php echo e($transaksi->tipe == 'masuk' ? 'bg-success' : 'bg-warning text-dark'); ?> rounded-pill mb-1" style="font-size: 0.6875rem;">
+                                        <?php echo e($transaksi->tipe == 'masuk' ? '+' : '-'); ?><?php echo e($transaksi->jumlah); ?> <?php echo e($transaksi->barang->satuan); ?>
+
                                     </span>
-                                    <div class="small text-muted" style="font-size: 0.6875rem;">{{ $transaksi->tanggal->format('d M') }}</div>
+                                    <div class="small text-muted" style="font-size: 0.6875rem;"><?php echo e($transaksi->tanggal->format('d M')); ?></div>
                                 </div>
                             </div>
                         </div>
                     </a>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="empty-state">
                         <div class="empty-state-icon" style="background: #f1f5f9;">
                             <i class="fas fa-inbox text-muted" style="font-size: 1.5rem;"></i>
                         </div>
                         <h6 class="text-muted fw-semibold" style="font-size: 0.875rem;">Belum Ada Transaksi</h6>
-                        <a href="{{ route('transaksi.create') }}" class="btn rounded-pill mt-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.75rem;">
+                        <a href="<?php echo e(route('transaksi.create')); ?>" class="btn rounded-pill mt-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.75rem;">
                             <i class="fas fa-plus me-1"></i>Barang Masuk/Keluar
                         </a>
                     </div>
-                @endforelse
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -978,10 +982,10 @@
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: @json($tanggalLabels),
+                labels: <?php echo json_encode($tanggalLabels, 15, 512) ?>,
                 datasets: [{
                     label: 'Barang Masuk',
-                    data: @json($dataMasuk),
+                    data: <?php echo json_encode($dataMasuk, 15, 512) ?>,
                     backgroundColor: 'rgba(16, 185, 129, 0.1)',
                     borderColor: '#10b981',
                     borderWidth: 3,
@@ -997,7 +1001,7 @@
                     pointHoverBorderWidth: 3
                 }, {
                     label: 'Barang Keluar',
-                    data: @json($dataKeluar),
+                    data: <?php echo json_encode($dataKeluar, 15, 512) ?>,
                     backgroundColor: 'rgba(245, 158, 11, 0.1)',
                     borderColor: '#f59e0b',
                     borderWidth: 3,
@@ -1085,4 +1089,6 @@
         });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\inventaris-barang2\inventaris-kantor\resources\views/dashboard/index.blade.php ENDPATH**/ ?>

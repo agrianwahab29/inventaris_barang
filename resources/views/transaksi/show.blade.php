@@ -3,7 +3,27 @@
 @section('title', 'Detail Transaksi - Aplikasi Inventaris')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
+<style>
+    @media (max-width: 767.98px) {
+        .table-borderless td:first-child {
+            width: auto !important;
+            min-width: 120px;
+            font-size: 0.8125rem;
+        }
+        .table-borderless td:last-child {
+            font-size: 0.8125rem;
+        }
+        .card-header h5 {
+            font-size: 1rem;
+        }
+    }
+    @media (max-width: 575.98px) {
+        .card-body {
+            padding: 10px;
+        }
+    }
+</style>
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap" style="gap: 8px;">
     <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Detail Transaksi</h4>
     <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">
         <i class="fas fa-arrow-left me-2"></i>Kembali
@@ -11,7 +31,7 @@
 </div>
 
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-8 col-12">
         <div class="card table-container">
             <div class="card-header bg-{{ $transaksi->jumlah_masuk > 0 && $transaksi->jumlah_keluar > 0 ? 'info' : ($transaksi->jumlah_masuk > 0 ? 'success' : 'warning') }} text-white py-3">
                 <h5 class="mb-0">
@@ -28,7 +48,7 @@
             <div class="card-body">
                 <table class="table table-borderless">
                     <tr>
-                        <td width="250"><strong>Tanggal Transaksi</strong></td>
+                        <td style="min-width: 120px; width: 250px;"><strong>Tanggal Transaksi</strong></td>
                         <td>: {{ $transaksi->tanggal->format('d M Y') }}</td>
                     </tr>
                     <tr>

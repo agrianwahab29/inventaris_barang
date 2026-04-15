@@ -31,7 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.path');
 
     // Barang Routes (Admin & Pengguna)
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
@@ -73,20 +73,31 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/surat-tanda-terima/generate', [SuratTandaTerimaController::class, 'generateDocx'])->name('surat-tanda-terima.generate');
 
     // Berkas Transaksi Routes
+    // View/Download routes (all authenticated users)
     Route::get('/berkas-transaksi', [BerkasTransaksiController::class, 'index'])->name('berkas-transaksi.index');
-    Route::get('/berkas-transaksi/create', [BerkasTransaksiController::class, 'create'])->name('berkas-transaksi.create');
-    Route::post('/berkas-transaksi', [BerkasTransaksiController::class, 'store'])->name('berkas-transaksi.store');
     Route::get('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'show'])->name('berkas-transaksi.show');
-    Route::get('/berkas-transaksi/{berkasTransaksi}/edit', [BerkasTransaksiController::class, 'edit'])->name('berkas-transaksi.edit');
-    Route::put('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'update'])->name('berkas-transaksi.update');
-    Route::delete('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'destroy'])->name('berkas-transaksi.destroy');
     Route::get('/berkas-transaksi/{berkasTransaksi}/download', [BerkasTransaksiController::class, 'download'])->name('berkas-transaksi.download');
-    
-    // Bulk Delete Routes for Berkas Transaksi
-    Route::post('/berkas-transaksi/bulk-delete', [BerkasTransaksiController::class, 'bulkDelete'])->name('berkas-transaksi.bulk-delete');
-    Route::post('/berkas-transaksi/delete-all', [BerkasTransaksiController::class, 'deleteAll'])->name('berkas-transaksi.delete-all');
-    Route::post('/berkas-transaksi/delete-by-month', [BerkasTransaksiController::class, 'deleteByMonth'])->name('berkas-transaksi.delete-by-month');
-    Route::post('/berkas-transaksi/delete-by-range', [BerkasTransaksiController::class, 'deleteByRange'])->name('berkas-transaksi.delete-by-range');
+
+    // Upload routes (all authenticated users)
+    Route::get('/berkas-transaksi/create', [BerkasTransaksiController::class, 'create'])->name('berkas-transaksi.create');
+    Route::post('/berkas-transaksi', [BerkasTransaksiController::class, 'store'])
+        ->name('berkas-transaksi.store')
+        ->middleware('throttle:uploads,10,1'); // 10 uploads per minute per user
+
+    // Owner-only routes (edit/update/delete own files)
+    Route::middleware(['can:update,berkasTransaksi'])->group(function () {
+        Route::get('/berkas-transaksi/{berkasTransaksi}/edit', [BerkasTransaksiController::class, 'edit'])->name('berkas-transaksi.edit');
+        Route::put('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'update'])->name('berkas-transaksi.update');
+        Route::delete('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'destroy'])->name('berkas-transaksi.destroy');
+    });
+
+    // Admin-only bulk delete routes
+    Route::middleware(['role:admin'])->group(function () {
+        Route::post('/berkas-transaksi/bulk-delete', [BerkasTransaksiController::class, 'bulkDelete'])->name('berkas-transaksi.bulk-delete');
+        Route::post('/berkas-transaksi/delete-all', [BerkasTransaksiController::class, 'deleteAll'])->name('berkas-transaksi.delete-all');
+        Route::post('/berkas-transaksi/delete-by-month', [BerkasTransaksiController::class, 'deleteByMonth'])->name('berkas-transaksi.delete-by-month');
+        Route::post('/berkas-transaksi/delete-by-range', [BerkasTransaksiController::class, 'deleteByRange'])->name('berkas-transaksi.delete-by-range');
+    });
 
     // Ruangan Routes
     Route::get('/ruangan', [RuanganController::class, 'index'])->name('ruangan.index');

@@ -7,9 +7,9 @@
     <title>Login - Aplikasi Inventaris Barang</title>
 
     <!-- Favicon - Logo Tut Wuri Handayani -->
-    <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=4">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=4">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=4">
+    <link rel="icon" type="image/png" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=4">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo e(asset('favicon.ico')); ?>?v=4">
+    <link rel="icon" type="image/svg+xml" href="<?php echo e(asset('image/tut-wuri-handayani.svg')); ?>?v=4">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -175,15 +175,16 @@
         </div>
 
         <div class="login-body">
-            @if($errors->any())
+            <?php if($errors->any()): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i>{{ $errors->first() }}
+                <i class="fas fa-exclamation-circle me-2"></i><?php echo e($errors->first()); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-            @endif
+            <?php endif; ?>
 
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+            <form method="POST" action="<?php echo e(route('login')); ?>">
+                <?php echo csrf_field(); ?>
 
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Username</label>
@@ -215,4 +216,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>
+</html><?php /**PATH C:\laragon\www\inventaris-barang2\inventaris-kantor\resources\views/auth/login.blade.php ENDPATH**/ ?>

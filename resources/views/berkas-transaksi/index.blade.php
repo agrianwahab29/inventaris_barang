@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php use Illuminate\Support\Str; @endphp
+
 @section('title', 'Berkas Transaksi - Arsip Dokumen')
 
 @section('styles')
@@ -905,7 +907,323 @@
         background: #fef2f2;
     }
     
-
+    /* ============================================
+       FILTER SECTION - MODERN DESIGN
+       ============================================ */
+    
+    /* Main Filter Section Container */
+    .filter-section {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .filter-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+        opacity: 0.8;
+    }
+    
+    /* Search Bar Styling */
+    .search-bar {
+        position: relative;
+    }
+    
+    .search-input-group {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input-group:focus-within {
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+        border-color: #6366f1;
+        transform: translateY(-1px);
+    }
+    
+    .search-input-group .input-group-text {
+        background: transparent;
+        border: none;
+        padding: 0.875rem 1rem;
+        color: #6366f1;
+        font-size: 1.125rem;
+    }
+    
+    .search-input-group .form-control {
+        border: none;
+        padding: 0.875rem 1rem;
+        font-size: 0.9375rem;
+        color: #334155;
+        background: transparent;
+        box-shadow: none;
+    }
+    
+    .search-input-group .form-control::placeholder {
+        color: #94a3b8;
+        font-weight: 400;
+    }
+    
+    .search-input-group .form-control:focus {
+        box-shadow: none;
+    }
+    
+    .search-input-group .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        border: none;
+        padding: 0.875rem 1.5rem;
+        font-weight: 500;
+        border-radius: 0 14px 14px 0;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input-group .btn-primary:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    
+    /* Filter Options Container */
+    .filter-options {
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+        border-top: 1px dashed #e2e8f0;
+    }
+    
+    /* Filter Row Layout */
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    
+    /* Filter Group */
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .filter-group.filter-group-small {
+        flex: 0 0 140px;
+        min-width: 140px;
+    }
+    
+    @media (max-width: 768px) {
+        .filter-group {
+            flex: 1 1 100%;
+            min-width: 100%;
+        }
+        
+        .filter-group.filter-group-small {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: calc(50% - 0.5rem);
+        }
+    }
+    
+    /* Filter Label */
+    .filter-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    
+    .filter-label i {
+        color: #6366f1;
+        font-size: 0.875rem;
+    }
+    
+    /* Date Range Styling */
+    .date-range {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.375rem;
+        transition: all 0.3s ease;
+    }
+    
+    .date-range:focus-within {
+        border-color: #6366f1;
+        box-shadow: 0 2px 12px rgba(99, 102, 241, 0.1);
+    }
+    
+    .date-range .form-control {
+        border: none;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        color: #334155;
+        background: transparent;
+        box-shadow: none;
+        min-width: 130px;
+    }
+    
+    .date-range .form-control:focus {
+        box-shadow: none;
+    }
+    
+    .date-separator {
+        color: #cbd5e1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0 0.25rem;
+    }
+    
+    /* Filter Select Styling */
+    .filter-group .form-select {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.625rem 2rem 0.625rem 0.875rem;
+        font-size: 0.875rem;
+        color: #334155;
+        background-color: #fff;
+        background-position: right 0.75rem center;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    
+    .filter-group .form-select:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    .filter-group .form-select:hover {
+        border-color: #cbd5e1;
+    }
+    
+    /* Filter Actions */
+    .filter-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        flex-wrap: nowrap;
+    }
+    
+    @media (max-width: 768px) {
+        .filter-actions {
+            width: 100%;
+            justify-content: stretch;
+        }
+        
+        .filter-actions .btn-filter {
+            flex: 1;
+        }
+    }
+    
+    /* Filter Buttons */
+    .btn-filter {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.125rem;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    
+    .btn-filter-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        color: white;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+    }
+    
+    .btn-filter-primary:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+        color: white;
+    }
+    
+    .btn-filter-secondary {
+        background: #f1f5f9;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .btn-filter-secondary:hover {
+        background: #e2e8f0;
+        color: #475569;
+        border-color: #cbd5e1;
+    }
+    
+    /* Mobile Responsive Filter Section */
+    @media (max-width: 576px) {
+        .filter-section {
+            padding: 1rem;
+        }
+        
+        .search-input-group .btn-primary {
+            padding: 0.875rem 1rem;
+        }
+        
+        .btn-filter {
+            padding: 0.625rem 0.875rem;
+            font-size: 0.8125rem;
+        }
+        
+        .btn-filter span {
+            display: none;
+        }
+        
+        .date-range {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .date-range .form-control {
+            min-width: auto;
+        }
+        
+        .date-separator {
+            text-align: center;
+            transform: rotate(90deg);
+            padding: 0.25rem 0;
+        }
+    }
+    
+    /* Active Filter Indicator */
+    .filter-section.has-active-filters {
+        border-color: rgba(99, 102, 241, 0.3);
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.08);
+    }
+    
+    /* Filter Badge for Active State */
+    .filter-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem 0.625rem;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        border-radius: 20px;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        margin-left: 0.5rem;
+    }
     
     /* Empty State */
     .empty-state {
@@ -1049,6 +1367,50 @@
         .file-name {
             max-width: 150px;
         }
+        
+        .stat-value {
+            font-size: 1.25rem;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.25rem;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .stat-card {
+            padding: 0.875rem;
+        }
+        
+        .stat-value {
+            font-size: 1.1rem;
+        }
+        
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+            border-radius: 8px;
+        }
+        
+        .btn-header {
+            padding: 0.5rem 0.875rem;
+            font-size: 0.8125rem;
+        }
+        
+        .btn-header span {
+            display: none;
+        }
+        
+        .bulk-action-bar {
+            padding: 0.75rem;
+        }
+        
+        .files-header .view-btn span {
+            display: none;
+        }
     }
 </style>
 @endsection
@@ -1056,7 +1418,7 @@
 @section('content')
 <div class="container-fluid py-4">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-start mb-4">
+    <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
         <div>
             <nav aria-label="breadcrumb" class="mb-2">
                 <ol class="breadcrumb">
@@ -1067,7 +1429,7 @@
             <h1 class="h3 mb-1 fw-bold">Berkas Transaksi</h1>
             <p class="text-muted mb-0">Arsip dokumen serah terima barang</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <button type="button" class="btn-header btn-header-outline" onclick="showDeleteModal()">
                 <i class="fas fa-trash-alt"></i>
                 <span>Hapus Massal</span>
@@ -1081,7 +1443,7 @@
 
     <!-- Stats Cards -->
     <div class="row g-3 mb-4">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-6">
             <div class="stat-card total h-100">
                 <div class="d-flex align-items-center gap-3">
                     <div class="stat-icon">
@@ -1094,7 +1456,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-6">
             <div class="stat-card month h-100">
                 <div class="d-flex align-items-center gap-3">
                     <div class="stat-icon">
@@ -1107,7 +1469,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-6">
             <div class="stat-card size h-100">
                 <div class="d-flex align-items-center gap-3">
                     <div class="stat-icon">
@@ -1130,7 +1492,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-6">
             <div class="stat-card users h-100">
                 <div class="d-flex align-items-center gap-3">
                     <div class="stat-icon">
@@ -1145,34 +1507,41 @@
         </div>
     </div>
 
-    <!-- Filter & Search -->
-    <div class="filter-card mb-4">
-        <div class="filter-header">
-            <h6><i class="fas fa-sliders-h"></i> Filter & Pencarian</h6>
-        </div>
-        <div class="card-body p-3">
-            <form method="GET" action="{{ route('berkas-transaksi.index') }}">
-                <div class="row g-3">
-                    <div class="col-lg-3 col-md-6">
-                        <label class="form-label small text-muted">Cari</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
-                            <input type="text" name="search" class="form-control border-start-0" 
-                                   placeholder="Nomor surat, perihal..." value="{{ request('search') }}">
+    <!-- Filter & Search - Redesigned -->
+    <div class="filter-section mb-4">
+        <form method="GET" action="{{ route('berkas-transaksi.index') }}">
+            <!-- Search Bar - Main -->
+            <div class="search-bar mb-3">
+                <div class="input-group search-input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Cari berkas berdasarkan nama file, nomor surat, atau perihal..." 
+                           value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="d-none d-sm-inline">Cari</span>
+                        <i class="fas fa-search d-inline d-sm-none"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Filter Options -->
+            <div class="filter-options">
+                <div class="filter-row">
+                    <!-- Date Range -->
+                    <div class="filter-group">
+                        <label class="filter-label"><i class="far fa-calendar-alt"></i> Rentang Tanggal</label>
+                        <div class="date-range">
+                            <input type="date" name="dari" class="form-control" value="{{ request('dari') }}" placeholder="Dari">
+                            <span class="date-separator">→</span>
+                            <input type="date" name="sampai" class="form-control" value="{{ request('sampai') }}" placeholder="Sampai">
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-6">
-                        <label class="form-label small text-muted">Dari Tanggal</label>
-                        <input type="date" name="dari" class="form-control" value="{{ request('dari') }}">
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <label class="form-label small text-muted">Sampai Tanggal</label>
-                        <input type="date" name="sampai" class="form-control" value="{{ request('sampai') }}">
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <label class="form-label small text-muted">Tahun</label>
+                    
+                    <!-- Year Filter -->
+                    <div class="filter-group filter-group-small">
+                        <label class="filter-label"><i class="far fa-calendar"></i> Tahun</label>
                         <select name="tahun_filter" class="form-select">
-                            <option value="">Semua</option>
+                            <option value="">Semua Tahun</option>
                             @foreach($availableYears as $tahun)
                                 <option value="{{ $tahun }}" {{ request('tahun_filter') == $tahun ? 'selected' : '' }}>
                                     {{ $tahun }}
@@ -1180,10 +1549,12 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-2 col-md-6">
-                        <label class="form-label small text-muted">Uploader</label>
+                    
+                    <!-- Uploader Filter -->
+                    <div class="filter-group">
+                        <label class="filter-label"><i class="fas fa-user"></i> Uploader</label>
                         <select name="user_id" class="form-select">
-                            <option value="">Semua</option>
+                            <option value="">Semua Uploader</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
                                     {{ $user->name }}
@@ -1191,25 +1562,25 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-1 col-md-12">
-                        <label class="form-label small text-muted d-none d-lg-block">&nbsp;</label>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary flex-fill">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <a href="{{ route('berkas-transaksi.index') }}" class="btn btn-secondary" title="Reset">
-                                <i class="fas fa-undo"></i>
-                            </a>
-                        </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-filter btn-filter-primary">
+                            <i class="fas fa-filter"></i>
+                            <span>Terapkan Filter</span>
+                        </button>
+                        <a href="{{ route('berkas-transaksi.index') }}" class="btn-filter btn-filter-secondary" title="Reset Filter">
+                            <i class="fas fa-undo"></i>
+                        </a>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
     <!-- Bulk Actions -->
     <div class="bulk-action-bar" id="bulkActionBar" style="display: none;">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div class="d-flex align-items-center gap-2">
                 <span class="selected-badge">
                     <i class="fas fa-check-circle"></i>
@@ -1640,8 +2011,15 @@ function selectAll() {
 }
 
 function deleteItem(id) {
+    // Validate ID is numeric
+    if (!/^\d+$/.test(id)) {
+        console.error('Invalid ID format');
+        alert('ID tidak valid');
+        return;
+    }
+    
     const form = document.getElementById('deleteForm');
-    form.action = '{{ route("berkas-transaksi.destroy", "") }}/' + id;
+    form.action = '{{ route("berkas-transaksi.destroy", "") }}/' + encodeURIComponent(id);
     
     const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
     modal.show();
@@ -1699,11 +2077,16 @@ function toggleDeleteOptions() {
 
 function executeBulkDelete() {
     const type = document.getElementById('deleteType').value;
+    const btn = document.querySelector('#bulkDeleteModal .btn-danger');
     
     if (!type) {
         alert('Pilih jenis penghapusan');
         return;
     }
+    
+    // Disable button and show loading
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Menghapus...';
     
     let url = '';
     let body = {};
@@ -1763,6 +2146,11 @@ function executeBulkDelete() {
     })
     .catch(error => {
         alert('Terjadi kesalahan: ' + error);
+    })
+    .finally(() => {
+        // Re-enable button and restore text
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash me-1"></i> Hapus';
     });
 }
 </script>

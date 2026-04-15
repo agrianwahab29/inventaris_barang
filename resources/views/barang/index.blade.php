@@ -115,12 +115,54 @@
         background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
         color: #991b1b;
     }
+    
+    @media (max-width: 767.98px) {
+        .page-actions {
+            width: 100%;
+            margin-top: 8px;
+        }
+        
+        .filter-card {
+            padding: 14px;
+        }
+        
+        .card-header-custom {
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px 14px;
+        }
+        
+        .bulk-toolbar {
+            margin: -14px -14px 12px -14px;
+            padding: 10px 14px;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .filter-card {
+            padding: 10px;
+        }
+        
+        .bulk-toolbar {
+            margin: -8px -8px 10px -8px;
+            padding: 8px 10px;
+        }
+        
+        .bulk-toolbar .d-flex {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .data-card .table-responsive {
+            font-size: 0.75rem;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <!-- Page Header -->
-<div class="d-flex justify-content-between align-items-center mb-4 animate-fade-up">
+<div class="d-flex justify-content-between align-items-start align-items-md-center mb-4 flex-wrap animate-fade-up">
     <div>
         <h4 class="mb-1 fw-bold"><i class="fas fa-box me-2" style="color: #667eea;"></i>Data Barang</h4>
         <p class="text-muted mb-0" style="font-size: 0.875rem;">Kelola inventaris barang Anda</p>
@@ -137,7 +179,7 @@
 
 <!-- Stats Cards -->
 <div class="row g-3 mb-4">
-    <div class="col-md-4">
+    <div class="col-md-4 col-6">
         <div class="card animate-fade-up animate-delay-1" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center">
@@ -152,7 +194,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-6">
         <div class="card animate-fade-up animate-delay-2" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center">
@@ -172,7 +214,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-6">
         <div class="card animate-fade-up animate-delay-3" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center">
@@ -197,7 +239,7 @@
 <!-- Filter -->
 <div class="filter-card animate-fade-up animate-delay-4">
     <form method="GET" action="{{ route('barang.index') }}" class="row g-3">
-        <div class="col-md-4">
+        <div class="col-md-4 col-12 col-sm-6">
             <label class="form-label" style="font-size: 0.75rem; font-weight: 600;">Cari Barang</label>
             <div class="input-group">
                 <span class="input-group-text" style="border-radius: 10px 0 0 10px; background: #f8fafc;">
@@ -206,7 +248,7 @@
                 <input type="text" id="search_barang" name="search" class="form-control" placeholder="Nama barang..." value="{{ request('search') }}" style="border-radius: 0 10px 10px 0;" aria-label="Cari barang berdasarkan nama">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-12 col-sm-6">
             <label class="form-label" for="filter_kategori" style="font-size: 0.75rem; font-weight: 600;">Kategori</label>
             <select id="filter_kategori" name="kategori" class="form-select" style="border-radius: 10px;" aria-label="Filter berdasarkan kategori barang">
                 <option value="">Semua Kategori</option>
@@ -215,7 +257,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-12 col-sm-6">
             <label class="form-label" for="filter_status" style="font-size: 0.75rem; font-weight: 600;">Status</label>
             <select id="filter_status" name="status" class="form-select" style="border-radius: 10px;" aria-label="Filter berdasarkan status stok barang">
                 <option value="">Semua Status</option>
@@ -224,7 +266,7 @@
                 <option value="habis" {{ request('status') == 'habis' ? 'selected' : '' }}>Stok Habis</option>
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-12">
             <label class="form-label" style="font-size: 0.75rem; font-weight: 600;">&nbsp;</label>
             <button type="submit" class="btn btn-primary w-100" style="border-radius: 10px;">
                 <i class="fas fa-filter me-2"></i>Filter
@@ -490,6 +532,9 @@
 <script>
     // Inline stock editing functionality
     document.addEventListener('DOMContentLoaded', function() {
+        // Get CSRF token from meta tag at page load
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
         const stokWrappers = document.querySelectorAll('.editable-stok-wrapper');
         
         stokWrappers.forEach(wrapper => {
@@ -561,7 +606,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': csrfToken
                     },
                     body: JSON.stringify({
                         stok_baru: stokBaru,

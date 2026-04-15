@@ -159,6 +159,63 @@
         background: #e2e8f0;
         color: #475569;
     }
+    
+    @media (max-width: 767.98px) {
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 14px;
+        }
+        
+        .section-header {
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+        }
+        
+        .section-header h5 {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .form-section {
+            padding: 14px;
+            border-radius: 10px;
+        }
+        
+        .info-card {
+            padding: 10px;
+        }
+        
+        .info-value {
+            font-size: 1.25rem;
+        }
+        
+        .calculation-box {
+            padding: 8px;
+        }
+        
+        .calculation-value {
+            font-size: 1rem;
+        }
+        
+        .btn-submit, .btn-cancel {
+            padding: 8px 16px;
+            font-size: 0.8125rem;
+        }
+        
+        .section-icon {
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
+        }
+        
+        .d-flex.justify-content-between {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+    }
 </style>
 @endsection
 
@@ -209,19 +266,19 @@
                 <!-- Info Card -->
                 <div id="infoBoxBarang" class="info-card" style="display: none;">
                     <div class="row g-4">
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-6">
                             <div class="info-item">
                                 <div class="info-value" id="infoStok">-</div>
                                 <div class="info-label">Stok Saat Ini</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-6">
                             <div class="info-item">
                                 <div class="info-value" id="infoSatuan">-</div>
                                 <div class="info-label">Satuan</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-6">
                             <div class="info-item">
                                 <div class="mt-2">
                                     <span class="status-badge" id="infoStatus">
@@ -231,7 +288,7 @@
                                 <div class="info-label mt-2">Status Stok</div>
                             </div>
                         </div>
-                        <div class="col-md-3" style="display: none;">
+                        <div class="col-md-3 col-6" style="display: none;">
                             <div class="info-item">
                                 <div class="info-value text-secondary" id="infoStokMin">-</div>
                                 <div class="info-label">Stok Minimum</div>
@@ -259,7 +316,7 @@
                 </div>
                 
                 <div class="row g-4">
-                <div class="col-md-4">
+                <div class="col-md-4 col-12 col-sm-4">
                     <label class="form-label fw-medium" for="jumlah_masuk">Jumlah Masuk</label>
                     <div class="input-group-custom">
                         <input type="number" name="jumlah_masuk" id="jumlah_masuk" class="form-control" 
@@ -269,7 +326,7 @@
                     <small id="help_masuk" class="text-muted">Isi 0 jika tidak ada barang masuk</small>
                 </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-12 col-sm-4">
                         <label class="form-label fw-medium">Stok Setelah Masuk</label>
                         <div class="calculation-box">
                             <div class="calculation-value text-success" id="stok_setelah_masuk">-</div>
@@ -277,7 +334,7 @@
                         </div>
                     </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4 col-12 col-sm-4">
                     <label class="form-label fw-medium" for="tanggal_masuk">Tanggal Masuk</label>
                     <input type="date" id="tanggal_masuk" name="tanggal_masuk" class="form-control" 
                            value="{{ old('tanggal_masuk', date('Y-m-d')) }}" aria-label="Tanggal barang masuk">
@@ -298,7 +355,7 @@
                 </div>
                 
                 <div class="row g-4">
-                <div class="col-md-3">
+                <div class="col-md-3 col-6 col-sm-3">
                     <label class="form-label fw-medium" for="jumlah_keluar">Jumlah Keluar</label>
                     <div class="input-group-custom">
                         <input type="number" name="jumlah_keluar" id="jumlah_keluar" class="form-control" 
@@ -308,7 +365,7 @@
                     <small id="help_keluar" class="text-muted">Isi 0 jika tidak ada barang keluar</small>
                 </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-6 col-sm-3">
                         <label class="form-label fw-medium">Sisa Setelah Keluar</label>
                         <div class="calculation-box">
                             <div class="calculation-value" id="sisa_setelah_keluar">-</div>
@@ -316,17 +373,23 @@
                         </div>
                     </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 col-6 col-sm-3">
                     <label class="form-label fw-medium" for="tanggal_keluar">Tanggal Keluar</label>
+                    {{-- BUG FIX: tanggal_keluar should default to empty, NOT today's date.
+                         Only set a date when jumlah_keluar > 0 (actual barang keluar).
+                         Previous value "{{ old('tanggal_keluar', date('Y-m-d')) }}" caused
+                         masuk-only transactions to have a tanggal_keluar, showing wrong data
+                         in the index table. Also note: existing records with tanggal_keluar
+                         set but jumlah_keluar = 0/null are a data issue that may need manual cleanup. --}}
                     <input type="date" id="tanggal_keluar" name="tanggal_keluar" class="form-control" 
-                           value="{{ old('tanggal_keluar', date('Y-m-d')) }}" aria-label="Tanggal barang keluar">
+                           value="{{ old('tanggal_keluar', '') }}" aria-label="Tanggal barang keluar">
                 </div>
 
                     <input type="hidden" name="tipe_pengambil" value="nama_ruangan">
                 </div>
 
                 <div class="row g-4 mt-2">
-                <div class="col-md-6" id="field_nama">
+                <div class="col-md-6 col-12 col-sm-6" id="field_nama">
                     <label class="form-label fw-medium" for="nama_pengambil">Nama Pengambil</label>
                     <div class="input-group-custom">
                         <span class="input-group-text" id="icon_user"><i class="fas fa-user"></i></span>
@@ -335,7 +398,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 col-sm-6">
                     <label class="form-label fw-medium" for="ruangan_id">Ruangan Tujuan</label>
                     <div class="input-group-custom">
                         <span class="input-group-text" id="icon_ruangan"><i class="fas fa-door-open"></i></span>
@@ -353,7 +416,7 @@
             </div>
 
             <!-- Submit Buttons -->
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 8px;">
                 <a href="{{ route('transaksi.index') }}" class="btn-cancel">
                     <i class="fas fa-arrow-left me-2"></i>Batal
                 </a>
@@ -388,6 +451,7 @@
     const barangSelect = document.getElementById('barang_id');
     const jumlahMasukInput = document.getElementById('jumlah_masuk');
     const jumlahKeluarInput = document.getElementById('jumlah_keluar');
+    const tanggalKeluarInput = document.getElementById('tanggal_keluar');
     const stokSetelahMasukInput = document.getElementById('stok_setelah_masuk');
     const sisaKeluarInput = document.getElementById('sisa_setelah_keluar');
     const satuanLabels = document.querySelectorAll('.satuan-label');
@@ -461,10 +525,31 @@
         }
     }
 
+    // BUG FIX: Auto-set/clear tanggal_keluar based on jumlah_keluar.
+    // When jumlah_keluar > 0, auto-fill tanggal_keluar with today's date.
+    // When jumlah_keluar is 0 or empty, clear tanggal_keluar so it submits as null.
+    // Only auto-set if the user hasn't manually entered a date (field is empty).
+    function updateTanggalKeluar() {
+        const jumlahKeluar = parseInt(jumlahKeluarInput.value) || 0;
+        if (jumlahKeluar > 0) {
+            // Only auto-set if the user hasn't manually picked a date
+            if (tanggalKeluarInput.value === '') {
+                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+                tanggalKeluarInput.value = today;
+            }
+        } else {
+            // No barang keluar — clear the date to prevent stale data
+            tanggalKeluarInput.value = '';
+        }
+    }
+
     // Event listeners
     barangSelect.addEventListener('change', updateCalculations);
     jumlahMasukInput.addEventListener('input', updateCalculations);
-    jumlahKeluarInput.addEventListener('input', updateCalculations);
+    jumlahKeluarInput.addEventListener('input', function() {
+        updateCalculations();
+        updateTanggalKeluar();
+    });
 
     // Form validation and submit handling (BUG #4 fix)
     const formTransaksi = document.getElementById('formTransaksi');

@@ -95,17 +95,56 @@
     .stat-total { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
     .stat-items { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
     .stat-qty { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    
+    @media (max-width: 767.98px) {
+        .group-header {
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .group-header > div:last-child {
+            width: 100%;
+        }
+        .item-row {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .filter-card .card-body {
+            padding: 0.75rem;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .stat-box {
+            padding: 10px;
+        }
+        .stat-box h4 {
+            font-size: 1.1rem !important;
+        }
+        .stat-box p {
+            font-size: 0.625rem !important;
+        }
+        .group-header {
+            padding: 10px 12px;
+        }
+        .btn-generate {
+            font-size: 0.6875rem;
+            padding: 5px 12px;
+        }
+        .filter-card .card-body {
+            padding: 0.625rem;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <!-- Header Section -->
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div>
         <h5 class="mb-0 fw-bold">Surat Tanda Terima Barang</h5>
         <p class="text-muted mb-0 small">Kelola dan cetak surat tanda terima barang (DOCX)</p>
     </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 flex-wrap">
         <a href="{{ route('transaksi.create') }}" class="btn btn-primary rounded-pill px-3" style="font-size: 0.75rem;">
             <i class="fas fa-plus me-1"></i>Input Barang Keluar
         </a>
@@ -114,7 +153,7 @@
 
 <!-- Stats Cards -->
 <div class="row g-2 mb-3">
-    <div class="col-md-4">
+    <div class="col-md-4 col-6">
         <div class="stat-box stat-total">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -125,7 +164,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-6">
         <div class="stat-box stat-items">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -136,7 +175,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-6">
         <div class="stat-box stat-qty">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -154,7 +193,7 @@
     <div class="card-body py-2 px-3">
         <form method="GET" action="{{ route('surat-tanda-terima.index') }}">
             <div class="row g-2 align-items-end">
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-4 col-12">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Pengambil</label>
                     <select name="pengambil" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">-- Semua Pengambil --</option>
@@ -165,7 +204,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-4 col-12">
                     <label class="form-label text-white-50" style="font-size: 0.625rem;">Tanggal Keluar</label>
                     <select name="tanggal" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
                         <option value="">-- Pilih Tanggal --</option>
@@ -176,7 +215,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-4 col-12">
                     <div class="d-flex gap-1">
                         <button type="submit" class="btn btn-light flex-fill" style="font-size: 0.75rem; padding: 4px 8px;">
                             <i class="fas fa-filter me-1"></i>Filter

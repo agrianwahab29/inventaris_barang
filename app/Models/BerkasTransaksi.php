@@ -18,12 +18,17 @@ class BerkasTransaksi extends Model
         'pengirim',
         'penerima',
         'user_id',
+        'keterangan',
         'file_path',
         'file_name',
         'file_size',
         'file_mime',
-        'keterangan',
     ];
+
+    /**
+     * Only ID is guarded - all other fields are mass assignable.
+     */
+    protected $guarded = ['id'];
 
     protected $casts = [
         'tanggal_surat' => 'date',

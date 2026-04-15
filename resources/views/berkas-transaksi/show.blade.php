@@ -2,6 +2,24 @@
 
 @section('title', 'Detail Berkas - ' . $berkasTransaksi->file_name)
 
+@section('styles')
+<style>
+    @media (max-width: 767.98px) {
+        .card-body {
+            padding: 0.875rem;
+        }
+        iframe {
+            height: 400px !important;
+        }
+    }
+    @media (max-width: 575.98px) {
+        .card-body {
+            padding: 0.75rem;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="container-fluid py-3">
     <!-- Breadcrumb -->
@@ -14,12 +32,12 @@
     </nav>
 
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <div>
             <h1 class="h3 mb-0">Detail Berkas</h1>
             <p class="text-muted small mb-0">Informasi lengkap dokumen arsip</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <a href="{{ route('berkas-transaksi.download', $berkasTransaksi) }}" class="btn btn-success btn-sm">
                 <i class="fas fa-download me-1"></i> Download
             </a>
@@ -33,7 +51,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-12">
             <!-- PDF Preview -->
             <div class="card border-0 shadow-sm mb-3">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
@@ -42,14 +60,22 @@
                 </div>
                 <div class="card-body p-0">
                     <div style="height: 600px; background: #f8f9fa;">
-                        <iframe src="{{ asset('storage/' . $berkasTransaksi->file_path) }}" 
-                                width="100%" height="100%" style="border: none;"></iframe>
+                        @if($fileExists)
+                            <iframe src="{{ asset('storage/' . $berkasTransaksi->file_path) }}" 
+                                    width="100%" height="100%" style="border: none;"></iframe>
+                        @else
+                            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                                <i class="fas fa-file-excel fa-3x mb-3 text-danger"></i>
+                                <p class="mb-0">File tidak ditemukan atau telah dihapus</p>
+                                <p class="small">{{ $berkasTransaksi->file_name }}</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
             <!-- File Info -->
             <div class="card border-0 shadow-sm mb-3">
                 <div class="card-header bg-white">

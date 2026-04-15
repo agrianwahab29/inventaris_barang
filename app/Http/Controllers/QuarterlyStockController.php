@@ -241,7 +241,8 @@ class QuarterlyStockController extends Controller
             'spaceAfter' => 400,
         ]);
 
-        // Create table with all borders
+        // Create table with A4 landscape optimized width (17cm total usable width)
+        // Column widths: 1cm + 6cm + 2.5cm + 3cm + 2.5cm + 2cm = 17cm
         $table = $section->addTable([
             'width' => 100 * 50,
             'unit' => 'pct',
@@ -251,32 +252,64 @@ class QuarterlyStockController extends Controller
             'borderInsideColor' => '000000',
         ]);
 
-        // Table header row with borders
-        $headerRow = $table->addRow();
-        $cellStyle = ['vAlign' => 'center'];
-        $textStyleBold = ['bold' => true, 'size' => 12];
+        // Table header row - tinggi 1.2cm untuk ruang teks
+        $headerRow = $table->addRow(1200); // Height in twips (1200 = ~1.2cm)
+        $cellStyle = [
+            'vAlign' => 'center',
+            'borderSize' => 8,
+            'borderColor' => '000000',
+        ];
+        $textStyleBold = ['bold' => true, 'size' => 11, 'name' => 'Times New Roman'];
         $centerAlign = ['alignment' => 'center'];
+        $centerCellStyle = array_merge($cellStyle, ['alignment' => 'center']);
 
-        $cell1 = $headerRow->addCell(500, $cellStyle);
+        // NO - 1cm width
+        $cell1 = $headerRow->addCell(567, $centerCellStyle); // 1cm = 567 twips
         $cell1->addText('NO', $textStyleBold, $centerAlign);
         
-        $cell2 = $headerRow->addCell(4000, $cellStyle);
+        // NAMA BARANG - 6cm width
+        $cell2 = $headerRow->addCell(3402, $cellStyle); // 6cm = 3402 twips
         $cell2->addText('NAMA BARANG', $textStyleBold, $centerAlign);
         
-        $cell3 = $headerRow->addCell(2000, $cellStyle);
+        // SATUAN - 2.5cm width
+        $cell3 = $headerRow->addCell(1417, $centerCellStyle); // 2.5cm = 1417 twips
         $cell3->addText('SATUAN', $textStyleBold, $centerAlign);
         
-        $cell4 = $headerRow->addCell(2000, $cellStyle);
-        $cell4->addText('STOK OPNAME (SO)', $textStyleBold, $centerAlign);
+        // JUMLAH STOK TERCATAT - 3cm width (cukup lebar untuk teks panjang)
+        $cell4 = $headerRow->addCell(1701, $centerCellStyle); // 3cm = 1701 twips
+        $cell4->addText("JUMLAH\nSTOK\nTERCATAT", $textStyleBold, $centerAlign);
+        
+        // JUMLAH FISIK - 2.5cm width
+        $cell5 = $headerRow->addCell(1417, $centerCellStyle);
+        $cell5->addText("JUMLAH\nFISIK", $textStyleBold, $centerAlign);
+        
+        // KETERANGAN/SELISIH - 2cm width
+        $cell6 = $headerRow->addCell(1134, $centerCellStyle); // 2cm = 1134 twips
+        $cell6->addText("KETERANGAN/\nSELISIH", $textStyleBold, $centerAlign);
 
         // Data rows
         $no = 1;
+        $dataTextStyle = ['size' => 11, 'name' => 'Times New Roman'];
         foreach ($barangData as $item) {
-            $dataRow = $table->addRow();
-            $dataRow->addCell(500)->addText($no++, ['size' => 12], ['alignment' => 'center']);
-            $dataRow->addCell(4000)->addText($item->nama_barang, ['size' => 12], ['alignment' => 'left']);
-            $dataRow->addCell(2000)->addText($item->satuan, ['size' => 12], ['alignment' => 'center']);
-            $dataRow->addCell(2000)->addText(number_format($item->stok_opname), ['size' => 12], ['alignment' => 'center']);
+            $dataRow = $table->addRow(400); // Tinggi baris data 0.4cm
+            
+            // NO
+            $dataRow->addCell(567, $centerCellStyle)->addText($no++, $dataTextStyle, $centerAlign);
+            
+            // NAMA BARANG
+            $dataRow->addCell(3402, $cellStyle)->addText($item->nama_barang, $dataTextStyle, ['alignment' => 'left']);
+            
+            // SATUAN
+            $dataRow->addCell(1417, $centerCellStyle)->addText($item->satuan, $dataTextStyle, $centerAlign);
+            
+            // JUMLAH STOK TERCATAT
+            $dataRow->addCell(1701, $centerCellStyle)->addText(number_format($item->stok_opname), $dataTextStyle, $centerAlign);
+            
+            // JUMLAH FISIK - kosong
+            $dataRow->addCell(1417, $centerCellStyle)->addText('', $dataTextStyle, $centerAlign);
+            
+            // KETERANGAN/SELISIH - kosong
+            $dataRow->addCell(1134, $centerCellStyle)->addText('', $dataTextStyle, $centerAlign);
         }
 
         // Add space before signature

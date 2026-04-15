@@ -2,6 +2,21 @@
 
 @section('title', 'Upload Berkas - Arsip Dokumen')
 
+@section('styles')
+<style>
+    @media (max-width: 767.98px) {
+        .card-body {
+            padding: 0.875rem;
+        }
+    }
+    @media (max-width: 575.98px) {
+        .card-body {
+            padding: 0.75rem;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="container-fluid py-3">
     <!-- Breadcrumb -->
@@ -14,7 +29,7 @@
     </nav>
 
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <div>
             <h1 class="h3 mb-0">Upload Berkas</h1>
             <p class="text-muted small mb-0">Upload dokumen serah terima barang (PDF)</p>
@@ -25,7 +40,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white">
                     <h6 class="mb-0"><i class="fas fa-upload me-1"></i> Form Upload</h6>
@@ -35,7 +50,7 @@
                         @csrf
                         
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Nomor Surat <span class="text-muted">(Opsional)</span></label>
                                 <input type="text" name="nomor_surat" class="form-control @error('nomor_surat') is-invalid @enderror" 
                                        placeholder="Contoh: 001/ST/VI/2026" value="{{ old('nomor_surat') }}">
@@ -44,7 +59,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Tanggal Surat <span class="text-muted">(Opsional)</span></label>
                                 <input type="date" name="tanggal_surat" class="form-control @error('tanggal_surat') is-invalid @enderror" 
                                        value="{{ old('tanggal_surat') }}">
@@ -62,7 +77,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Pengirim <span class="text-muted">(Opsional)</span></label>
                                 <input type="text" name="pengirim" class="form-control @error('pengirim') is-invalid @enderror" 
                                        placeholder="Nama pihak yang menyerahkan" value="{{ old('pengirim') }}">
@@ -71,7 +86,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Penerima <span class="text-muted">(Opsional)</span></label>
                                 <input type="text" name="penerima" class="form-control @error('penerima') is-invalid @enderror" 
                                        placeholder="Nama pihak yang menerima" value="{{ old('penerima') }}">
@@ -119,7 +134,7 @@
                         
                         <hr class="my-4">
                         
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between flex-wrap gap-2">
                             <a href="{{ route('berkas-transaksi.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-times me-1"></i> Batal
                             </a>
@@ -132,7 +147,7 @@
             </div>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-info text-white">
                     <h6 class="mb-0"><i class="fas fa-info-circle me-1"></i> Informasi</h6>
@@ -176,6 +191,15 @@
 
 @section('scripts')
 <script>
+// Client-side file size validation
+document.getElementById('fileInput').addEventListener('change', function() {
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (this.files[0] && this.files[0].size > maxSize) {
+        alert('Ukuran file maksimal 10MB. File Anda: ' + (this.files[0].size / 1024 / 1024).toFixed(2) + 'MB');
+        this.value = '';
+    }
+});
+
 function previewFile() {
     const input = document.getElementById('fileInput');
     const preview = document.getElementById('filePreview');

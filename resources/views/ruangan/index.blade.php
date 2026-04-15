@@ -24,11 +24,30 @@
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    
+    @media (max-width: 767.98px) {
+        .bulk-toolbar {
+            margin: -14px -14px 12px -14px;
+            padding: 10px 14px;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .bulk-toolbar {
+            margin: -8px -8px 10px -8px;
+            padding: 8px 10px;
+        }
+        
+        .bulk-toolbar .d-flex {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <h4 class="mb-0"><i class="fas fa-door-open me-2"></i>Data Ruangan</h4>
     @if(Auth::user()->isAdmin())
     <a href="{{ route('ruangan.create') }}" class="btn btn-primary">
@@ -67,7 +86,7 @@
 <div class="card table-container">
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover mb-0" style="min-width: 600px;">
                 <thead class="table-light">
                     <tr>
                         @if(Auth::user()->isAdmin())
@@ -123,7 +142,7 @@
         </div>
     </div>
     <div class="card-footer bg-white">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div class="pagination-info" style="font-size: 0.75rem;">
                 Menampilkan {{ $ruangans->firstItem() }} - {{ $ruangans->lastItem() }} dari {{ $ruangans->total() }} ruangan
             </div>

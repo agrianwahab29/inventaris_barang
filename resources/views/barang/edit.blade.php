@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-8 col-12">
         <div class="card table-container">
             <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="fas fa-edit me-2 text-warning"></i>Edit Barang</h5>
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">Kategori <span class="text-danger">*</span></label>
                             <select name="kategori" class="form-select @error('kategori') is-invalid @enderror" required>
                                 @foreach($kategoris as $kat)
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             @enderror
                         </div>
                         
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">Satuan <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <select name="satuan_select" class="form-select" id="satuanSelect">
@@ -95,13 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">Stok Saat Ini</label>
                             <input type="text" class="form-control" value="{{ $barang->stok }} {{ $barang->satuan }}" disabled>
                             <small class="text-muted">Untuk mengubah stok, gunakan menu transaksi</small>
                         </div>
                         
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">Stok Minimum <span class="text-danger">*</span></label>
                             <input type="number" name="stok_minimum" class="form-control @error('stok_minimum') is-invalid @enderror" value="{{ old('stok_minimum', $barang->stok_minimum) }}" min="1" required>
                             @error('stok_minimum')
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         @enderror
                     </div>
                     
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
                         <a href="{{ route('barang.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Kembali
                         </a>

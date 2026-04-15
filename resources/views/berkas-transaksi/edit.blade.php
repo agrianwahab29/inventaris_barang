@@ -2,6 +2,21 @@
 
 @section('title', 'Edit Berkas - ' . $berkasTransaksi->file_name)
 
+@section('styles')
+<style>
+    @media (max-width: 767.98px) {
+        .card-body {
+            padding: 0.875rem;
+        }
+    }
+    @media (max-width: 575.98px) {
+        .card-body {
+            padding: 0.75rem;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="container-fluid py-3">
     <!-- Breadcrumb -->
@@ -14,12 +29,12 @@
     </nav>
 
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <div>
             <h1 class="h3 mb-0">Edit Berkas</h1>
             <p class="text-muted small mb-0">{{ $berkasTransaksi->file_name }}</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <a href="{{ route('berkas-transaksi.show', $berkasTransaksi) }}" class="btn btn-info btn-sm">
                 <i class="fas fa-eye me-1"></i> Detail
             </a>
@@ -30,7 +45,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white">
                     <h6 class="mb-0"><i class="fas fa-edit me-1"></i> Form Edit</h6>
@@ -41,7 +56,7 @@
                         @method('PUT')
                         
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Nomor Surat <span class="text-muted">(Opsional)</span></label>
                                 <input type="text" name="nomor_surat" class="form-control @error('nomor_surat') is-invalid @enderror" 
                                        placeholder="Contoh: 001/ST/VI/2026" 
@@ -51,7 +66,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Tanggal Surat <span class="text-muted">(Opsional)</span></label>
                                 <input type="date" name="tanggal_surat" class="form-control @error('tanggal_surat') is-invalid @enderror" 
                                        value="{{ old('tanggal_surat', $berkasTransaksi->tanggal_surat ? $berkasTransaksi->tanggal_surat->format('Y-m-d') : '') }}">
@@ -70,7 +85,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Pengirim <span class="text-muted">(Opsional)</span></label>
                                 <input type="text" name="pengirim" class="form-control @error('pengirim') is-invalid @enderror" 
                                        placeholder="Nama pihak yang menyerahkan" 
@@ -80,7 +95,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-6">
                                 <label class="form-label">Penerima <span class="text-muted">(Opsional)</span></label>
                                 <input type="text" name="penerima" class="form-control @error('penerima') is-invalid @enderror" 
                                        placeholder="Nama pihak yang menerima" 
@@ -146,7 +161,7 @@
                         
                         <hr class="my-4">
                         
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between flex-wrap gap-2">
                             <a href="{{ route('berkas-transaksi.show', $berkasTransaksi) }}" class="btn btn-secondary">
                                 <i class="fas fa-times me-1"></i> Batal
                             </a>
@@ -159,7 +174,7 @@
             </div>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-info text-white">
                     <h6 class="mb-0"><i class="fas fa-history me-1"></i> Riwayat</h6>

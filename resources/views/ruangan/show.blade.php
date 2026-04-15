@@ -2,15 +2,38 @@
 
 @section('title', 'Detail Ruangan - Aplikasi Inventaris')
 
+@section('styles')
+<style>
+    @media (max-width: 575.98px) {
+        .table-borderless tr {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .table-borderless td:first-child {
+            width: 100%;
+            font-size: 0.8125rem;
+            color: #6c757d;
+        }
+        .table-borderless td:last-child {
+            width: 100%;
+            padding-top: 0;
+        }
+    }
+</style>
+@endsection
+
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <h4 class="mb-0"><i class="fas fa-door-open me-2"></i>Detail Ruangan</h4>
-    <div>
+    <div class="d-flex flex-wrap gap-2">
         <a href="{{ route('ruangan.index') }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left me-2"></i>Kembali
         </a>
         @if(Auth::user()->isAdmin())
-        <a href="{{ route('ruangan.edit', $ruangan) }}" class="btn btn-warning ms-2">
+        <a href="{{ route('ruangan.edit', $ruangan) }}" class="btn btn-warning">
             <i class="fas fa-edit me-2"></i>Edit
         </a>
         @endif
@@ -51,7 +74,7 @@
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover mb-0" style="min-width: 600px;">
                 <thead class="table-light">
                     <tr>
                         <th>No</th>
