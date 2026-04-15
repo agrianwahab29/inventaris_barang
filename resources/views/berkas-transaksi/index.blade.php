@@ -101,22 +101,31 @@
         border-bottom: 1px solid rgba(0,0,0,0.06);
     }
     
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
     .custom-table {
         width: 100%;
+        min-width: 1100px;
         border-collapse: separate;
         border-spacing: 0;
+        table-layout: fixed;
     }
     
     .custom-table thead th {
         background: #f8fafc;
         color: #475569;
         font-weight: 600;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        padding: 0.875rem 1rem;
+        letter-spacing: 0.03em;
+        padding: 0.75rem 0.5rem;
         border-bottom: 2px solid #e2e8f0;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .custom-table tbody tr {
@@ -128,27 +137,28 @@
     }
     
     .custom-table tbody td {
-        padding: 1rem;
+        padding: 0.875rem 0.5rem;
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
+        font-size: 0.8125rem;
     }
     
     /* File Cell Styling */
     .file-cell {
         display: flex;
         align-items: center;
-        gap: 0.875rem;
+        gap: 0.75rem;
     }
     
     .file-icon {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-        border-radius: 10px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         color: #dc2626;
         flex-shrink: 0;
     }
@@ -156,36 +166,38 @@
     .file-info {
         min-width: 0;
         flex: 1;
+        overflow: hidden;
     }
     
     .file-name {
         font-weight: 500;
         color: #1e293b;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 250px;
+        max-width: 220px;
     }
     
     .file-date {
-        font-size: 0.75rem;
+        font-size: 0.6875rem;
         color: #64748b;
     }
     
     /* Action Dropdown */
     .action-dropdown .btn {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 8px;
+        border-radius: 6px;
         border: 1px solid #e2e8f0;
         background: #fff;
         color: #64748b;
         transition: all 0.2s ease;
+        font-size: 0.875rem;
     }
     
     .action-dropdown .btn:hover {
@@ -227,26 +239,7 @@
         background: #fef2f2;
     }
     
-    /* Badge Styling */
-    .badge-soft {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.375rem;
-        padding: 0.375rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-    
-    .badge-soft-primary {
-        background: #e0e7ff;
-        color: #4338ca;
-    }
-    
-    .badge-soft-success {
-        background: #d1fae5;
-        color: #059669;
-    }
+
     
     /* Empty State */
     .empty-state {
@@ -322,22 +315,66 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 200px;
+        max-width: 130px;
+        display: block;
     }
     
     /* Sender Receiver Cell */
     .sender-receiver {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        font-size: 0.8125rem;
+        gap: 0.375rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
     }
     
     .sender-receiver .arrow {
         color: #cbd5e1;
+        font-size: 0.625rem;
+    }
+    
+    /* Compact Badge */
+    .badge-soft {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    
+    /* Scrollbar Styling for Table */
+    .table-responsive-wrapper::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
     }
     
     /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+        .custom-table {
+            min-width: 1000px;
+        }
+        
+        .file-name {
+            max-width: 180px;
+        }
+    }
+    
     @media (max-width: 768px) {
         .stat-card {
             margin-bottom: 1rem;
@@ -345,11 +382,6 @@
         
         .file-name {
             max-width: 150px;
-        }
-        
-        .custom-table thead th,
-        .custom-table tbody td {
-            padding: 0.75rem 0.5rem;
         }
     }
 </style>
@@ -539,22 +571,22 @@
                 @endif
             </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive-wrapper">
             <table class="custom-table">
                 <thead>
                     <tr>
-                        <th width="50">
+                        <th width="40">
                             <input type="checkbox" class="form-check-input" id="selectAllCheckbox" onclick="toggleSelectAll()">
                         </th>
-                        <th width="60">No</th>
-                        <th>File</th>
-                        <th width="150">Nomor Surat</th>
-                        <th width="120">Tanggal Surat</th>
-                        <th width="200">Perihal</th>
-                        <th width="180">Pengirim / Penerima</th>
-                        <th width="120">Uploader</th>
-                        <th width="80">Size</th>
-                        <th width="70">Aksi</th>
+                        <th width="45">No</th>
+                        <th width="280">File</th>
+                        <th width="110">Nomor Surat</th>
+                        <th width="100">Tgl Surat</th>
+                        <th width="140">Perihal</th>
+                        <th width="140">Pengirim / Penerima</th>
+                        <th width="110">Uploader</th>
+                        <th width="65">Size</th>
+                        <th width="50">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -608,11 +640,11 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" 
-                                     style="width: 28px; height: 28px; font-size: 0.75rem; font-weight: 600;">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                                     style="width: 26px; height: 26px; font-size: 0.6875rem; font-weight: 600;">
                                     {{ substr($item->user->name ?? 'U', 0, 1) }}
                                 </div>
-                                <span class="small">{{ $item->user->name ?? 'Unknown' }}</span>
+                                <span class="small text-truncate d-inline-block" style="max-width: 70px; font-size: 0.75rem;">{{ $item->user->name ?? 'Unknown' }}</span>
                             </div>
                         </td>
                         <td>
