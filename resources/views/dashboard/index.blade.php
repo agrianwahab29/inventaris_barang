@@ -660,6 +660,46 @@
     }
 
     @media (max-width: 767.98px) {
+        /* Reduce space between stat cards and chart on mobile */
+        .stat-cards-row {
+            margin-bottom: 0.75rem !important; /* mb-3 instead of mb-4 */
+        }
+
+        .stat-cards-row .col-12 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Make stat cards more compact on mobile */
+        .stat-cards-row .stat-card {
+            padding: 12px;
+            min-height: auto;
+        }
+
+        .stat-cards-row .stat-value {
+            font-size: 1.25rem;
+        }
+
+        .stat-cards-row .stat-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .stat-cards-row .stat-label {
+            font-size: 0.75rem;
+        }
+
+        .stat-cards-row .stat-badge {
+            font-size: 0.625rem;
+            padding: 2px 6px;
+        }
+
+        /* Chart section tighter spacing on mobile */
+        .chart-actions-row {
+            margin-top: 0 !important;
+        }
+
         .chart-empty-state {
             min-height: 200px;
             padding: 24px;
@@ -845,8 +885,8 @@
 </div>
 
 <!-- Stats Cards -->
-<div class="row g-3 mb-4">
-    <div class="col-xl-5ths col-md-6 col-6">
+<div class="row g-3 mb-4 stat-cards-row">
+    <div class="col-xl-5ths col-md-6 col-12 col-sm-6">
         <div class="stat-card stat-card-primary animate-fade-up animate-delay-1">
             <div class="stat-icon stat-icon-primary">
                 <i class="fas fa-boxes"></i>
@@ -860,7 +900,7 @@
         </div>
     </div>
     
-    <div class="col-xl-5ths col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-12 col-sm-6">
         <div class="stat-card stat-card-success animate-fade-up animate-delay-2">
             <div class="stat-icon stat-icon-success">
                 <i class="fas fa-arrow-down"></i>
@@ -874,7 +914,7 @@
         </div>
     </div>
     
-    <div class="col-xl-5ths col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-12 col-sm-6">
         <div class="stat-card stat-card-warning animate-fade-up animate-delay-3">
             <div class="stat-icon stat-icon-warning">
                 <i class="fas fa-arrow-up"></i>
@@ -888,7 +928,7 @@
         </div>
     </div>
     
-    <div class="col-xl-5ths col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-12 col-sm-6">
         <div class="stat-card stat-card-info animate-fade-up animate-delay-4">
             <div class="stat-icon stat-icon-info">
                 <i class="fas fa-file-pdf"></i>
@@ -902,7 +942,7 @@
         </div>
     </div>
     
-    <div class="col-xl-5ths col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-12 col-sm-6">
         @php
             $totalAlert = $stokRendah + $stokHabis;
         @endphp
