@@ -7,7 +7,37 @@
 **Type**: Single Laravel Application (Monolithic)  
 **Purpose**: Sistem manajemen inventaris barang kantor dengan tracking transaksi, stok opname, arsip dokumen digital, dan surat tanda terima  
 **Status**: ✅ **Production Ready** - Responsive design mobile-first (320px - desktop), SQA audit passed  
-**Latest Commit**: `7fe2de6` - feat: responsive design all pages + bug fixes + SQA audit complete
+**Latest Commit**: `a544aa7` - feat: redesign login page with OpenCode terminal aesthetic
+
+---
+
+## 🎨 Design System
+
+### Login Page - Terminal Aesthetic (OpenCode Inspired)
+
+Halaman login didesain dengan estetika **terminal-inspired** yang profesional dan modern:
+
+| Aspek | Implementasi |
+|-------|--------------|
+| **Background** | `#201d1d` warm near-black (bukan pure black) |
+| **Font** | Berkeley Mono (monospace) - satu font untuk semua elemen |
+| **Brand** | `>_ INVENTARIS` dengan terminal prompt prefix |
+| **Card** | Elevated dark surface `#302c2c` dengan warm transparent border |
+| **Inputs** | Light background `#f8f7f7` dengan border radius 6px |
+| **Button** | Dark fill dengan subtle outline border |
+| **Links** | Accent blue `#007aff` dengan underline |
+| **Error** | Apple red `#ff3b30` dengan subtle red tint background |
+
+**Karakteristik Desain:**
+- ✅ Flat design - **no shadows, no gradients**
+- ✅ Warm undertone di seluruh palette (reddish warmth)
+- ✅ Monospace identity yang konsisten
+- ✅ ASCII art divider untuk visual interest
+- ✅ Password visibility toggle
+- ✅ Custom styled checkbox
+- ✅ Fully responsive (mobile-first)
+
+**File**: `resources/views/auth/login.blade.php`
 
 ---
 
