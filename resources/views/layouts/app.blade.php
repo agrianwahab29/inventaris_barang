@@ -759,6 +759,11 @@
                 Surat Tanda Terima
             </a>
             
+            <a class="nav-link {{ request()->routeIs('berkas-transaksi.*') ? 'active' : '' }}" href="{{ route('berkas-transaksi.index') }}">
+                <i class="fas fa-file-pdf"></i>
+                Berkas Transaksi
+            </a>
+            
             @if(Auth::user()->isAdmin())
             <div class="nav-section">Admin</div>
             

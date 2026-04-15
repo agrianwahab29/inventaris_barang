@@ -133,6 +133,7 @@
     .animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
     .animate-delay-4 { animation-delay: 0.4s; opacity: 0; }
     .animate-delay-5 { animation-delay: 0.5s; opacity: 0; }
+    .animate-delay-6 { animation-delay: 0.6s; opacity: 0; }
 
     /* Welcome Banner */
     .welcome-banner {
@@ -636,6 +637,20 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stat-card stat-card-info animate-fade-up animate-delay-5">
+            <div class="stat-icon stat-icon-info">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="stat-value" data-count="{{ $totalBerkas }}">{{ number_format($totalBerkas) }}</div>
+            <div class="stat-label">Total Berkas Transaksi</div>
+            <div class="stat-badge stat-badge-primary">
+                <i class="fas fa-calendar-alt"></i>
+                <span>{{ $berkasBulanIni }} bulan ini</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row g-3">
@@ -707,6 +722,17 @@
                 <div class="flex-grow-1">
                     <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Riwayat Transaksi</h6>
                     <small class="text-muted" style="font-size: 0.75rem;">Lihat semua riwayat</small>
+                </div>
+                <i class="fas fa-chevron-right text-muted"></i>
+            </a>
+            
+            <a href="{{ route('berkas-transaksi.index') }}" class="quick-action">
+                <div class="quick-action-icon" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #dc2626;">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Berkas Transaksi</h6>
+                    <small class="text-muted" style="font-size: 0.75rem;">Kelola arsip dokumen digital</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
             </a>

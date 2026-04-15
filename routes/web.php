@@ -71,6 +71,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/surat-tanda-terima', [SuratTandaTerimaController::class, 'index'])->name('surat-tanda-terima.index');
     Route::get('/surat-tanda-terima/generate', [SuratTandaTerimaController::class, 'generateDocx'])->name('surat-tanda-terima.generate');
 
+    // Berkas Transaksi Routes
+    Route::get('/berkas-transaksi', [BerkasTransaksiController::class, 'index'])->name('berkas-transaksi.index');
+    Route::get('/berkas-transaksi/create', [BerkasTransaksiController::class, 'create'])->name('berkas-transaksi.create');
+    Route::post('/berkas-transaksi', [BerkasTransaksiController::class, 'store'])->name('berkas-transaksi.store');
+    Route::get('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'show'])->name('berkas-transaksi.show');
+    Route::get('/berkas-transaksi/{berkasTransaksi}/edit', [BerkasTransaksiController::class, 'edit'])->name('berkas-transaksi.edit');
+    Route::put('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'update'])->name('berkas-transaksi.update');
+    Route::delete('/berkas-transaksi/{berkasTransaksi}', [BerkasTransaksiController::class, 'destroy'])->name('berkas-transaksi.destroy');
+    Route::get('/berkas-transaksi/{berkasTransaksi}/download', [BerkasTransaksiController::class, 'download'])->name('berkas-transaksi.download');
+    
+    // Bulk Delete Routes for Berkas Transaksi
+    Route::post('/berkas-transaksi/bulk-delete', [BerkasTransaksiController::class, 'bulkDelete'])->name('berkas-transaksi.bulk-delete');
+    Route::post('/berkas-transaksi/delete-all', [BerkasTransaksiController::class, 'deleteAll'])->name('berkas-transaksi.delete-all');
+    Route::post('/berkas-transaksi/delete-by-month', [BerkasTransaksiController::class, 'deleteByMonth'])->name('berkas-transaksi.delete-by-month');
+    Route::post('/berkas-transaksi/delete-by-range', [BerkasTransaksiController::class, 'deleteByRange'])->name('berkas-transaksi.delete-by-range');
+
     // Ruangan Routes
     Route::get('/ruangan', [RuanganController::class, 'index'])->name('ruangan.index');
     Route::get('/ruangan/create', [RuanganController::class, 'create'])->name('ruangan.create')->middleware('role:admin');

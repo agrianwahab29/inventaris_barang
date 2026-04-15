@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Transaksi;
 use App\Models\Ruangan;
+use App\Models\BerkasTransaksi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -25,6 +26,13 @@ class DashboardController extends Controller
             $stokHabis = Barang::where('stok', '<=', 0)->count();
             
             $transaksiHariIni = Transaksi::whereDate('tanggal', Carbon::today())->count();
+            
+            // Berkas Transaksi stats
+            $totalBerkas = BerkasTransaksi::count();
+            $berkasBulanIni = BerkasTransaksi::whereYear('tanggal_surat', Carbon::now()->year)
+                ->whereMonth('tanggal_surat', Carbon::now()->month)
+                ->count();
+            $ukuranTotalBerkas = BerkasTransaksi::sum('file_size');
             
             // Barang stok rendah - optimized query with specific columns
             $barangStokRendah = Barang::select(['id', 'nama_barang', 'kategori', 'satuan', 'stok', 'stok_minimum'])
@@ -69,6 +77,9 @@ class DashboardController extends Controller
                 'stokRendah' => $stokRendah,
                 'stokHabis' => $stokHabis,
                 'transaksiHariIni' => $transaksiHariIni,
+                'totalBerkas' => $totalBerkas,
+                'berkasBulanIni' => $berkasBulanIni,
+                'ukuranTotalBerkas' => $ukuranTotalBerkas,
                 'barangStokRendah' => $barangStokRendah,
                 'transaksiTerakhir' => $transaksiTerakhir,
                 'tanggalLabels' => $tanggalLabels,
