@@ -571,6 +571,285 @@
         color: #64748b;
     }
     
+    /* View Toggle Buttons */
+    .view-toggle {
+        display: flex;
+        background: #f1f5f9;
+        border-radius: 10px;
+        padding: 4px;
+        gap: 4px;
+    }
+    
+    .view-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: none;
+        background: transparent;
+        color: #64748b;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .view-btn:hover {
+        background: rgba(255,255,255,0.5);
+        color: #334155;
+    }
+    
+    .view-btn.active {
+        background: #fff;
+        color: #6366f1;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .view-btn i {
+        font-size: 0.875rem;
+    }
+    
+    /* List View Styles */
+    .files-list {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    @media (max-width: 768px) {
+        .files-list {
+            padding: 1rem;
+        }
+    }
+    
+    .file-list-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+    }
+    
+    .file-list-item:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transform: translateX(4px);
+    }
+    
+    .file-list-item.selected {
+        border-color: #6366f1;
+        background: #eef2ff;
+    }
+    
+    .list-checkbox {
+        flex-shrink: 0;
+    }
+    
+    .list-checkbox input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    
+    .list-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #dc2626;
+        font-size: 1.125rem;
+        flex-shrink: 0;
+    }
+    
+    .list-content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    
+    .list-main {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .list-filename {
+        font-weight: 600;
+        font-size: 0.9375rem;
+        color: #1e293b;
+        margin-bottom: 0.375rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .list-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .list-meta-item {
+        font-size: 0.75rem;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+    
+    .list-meta-item i {
+        font-size: 0.6875rem;
+    }
+    
+    .list-sender-receiver {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        color: #334155;
+        padding: 0.375rem 0.75rem;
+        background: #f8fafc;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    
+    .list-sender-receiver .sender {
+        color: #059669;
+        font-weight: 500;
+    }
+    
+    .list-sender-receiver .receiver {
+        color: #dc2626;
+        font-weight: 500;
+    }
+    
+    .list-sender-receiver i {
+        color: #94a3b8;
+        font-size: 0.625rem;
+    }
+    
+    .list-uploader {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.375rem 0.75rem;
+        background: #f1f5f9;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        color: #475569;
+        font-weight: 500;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .uploader-badge {
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.625rem;
+        font-weight: 700;
+    }
+    
+    .list-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        flex-shrink: 0;
+    }
+    
+    .action-btn-sm {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8125rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.15s ease;
+    }
+    
+    .action-btn-sm.view {
+        background: #e0f2fe;
+        color: #0284c7;
+    }
+    
+    .action-btn-sm.view:hover {
+        background: #bae6fd;
+    }
+    
+    .action-btn-sm.download {
+        background: #d1fae5;
+        color: #059669;
+    }
+    
+    .action-btn-sm.download:hover {
+        background: #a7f3d0;
+    }
+    
+    .action-btn-sm.edit {
+        background: #e0e7ff;
+        color: #6366f1;
+    }
+    
+    .action-btn-sm.edit:hover {
+        background: #c7d2fe;
+    }
+    
+    .action-btn-sm.delete {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+    
+    .action-btn-sm.delete:hover {
+        background: #fecaca;
+    }
+    
+    /* Responsive List View */
+    @media (max-width: 992px) {
+        .list-content {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .list-sender-receiver {
+            order: 2;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .file-list-item {
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .list-actions {
+            width: 100%;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f1f5f9;
+        }
+    }
+    
     /* Action Dropdown */
     .action-dropdown .btn {
         width: 32px;
@@ -948,35 +1227,50 @@
         </div>
     </div>
 
-    <!-- File Cards Grid -->
+    <!-- Files Container with View Toggle -->
     <div class="files-container">
         <div class="files-header">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-3">
                     <div>
                         <h6 class="mb-0 fw-bold" style="color: #334155; font-size: 1rem;">Daftar Berkas</h6>
                         <small class="text-muted">{{ $berkas->total() }} dokumen tersedia</small>
                     </div>
                     @if($berkas->count() > 0)
-                    <div class="form-check">
+                    <div class="form-check ms-3">
                         <input type="checkbox" class="form-check-input" id="selectAllCheckbox" onclick="toggleSelectAll()">
                         <label class="form-check-label small" for="selectAllCheckbox">Pilih Semua</label>
                     </div>
                     @endif
                 </div>
-                @if($berkas->hasPages())
-                    <span class="badge bg-light text-dark border">
-                        {{ $berkas->firstItem() }} - {{ $berkas->lastItem() }} dari {{ $berkas->total() }}
-                    </span>
-                @endif
+                
+                <div class="d-flex align-items-center gap-2">
+                    <!-- View Toggle Buttons -->
+                    <div class="view-toggle">
+                        <button type="button" class="view-btn active" id="btnCardView" onclick="switchView('card')" title="Tampilan Kartu">
+                            <i class="fas fa-th-large"></i>
+                            <span>Kartu</span>
+                        </button>
+                        <button type="button" class="view-btn" id="btnListView" onclick="switchView('list')" title="Tampilan List">
+                            <i class="fas fa-list"></i>
+                            <span>List</span>
+                        </button>
+                    </div>
+                    
+                    @if($berkas->hasPages())
+                        <span class="badge bg-light text-dark border ms-2">
+                            {{ $berkas->firstItem() }} - {{ $berkas->lastItem() }} dari {{ $berkas->total() }}
+                        </span>
+                    @endif
+                </div>
             </div>
         </div>
         
         @if($berkas->count() > 0)
-        <div class="files-grid">
+        <!-- CARD VIEW -->
+        <div id="cardView" class="files-grid">
             @foreach($berkas as $index => $item)
             <div class="file-card" id="card-{{ $item->id }}">
-                <!-- Card Header -->
                 <div class="card-header-flex">
                     <div class="card-checkbox">
                         <input type="checkbox" class="form-check-input item-checkbox" 
@@ -996,7 +1290,6 @@
                     </div>
                 </div>
                 
-                <!-- Card Details -->
                 <div class="card-details">
                     <div class="detail-item">
                         <span class="detail-label">Nomor Surat</span>
@@ -1026,7 +1319,6 @@
                     </div>
                 </div>
                 
-                <!-- Card Footer -->
                 <div class="card-footer-flex">
                     <div class="card-uploader">
                         <div class="uploader-avatar">
@@ -1048,6 +1340,56 @@
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        
+        <!-- LIST VIEW (Hidden by default) -->
+        <div id="listView" class="files-list" style="display: none;">
+            @foreach($berkas as $index => $item)
+            <div class="file-list-item" id="list-{{ $item->id }}">
+                <div class="list-checkbox">
+                    <input type="checkbox" class="form-check-input item-checkbox" 
+                           value="{{ $item->id }}" onchange="updateSelectedCount()">
+                </div>
+                <div class="list-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="list-content">
+                    <div class="list-main">
+                        <div class="list-filename">{{ $item->file_name }}</div>
+                        <div class="list-meta">
+                            <span class="list-meta-item"><i class="far fa-calendar"></i> {{ $item->created_at->format('d M Y') }}</span>
+                            <span class="list-meta-item"><i class="fas fa-hdd"></i> {{ $item->file_size_human }}</span>
+                            <span class="list-meta-item"><i class="fas fa-file-alt"></i> {{ $item->nomor_surat ?? 'No Surat: -' }}</span>
+                            <span class="list-meta-item"><i class="far fa-calendar-check"></i> {{ $item->tanggal_surat ? $item->tanggal_surat->format('d M Y') : 'Tgl: -' }}</span>
+                            <span class="list-meta-item"><i class="fas fa-info-circle"></i> {{ $item->perihal ? Str::limit($item->perihal, 40) : 'Perihal: -' }}</span>
+                        </div>
+                    </div>
+                    <div class="list-sender-receiver">
+                        <span class="sender">{{ $item->pengirim ?? '-' }}</span>
+                        <i class="fas fa-arrow-right"></i>
+                        <span class="receiver">{{ $item->penerima ?? '-' }}</span>
+                    </div>
+                </div>
+                <div class="list-uploader">
+                    <div class="uploader-badge">{{ substr($item->user->name ?? 'U', 0, 1) }}</div>
+                    <span>{{ $item->user->name ?? 'Unknown' }}</span>
+                </div>
+                <div class="list-actions">
+                    <a href="{{ route('berkas-transaksi.show', $item) }}" class="action-btn-sm view" title="Detail">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="{{ route('berkas-transaksi.download', $item) }}" class="action-btn-sm download" title="Download">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <a href="{{ route('berkas-transaksi.edit', $item) }}" class="action-btn-sm edit" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <button type="button" class="action-btn-sm delete" onclick="deleteItem('{{ $item->id }}')" title="Hapus">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </div>
             </div>
             @endforeach
@@ -1200,6 +1542,37 @@
 @section('scripts')
 <script>
 let selectedIds = [];
+let currentView = localStorage.getItem('berkasView') || 'card';
+
+// Initialize view on page load
+document.addEventListener('DOMContentLoaded', function() {
+    switchView(currentView, false);
+});
+
+function switchView(view, save = true) {
+    currentView = view;
+    
+    const cardView = document.getElementById('cardView');
+    const listView = document.getElementById('listView');
+    const btnCard = document.getElementById('btnCardView');
+    const btnList = document.getElementById('btnListView');
+    
+    if (view === 'card') {
+        cardView.style.display = 'grid';
+        listView.style.display = 'none';
+        btnCard.classList.add('active');
+        btnList.classList.remove('active');
+    } else {
+        cardView.style.display = 'none';
+        listView.style.display = 'flex';
+        btnCard.classList.remove('active');
+        btnList.classList.add('active');
+    }
+    
+    if (save) {
+        localStorage.setItem('berkasView', view);
+    }
+}
 
 function updateSelectedCount() {
     selectedIds = [];
@@ -1208,12 +1581,17 @@ function updateSelectedCount() {
         // Highlight the card
         const card = document.getElementById('card-' + cb.value);
         if (card) card.classList.add('selected');
+        // Highlight the list item
+        const listItem = document.getElementById('list-' + cb.value);
+        if (listItem) listItem.classList.add('selected');
     });
     
-    // Remove highlight from unchecked cards
+    // Remove highlight from unchecked items
     document.querySelectorAll('.item-checkbox:not(:checked)').forEach(cb => {
         const card = document.getElementById('card-' + cb.value);
         if (card) card.classList.remove('selected');
+        const listItem = document.getElementById('list-' + cb.value);
+        if (listItem) listItem.classList.remove('selected');
     });
     
     const count = selectedIds.length;
@@ -1233,12 +1611,22 @@ function toggleSelectAll() {
     
     checkboxes.forEach(cb => {
         cb.checked = masterCheckbox.checked;
+        // Handle card
         const card = document.getElementById('card-' + cb.value);
         if (card) {
             if (masterCheckbox.checked) {
                 card.classList.add('selected');
             } else {
                 card.classList.remove('selected');
+            }
+        }
+        // Handle list item
+        const listItem = document.getElementById('list-' + cb.value);
+        if (listItem) {
+            if (masterCheckbox.checked) {
+                listItem.classList.add('selected');
+            } else {
+                listItem.classList.remove('selected');
             }
         }
     });
