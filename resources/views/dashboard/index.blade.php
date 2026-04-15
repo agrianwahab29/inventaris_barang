@@ -112,6 +112,14 @@
         }
     }
 
+    /* 5-column grid for stat cards */
+    @media (min-width: 1200px) {
+        .col-xl-5ths {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+    }
+
     .animate-fade-up {
         animation: fadeInUp 0.6s ease-out forwards;
     }
@@ -806,7 +814,7 @@
 
 <!-- Stats Cards -->
 <div class="row g-3 mb-4">
-    <div class="col-xl-3 col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-6">
         <div class="stat-card stat-card-primary animate-fade-up animate-delay-1">
             <div class="stat-icon stat-icon-primary">
                 <i class="fas fa-boxes"></i>
@@ -820,7 +828,7 @@
         </div>
     </div>
     
-    <div class="col-xl-3 col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-6">
         <div class="stat-card stat-card-success animate-fade-up animate-delay-2">
             <div class="stat-icon stat-icon-success">
                 <i class="fas fa-arrow-down"></i>
@@ -834,7 +842,7 @@
         </div>
     </div>
     
-    <div class="col-xl-3 col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-6">
         <div class="stat-card stat-card-warning animate-fade-up animate-delay-3">
             <div class="stat-icon stat-icon-warning">
                 <i class="fas fa-arrow-up"></i>
@@ -848,7 +856,7 @@
         </div>
     </div>
     
-    <div class="col-xl-3 col-md-6 col-6">
+    <div class="col-xl-5ths col-md-6 col-6">
         <div class="stat-card stat-card-info animate-fade-up animate-delay-4">
             <div class="stat-icon stat-icon-info">
                 <i class="fas fa-file-pdf"></i>
@@ -861,11 +869,8 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- Second Row - Stock Status -->
-<div class="row g-3 mb-4">
-    <div class="col-xl-3 col-md-6 col-6">
+    
+    <div class="col-xl-5ths col-md-6 col-6">
         @php
             $totalAlert = $stokRendah + $stokHabis;
         @endphp
