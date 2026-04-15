@@ -864,7 +864,7 @@ un --</option>
 @section('scripts')
 <script>
 // === Data dari server ===
-const monthsByYear = @json($monthsByYear);
+const monthsByYear = @json($monthsByYear ?? []);
 const monthNames = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
 // Debug: Log data dari server

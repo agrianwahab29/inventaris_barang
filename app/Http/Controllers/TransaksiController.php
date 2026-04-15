@@ -493,7 +493,7 @@ class TransaksiController extends Controller
 
         try {
             $request->validate([
-                'export_type' => 'required|in:all,range,dates,year,year_range,month,month_range',
+                'export_type' => 'required|in:all,range,year,year_range,month,month_range',
                 'tanggal_dari' => 'nullable|date',
                 'tanggal_sampai' => 'nullable|date',
                 'tanggal_list' => 'nullable|string',
