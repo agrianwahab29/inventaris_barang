@@ -449,7 +449,6 @@
                             $types = [
                                 ['id' => 'all', 'icon' => 'database', 'color' => 'primary', 'label' => 'Semua Data', 'desc' => 'Seluruh riwayat'],
                                 ['id' => 'range', 'icon' => 'calendar-alt', 'color' => 'success', 'label' => 'Rentang Tanggal', 'desc' => 'Dari tanggal A ke B'],
-                                ['id' => 'dates', 'icon' => 'calendar-check', 'color' => 'warning', 'label' => 'Pilih Tanggal', 'desc' => 'Beberapa tanggal'],
                                 ['id' => 'year', 'icon' => 'calendar', 'color' => 'info', 'label' => 'Per Tahun', 'desc' => 'Satu tahun tertentu'],
                             ];
                             $types2 = [
@@ -564,68 +563,6 @@
                             <div class="alert alert-info mt-2 mb-0 py-1 px-2" style="font-size: 0.5rem;">
                                 <i class="fas fa-info-circle me-1"></i><strong>Tips:</strong> Sistem akan menampilkan transaksi yang ada di rentang tanggal yang dipilih. Jika tidak ada transaksi di tanggal tertentu, data akan kosong.
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Dates Section -->
-                    <div id="datesSection" class="export-section" style="display: none;">
-                        <!-- Panduan Export Pilih Tanggal -->
-                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
-                            <div class="card-header bg-info text-white py-1 px-2">
-                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Pilih Tanggal</strong>
-                            </div>
-                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
-                                <div class="mb-2">
-                                    <div class="d-flex align-items-start mb-1">
-                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
-                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tanggal dari dropdown</span>
-                                    </div>
-                                    <div class="d-flex align-items-start mb-1">
-                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
-                                        <span><i class="fas fa-plus text-primary me-1"></i>Klik Tambah</span>
-                                    </div>
-                                    <div class="d-flex align-items-start mb-1">
-                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
-                                        <span><i class="fas fa-redo text-primary me-1"></i>Ulangi untuk tanggal lain</span>
-                                    </div>
-                                    <div class="d-flex align-items-start">
-                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">4</span>
-                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik Export</span>
-                                    </div>
-                                </div>
-                                <hr class="my-1" style="opacity: 0.2;">
-                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
-                                    <i class="fas fa-exclamation-triangle me-1 text-warning"></i>
-                                    <strong>Catatan Penting:</strong>
-                                    <ul class="mb-0 ps-3 mt-1">
-                                        <li>Bisa pilih banyak tanggal sekaligus</li>
-                                        <li>Sistem akan export semua transaksi di tanggal-tanggal yang dipilih</li>
-                                    </ul>
-                                </div>
-                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
-                                    <i class="fas fa-lightbulb text-warning me-1"></i>
-                                    <strong>Tips:</strong> Tambahkan tanggal secara berurutan untuk memudahkan tracking
-                                </div>
-                            </div>
-                        </div>
-                        <label class="form-label fw-bold" style="font-size: 0.75rem;">Pilih Tanggal</label>
-                        <input type="hidden" name="tanggal_list" id="tanggalListInput">
-                        <div class="border rounded p-2 bg-light">
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-8">
-                                    <select id="dateSelectDropdown" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
-                                        <option value="">-- Pilih Tanggal --</option>
-                                        @foreach($availableDates as $date)
-                                            <option value="{{ $date }}">{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="button" class="btn btn-primary w-100" onclick="addDateFromDropdown()" style="font-size: 0.75rem; padding: 4px 12px;"><i class="fas fa-plus me-1"></i>Tambah</button>
-                                </div>
-                            </div>
-                            <div id="selectedDates" class="d-flex flex-wrap gap-1"></div>
-                            <div id="datesEmpty" class="text-center text-muted py-2" style="font-size: 0.625rem;"><i class="fas fa-calendar-plus me-1"></i>Belum ada tanggal dipilih. Pilih dari dropdown lalu klik Tambah.</div>
                         </div>
                     </div>
 
@@ -912,7 +849,6 @@ console.log('Available years:', Object.keys(monthsByYear));
 const exportGuides = {
     all: 'Klik <strong>Export</strong> untuk mengunduh seluruh data transaksi dalam format Excel.',
     range: 'Pilih tanggal <strong>awal</strong> dan <strong>akhir</strong> sesuka Anda menggunakan kalender. Sistem akan menampilkan transaksi yang ada di rentang tersebut (meski tidak ada transaksi di tanggal tertentu).',
-    dates: 'Pilih satu atau beberapa <strong>tanggal spesifik</strong> dari dropdown, lalu klik Tambah. Cocok untuk export tanggal tertentu saja.',
     year: 'Pilih <strong>satu tahun</strong>. Hanya tahun yang memiliki data transaksi yang ditampilkan.',
     year_range: 'Pilih tahun <strong>awal</strong> dan <strong>akhir</strong>. Tahun sampai otomatis disesuaikan agar tidak lebih kecil dari tahun awal.',
     month: 'Pilih <strong>tahun</strong> dulu, lalu pilih <strong>bulan</strong>. Hanya bulan yang ada transaksinya yang muncul.',
@@ -933,7 +869,7 @@ function selectExportType(type) {
     document.querySelectorAll('.export-section').forEach(s => s.style.display = 'none');
     
     // Show relevant section
-    const sectionMap = { range: 'rangeSection', dates: 'datesSection', year: 'yearSection', year_range: 'yearRangeSection', month: 'monthSection', month_range: 'monthRangeSection' };
+    const sectionMap = { range: 'rangeSection', year: 'yearSection', year_range: 'yearRangeSection', month: 'monthSection', month_range: 'monthRangeSection' };
     if (sectionMap[type]) {
         const sectionEl = document.getElementById(sectionMap[type]);
         if (sectionEl) sectionEl.style.display = 'block';
@@ -948,8 +884,8 @@ function selectExportType(type) {
 }
 
 function clearIrrelevantFields(exportType) {
-    const fieldMap = { all: [], range: ['tanggal_dari', 'tanggal_sampai'], dates: ['tanggal_list'], year: ['tahun'], year_range: ['tahun_dari', 'tahun_sampai'], month: ['tahun_bulan', 'bulan'], month_range: ['tahun_dari', 'bulan_dari', 'tahun_sampai', 'bulan_sampai'] };
-    const allFields = ['tanggal_dari', 'tanggal_sampai', 'tanggal_list', 'tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan'];
+    const fieldMap = { all: [], range: ['tanggal_dari', 'tanggal_sampai'], year: ['tahun'], year_range: ['tahun_dari', 'tahun_sampai'], month: ['tahun_bulan', 'bulan'], month_range: ['tahun_dari', 'bulan_dari', 'tahun_sampai', 'bulan_sampai'] };
+    const allFields = ['tanggal_dari', 'tanggal_sampai', 'tahun', 'tahun_dari', 'tahun_sampai', 'bulan', 'bulan_dari', 'bulan_sampai', 'tahun_bulan'];
     const relevant = fieldMap[exportType] || [];
     allFields.forEach(f => { 
         if (!relevant.includes(f)) { 
@@ -962,8 +898,6 @@ function clearIrrelevantFields(exportType) {
         const el = document.getElementById(id); 
         if (el) el.value = ''; 
     });
-    selectedDates = [];
-    updateDateDisplay();
 }
 
 // === Dynamic Month Options (hanya bulan yang ada datanya) ===
@@ -1048,35 +982,6 @@ function validateDateRange() {
     }
 }
 
-// === Multiple Dates ===
-let selectedDates = [];
-function addDateFromDropdown() {
-    const dd = document.getElementById('dateSelectDropdown');
-    if (!dd.value) { alert('Pilih tanggal dari dropdown terlebih dahulu'); return; }
-    if (selectedDates.includes(dd.value)) { alert('Tanggal sudah dipilih'); return; }
-    selectedDates.push(dd.value);
-    selectedDates.sort();
-    updateDateDisplay();
-    dd.value = '';
-}
-function removeDate(date) { selectedDates = selectedDates.filter(d => d !== date); updateDateDisplay(); }
-function updateDateDisplay() {
-    const container = document.getElementById('selectedDates');
-    const input = document.getElementById('tanggalListInput');
-    const empty = document.getElementById('datesEmpty');
-    container.innerHTML = '';
-    selectedDates.forEach(date => {
-        const d = new Date(date);
-        const formatted = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-        const chip = document.createElement('div');
-        chip.className = 'date-chip';
-        chip.innerHTML = formatted + ' <i class="fas fa-times ms-1" onclick="removeDate(\'' + date + '\')" style="cursor:pointer;opacity:0.6;"></i>';
-        container.appendChild(chip);
-    });
-    input.value = selectedDates.join(',');
-    if (empty) empty.style.display = selectedDates.length > 0 ? 'none' : 'block';
-}
-
 // === Filter sync - ENHANCED TWO-WAY BINDING ===
 function syncFilterDari() { 
     const d = document.getElementById('filterDariDropdown'); 
@@ -1143,9 +1048,6 @@ function validateAndSubmit() {
             const sampai = document.getElementById('rangeSampaiManual').value;
             if (!dari || !sampai) msg = 'Pilih tanggal dari dan sampai';
             else if (dari > sampai) msg = 'Tanggal dari harus lebih kecil dari tanggal sampai';
-            break;
-        case 'dates':
-            if (selectedDates.length === 0) msg = 'Pilih minimal satu tanggal';
             break;
         case 'year':
             if (!form.querySelector('#yearSection select[name="tahun"]').value) msg = 'Pilih tahun';
