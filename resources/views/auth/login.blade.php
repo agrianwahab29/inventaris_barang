@@ -11,36 +11,38 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=4">
 
     <style>
-        /* OpenCode Design System - Terminal Aesthetic */
+        /* Modern Government Design System - Balai Bahasa Sultra */
         :root {
-            /* Primary Colors - Warm Dark */
-            --bg-primary: #201d1d;
-            --bg-elevated: #302c2c;
-            --bg-surface: #252222;
+            /* Primary Colors - Elegant Blue Theme */
+            --primary-blue: #1a5fb4;
+            --primary-blue-dark: #13448a;
+            --primary-blue-light: #3584e4;
+            --accent-gold: #c5a065;
+            --accent-gold-light: #d4b87a;
             
-            /* Text Colors - Warm Off-White */
-            --text-primary: #fdfcfc;
-            --text-secondary: #9a9898;
-            --text-muted: #6e6e73;
+            /* Background Colors */
+            --bg-gradient-start: #f0f4f8;
+            --bg-gradient-end: #e8eef5;
+            --card-bg: #ffffff;
+            --card-border: #e1e8ed;
             
-            /* Accent Colors */
-            --accent-blue: #007aff;
-            --accent-red: #ff3b30;
-            --border-warm: rgba(15, 0, 0, 0.12);
-            --border-subtle: #646262;
-            --border-hover: #9a9898;
+            /* Text Colors */
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --text-white: #ffffff;
             
-            /* Input Colors */
-            --input-bg: #f8f7f7;
-            --input-text: #201d1d;
-            --input-placeholder: #6e6e73;
-            --input-border: rgba(15, 0, 0, 0.12);
+            /* Status Colors */
+            --success-green: #2d6a4f;
+            --error-red: #c53030;
+            --warning-orange: #c05621;
             
             /* Typography */
-            --font-mono: 'Berkeley Mono', 'IBM Plex Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+            --font-primary: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            --font-heading: 'Georgia', 'Times New Roman', serif;
         }
 
-        /* Reset */
+        /* Reset & Base */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -54,8 +56,8 @@
         }
 
         body {
-            font-family: var(--font-mono);
-            background-color: var(--bg-primary);
+            font-family: var(--font-primary);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
@@ -63,113 +65,173 @@
             align-items: center;
             justify-content: center;
             padding: 24px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        /* Brand Section */
-        .brand {
+        /* Decorative Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(26, 95, 180, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(197, 160, 101, 0.03) 0%, transparent 20%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Main Container */
+        .login-container {
+            width: 100%;
+            max-width: 480px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Section */
+        .header-section {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 32px;
         }
 
-        .brand-logo {
-            font-size: 28px;
+        /* Logo Container */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Institution Name */
+        .institution-name {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .institution-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .system-title {
+            font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
-            letter-spacing: 0.1em;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
+            margin-top: 16px;
+            position: relative;
+            display: inline-block;
         }
 
-        .brand-prompt {
-            color: var(--accent-blue);
-            font-weight: 400;
-        }
-
-        .brand-subtitle {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
-        }
-
-        /* ASCII Art Divider */
-        .ascii-divider {
-            color: var(--text-muted);
-            font-size: 12px;
-            margin: 16px 0;
-            letter-spacing: 2px;
-            opacity: 0.5;
+        .system-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-gold) 100%);
+            border-radius: 2px;
         }
 
         /* Login Card */
         .login-card {
-            background-color: var(--bg-elevated);
-            border: 1px solid var(--border-warm);
-            border-radius: 4px;
-            width: 100%;
-            max-width: 420px;
-            padding: 48px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                0 10px 15px -3px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(26, 95, 180, 0.05);
         }
 
         /* Error Message */
         .error-message {
-            background-color: rgba(255, 59, 48, 0.1);
-            border: 1px solid rgba(255, 59, 48, 0.3);
-            border-radius: 4px;
+            background-color: rgba(197, 48, 48, 0.08);
+            border-left: 4px solid var(--error-red);
+            border-radius: 6px;
             padding: 12px 16px;
             margin-bottom: 24px;
             font-size: 14px;
-            font-weight: 500;
-            color: var(--accent-red);
+            color: var(--error-red);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .error-icon {
-            font-size: 16px;
+            font-size: 18px;
             flex-shrink: 0;
         }
 
         /* Form Elements */
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .form-label {
             display: block;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--text-secondary);
             margin-bottom: 8px;
         }
 
         .form-input {
             width: 100%;
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 6px;
-            padding: 16px 20px;
-            font-family: var(--font-mono);
-            font-size: 16px;
+            background-color: #fafbfc;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-family: var(--font-primary);
+            font-size: 15px;
             font-weight: 400;
-            color: var(--input-text);
-            transition: border-color 0.2s ease;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
             -webkit-appearance: none;
             appearance: none;
         }
 
+        .form-input:hover {
+            border-color: #d1d9e0;
+        }
+
         .form-input:focus {
             outline: none;
-            border-color: var(--accent-blue);
+            border-color: var(--primary-blue);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
         }
 
         .form-input::placeholder {
-            color: var(--input-placeholder);
+            color: #a0aec0;
         }
 
         /* Password visibility toggle */
@@ -179,45 +241,48 @@
 
         .password-toggle {
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: var(--input-placeholder);
+            color: var(--text-muted);
             cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 12px;
-            padding: 4px 8px;
-            transition: color 0.2s ease;
+            font-family: var(--font-primary);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
 
         .password-toggle:hover {
-            color: var(--input-text);
+            background-color: rgba(26, 95, 180, 0.1);
+            color: var(--primary-blue);
         }
 
         /* Form Options */
         .form-options {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             font-size: 14px;
         }
 
         .checkbox-wrapper {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
         }
 
         .checkbox-input {
-            width: 18px;
-            height: 18px;
-            border: 1px solid var(--border-subtle);
-            border-radius: 3px;
-            background-color: transparent;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d9e0;
+            border-radius: 5px;
+            background-color: #ffffff;
             appearance: none;
             cursor: pointer;
             position: relative;
@@ -225,8 +290,8 @@
         }
 
         .checkbox-input:checked {
-            background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
         }
 
         .checkbox-input:checked::after {
@@ -235,71 +300,100 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: var(--text-primary);
+            color: #ffffff;
             font-size: 12px;
             font-weight: 700;
         }
 
         .checkbox-label {
             color: var(--text-secondary);
-            font-weight: 400;
-        }
-
-        .forgot-link {
-            color: var(--accent-blue);
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            transition: opacity 0.2s ease;
-        }
-
-        .forgot-link:hover {
-            opacity: 0.8;
+            font-weight: 500;
+            user-select: none;
         }
 
         /* Submit Button */
         .btn-submit {
             width: 100%;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            padding: 12px 20px;
-            font-family: var(--font-mono);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 14px 24px;
+            font-family: var(--font-primary);
             font-size: 16px;
-            font-weight: 500;
-            color: var(--text-primary);
-            line-height: 2;
+            font-weight: 600;
+            color: var(--text-white);
             cursor: pointer;
-            transition: all 0.2s ease;
-            -webkit-appearance: none;
-            appearance: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(26, 95, 180, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: left 0.5s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
         }
 
         .btn-submit:hover {
-            background-color: var(--bg-elevated);
-            border-color: var(--border-hover);
+            background: linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%);
+            box-shadow: 0 6px 12px rgba(26, 95, 180, 0.4);
+            transform: translateY(-1px);
         }
 
         .btn-submit:active {
-            background-color: var(--bg-primary);
-            border-color: var(--text-primary);
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(26, 95, 180, 0.3);
         }
 
         .btn-submit:focus {
             outline: none;
-            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.3);
         }
 
         /* Footer */
         .login-footer {
-            margin-top: 48px;
+            margin-top: 32px;
             text-align: center;
             font-size: 13px;
             color: var(--text-muted);
         }
 
         .footer-divider {
-            color: var(--text-muted);
+            color: var(--accent-gold);
             margin: 0 8px;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background-color: rgba(45, 106, 79, 0.08);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--success-green);
+        }
+
+        .security-icon {
+            font-size: 14px;
         }
 
         /* Responsive Adjustments */
@@ -307,150 +401,168 @@
             body {
                 padding: 16px;
                 justify-content: flex-start;
-                padding-top: 10vh;
+                padding-top: 5vh;
             }
 
-            .brand {
-                margin-bottom: 32px;
+            .login-container {
+                max-width: 100%;
             }
 
-            .brand-logo {
-                font-size: 24px;
+            .logo {
+                width: 60px;
+                height: 60px;
             }
 
-            .brand-subtitle {
-                font-size: 13px;
+            .institution-name {
+                font-size: 16px;
+            }
+
+            .system-title {
+                font-size: 20px;
             }
 
             .login-card {
-                padding: 32px 24px;
+                padding: 28px 20px;
+                border-radius: 10px;
             }
 
             .form-group {
-                margin-bottom: 20px;
+                margin-bottom: 16px;
             }
 
             .form-input {
-                padding: 14px 16px;
+                padding: 12px 14px;
+                font-size: 16px; /* Prevent iOS zoom */
             }
 
-            .form-options {
-                flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
-                margin-bottom: 24px;
+            .btn-submit {
+                padding: 12px 20px;
             }
         }
 
         @media (max-width: 360px) {
-            body {
-                padding: 12px;
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .institution-name {
+                font-size: 14px;
+            }
+
+            .system-title {
+                font-size: 18px;
             }
 
             .login-card {
-                padding: 24px 20px;
+                padding: 24px 16px;
             }
 
-            .brand-logo {
-                font-size: 22px;
-                letter-spacing: 0.05em;
-            }
-
-            .ascii-divider {
-                font-size: 10px;
-                letter-spacing: 1px;
+            .form-label {
+                font-size: 13px;
             }
         }
 
         /* Selection color */
         ::selection {
-            background-color: var(--accent-blue);
-            color: var(--text-primary);
+            background-color: var(--primary-blue);
+            color: var(--text-white);
         }
     </style>
 </head>
 
 <body>
-    <!-- Brand Header -->
-    <div class="brand">
-        <div class="brand-logo">
-            <span class="brand-prompt">>_</span>
-            <span>INVENTARIS</span>
-        </div>
-        <div class="ascii-divider">┌─────────────────────────┐</div>
-        <p class="brand-subtitle">Sistem Manajemen Barang</p>
-    </div>
-
-    <!-- Login Card -->
-    <div class="login-card">
-        <!-- Error Messages -->
-        @if($errors->any())
-        <div class="error-message" role="alert">
-            <span class="error-icon">✗</span>
-            <span>{{ $errors->first() }}</span>
-        </div>
-        @endif
-
-        <!-- Login Form -->
-        <form method="POST" action="{{ route('login') }}" novalidate>
-            @csrf
-
-            <!-- Username Field -->
-            <div class="form-group">
-                <label for="username" class="form-label">Username</label>
-                <input 
-                    type="text" 
-                    id="username"
-                    name="username" 
-                    class="form-input" 
-                    placeholder="Masukkan username" 
-                    required
-                    autofocus
-                    autocomplete="username"
-                    value="{{ old('username') }}"
-                >
+    <div class="login-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <!-- Logo Container -->
+            <div class="logo-container">
+                <img src="{{ asset('image/logo-balai-bahasa.png') }}" alt="Logo Balai Bahasa" class="logo">
+                <img src="{{ asset('image/tut-wuri-handayani.png') }}" alt="Logo Kemdikbud" class="logo">
             </div>
+            
+            <!-- Institution Name -->
+            <div class="institution-name">Balai Bahasa Provinsi Sulawesi Tenggara</div>
+            <div class="institution-subtitle">Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</div>
+            
+            <!-- System Title -->
+            <h1 class="system-title">Sistem Inventaris Barang</h1>
+        </div>
 
-            <!-- Password Field -->
-            <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <div class="password-wrapper">
+        <!-- Login Card -->
+        <div class="login-card">
+            <!-- Error Messages -->
+            @if($errors->any())
+            <div class="error-message" role="alert">
+                <span class="error-icon">⚠</span>
+                <span>{{ $errors->first() }}</span>
+            </div>
+            @endif
+
+            <!-- Login Form -->
+            <form method="POST" action="{{ route('login') }}" novalidate>
+                @csrf
+
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
                     <input 
-                        type="password" 
-                        id="password"
-                        name="password" 
+                        type="text" 
+                        id="username"
+                        name="username" 
                         class="form-input" 
-                        placeholder="Masukkan password"
+                        placeholder="Masukkan username Anda" 
                         required
-                        autocomplete="current-password"
+                        autofocus
+                        autocomplete="username"
+                        value="{{ old('username') }}"
                     >
-                    <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Toggle password visibility">
-                        [show]
-                    </button>
                 </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password"
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Masukkan password Anda"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Toggle password visibility">
+                            Tampilkan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Form Options -->
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" name="remember" class="checkbox-input" id="remember">
+                        <span class="checkbox-label">Ingat saya</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit">
+                    Masuk ke Sistem
+                </button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="login-footer">
+            <span>© 2026</span>
+            <span class="footer-divider">|</span>
+            <span>Balai Bahasa Provinsi Sulawesi Tenggara</span>
+            <div class="security-badge">
+                <span class="security-icon">🔒</span>
+                <span>Sistem Aman & Terenkripsi</span>
             </div>
-
-            <!-- Form Options -->
-            <div class="form-options">
-                <label class="checkbox-wrapper">
-                    <input type="checkbox" name="remember" class="checkbox-input" id="remember">
-                    <span class="checkbox-label">Ingat saya</span>
-                </label>
-                <a href="#" class="forgot-link">Lupa password?</a>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn-submit">
-                Masuk →
-            </button>
-        </form>
-    </div>
-
-    <!-- Footer -->
-    <div class="login-footer">
-        <span>© 2026</span>
-        <span class="footer-divider">|</span>
-        <span>Balai Bahasa</span>
+        </div>
     </div>
 
     <!-- Password Toggle Script -->
@@ -461,10 +573,10 @@
             
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                toggleButton.textContent = '[hide]';
+                toggleButton.textContent = 'Sembunyikan';
             } else {
                 passwordInput.type = 'password';
-                toggleButton.textContent = '[show]';
+                toggleButton.textContent = 'Tampilkan';
             }
         }
 
