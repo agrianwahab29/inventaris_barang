@@ -9,6 +9,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\QuarterlyStockController;
 use App\Http\Controllers\SuratTandaTerimaController;
+use App\Http\Controllers\BerkasTransaksiController;
 
 /*
 |--------------------------------------------------------------------------
