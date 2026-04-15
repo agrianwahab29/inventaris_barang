@@ -259,15 +259,15 @@
                 </div>
                 
                 <div class="row g-4">
-                    <div class="col-md-4">
-                        <label class="form-label fw-medium">Jumlah Masuk</label>
-                        <div class="input-group-custom">
-                            <input type="number" name="jumlah_masuk" id="jumlah_masuk" class="form-control" 
-                                   value="{{ old('jumlah_masuk', 0) }}" min="0" placeholder="0">
-                            <span class="input-group-text satuan-label">-</span>
-                        </div>
-                        <small class="text-muted">Isi 0 jika tidak ada barang masuk</small>
+                <div class="col-md-4">
+                    <label class="form-label fw-medium" for="jumlah_masuk">Jumlah Masuk</label>
+                    <div class="input-group-custom">
+                        <input type="number" name="jumlah_masuk" id="jumlah_masuk" class="form-control" 
+                               value="{{ old('jumlah_masuk', 0) }}" min="0" placeholder="0" aria-describedby="help_masuk">
+                        <span class="input-group-text satuan-label" id="satuan_masuk">-</span>
                     </div>
+                    <small id="help_masuk" class="text-muted">Isi 0 jika tidak ada barang masuk</small>
+                </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-medium">Stok Setelah Masuk</label>
@@ -277,11 +277,11 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label fw-medium">Tanggal Masuk</label>
-                        <input type="date" name="tanggal_masuk" class="form-control" 
-                               value="{{ old('tanggal_masuk', date('Y-m-d')) }}">
-                    </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-medium" for="tanggal_masuk">Tanggal Masuk</label>
+                    <input type="date" id="tanggal_masuk" name="tanggal_masuk" class="form-control" 
+                           value="{{ old('tanggal_masuk', date('Y-m-d')) }}" aria-label="Tanggal barang masuk">
+                </div>
                 </div>
             </div>
 
@@ -298,15 +298,15 @@
                 </div>
                 
                 <div class="row g-4">
-                    <div class="col-md-3">
-                        <label class="form-label fw-medium">Jumlah Keluar</label>
-                        <div class="input-group-custom">
-                            <input type="number" name="jumlah_keluar" id="jumlah_keluar" class="form-control" 
-                                   value="{{ old('jumlah_keluar', 0) }}" min="0" placeholder="0">
-                            <span class="input-group-text satuan-label">-</span>
-                        </div>
-                        <small class="text-muted">Isi 0 jika tidak ada barang keluar</small>
+                <div class="col-md-3">
+                    <label class="form-label fw-medium" for="jumlah_keluar">Jumlah Keluar</label>
+                    <div class="input-group-custom">
+                        <input type="number" name="jumlah_keluar" id="jumlah_keluar" class="form-control" 
+                               value="{{ old('jumlah_keluar', 0) }}" min="0" placeholder="0" aria-describedby="help_keluar">
+                        <span class="input-group-text satuan-label" id="satuan_keluar">-</span>
                     </div>
+                    <small id="help_keluar" class="text-muted">Isi 0 jika tidak ada barang keluar</small>
+                </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-medium">Sisa Setelah Keluar</label>
@@ -316,39 +316,39 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <label class="form-label fw-medium">Tanggal Keluar</label>
-                        <input type="date" name="tanggal_keluar" class="form-control" 
-                               value="{{ old('tanggal_keluar', date('Y-m-d')) }}">
-                    </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-medium" for="tanggal_keluar">Tanggal Keluar</label>
+                    <input type="date" id="tanggal_keluar" name="tanggal_keluar" class="form-control" 
+                           value="{{ old('tanggal_keluar', date('Y-m-d')) }}" aria-label="Tanggal barang keluar">
+                </div>
 
                     <input type="hidden" name="tipe_pengambil" value="nama_ruangan">
                 </div>
 
                 <div class="row g-4 mt-2">
-                    <div class="col-md-6" id="field_nama">
-                        <label class="form-label fw-medium">Nama Pengambil</label>
-                        <div class="input-group-custom">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            <input type="text" name="nama_pengambil" id="nama_pengambil" class="form-control" 
-                                   value="{{ old('nama_pengambil') }}" placeholder="Contoh: Wahab">
-                        </div>
+                <div class="col-md-6" id="field_nama">
+                    <label class="form-label fw-medium" for="nama_pengambil">Nama Pengambil</label>
+                    <div class="input-group-custom">
+                        <span class="input-group-text" id="icon_user"><i class="fas fa-user"></i></span>
+                        <input type="text" name="nama_pengambil" id="nama_pengambil" class="form-control" 
+                               value="{{ old('nama_pengambil') }}" placeholder="Contoh: Wahab" aria-describedby="icon_user">
                     </div>
+                </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label fw-medium">Ruangan Tujuan</label>
-                        <div class="input-group-custom">
-                            <span class="input-group-text"><i class="fas fa-door-open"></i></span>
-                            <select name="ruangan_id" id="ruangan_id" class="form-select">
-                                <option value="">-- Pilih Ruangan --</option>
-                                @foreach($ruangans as $ruangan)
-                                    <option value="{{ $ruangan->id }}" {{ old('ruangan_id') == $ruangan->id ? 'selected' : '' }}>
-                                        {{ $ruangan->nama_ruangan }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium" for="ruangan_id">Ruangan Tujuan</label>
+                    <div class="input-group-custom">
+                        <span class="input-group-text" id="icon_ruangan"><i class="fas fa-door-open"></i></span>
+                        <select name="ruangan_id" id="ruangan_id" class="form-select" aria-describedby="icon_ruangan">
+                            <option value="">-- Pilih Ruangan --</option>
+                            @foreach($ruangans as $ruangan)
+                                <option value="{{ $ruangan->id }}" {{ old('ruangan_id') == $ruangan->id ? 'selected' : '' }}>
+                                    {{ $ruangan->nama_ruangan }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
+                </div>
                 </div>
             </div>
 

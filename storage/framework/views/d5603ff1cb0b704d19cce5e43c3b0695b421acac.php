@@ -6,9 +6,19 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title><?php echo $__env->yieldContent('title', 'Aplikasi Inventaris Barang'); ?></title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?php echo e(asset('image/logo-balai-bahasa.png')); ?>">
-    <link rel="shortcut icon" type="image/png" href="<?php echo e(asset('image/logo-balai-bahasa.png')); ?>">
+    <!-- Favicon - Logo Tut Wuri Handayani -->
+    <!-- PNG Favicon untuk browser modern (tidak stretch) -->
+    <link rel="icon" type="image/png" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=3">
+    <!-- ICO Fallback untuk browser lama -->
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo e(asset('favicon.ico')); ?>?v=3">
+    <!-- SVG untuk high-res display -->
+    <link rel="icon" type="image/svg+xml" href="<?php echo e(asset('image/tut-wuri-handayani.svg')); ?>?v=3">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=3">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo e(asset('image/tut-wuri-handayani.png')); ?>?v=3">
+    
+    <!-- Force favicon refresh -->
+    <meta name="theme-color" content="#1e1b4b">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -710,7 +720,7 @@
         </div>
         
         <div class="mt-2">
-            <div class="nav-section">Menu</div>
+            <div class="nav-section">Data Umum</div>
             
             <a class="nav-link <?php echo e(request()->routeIs('dashboard') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard')); ?>">
                 <i class="fas fa-home"></i>

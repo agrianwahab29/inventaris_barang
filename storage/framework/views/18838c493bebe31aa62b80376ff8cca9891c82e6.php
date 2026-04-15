@@ -1,7 +1,6 @@
 <?php $__env->startSection('title', 'Surat Tanda Terima Barang - Aplikasi Inventaris'); ?>
 
 <?php $__env->startSection('breadcrumb'); ?>
-    <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>">Home</a></li>
     <li class="breadcrumb-item active">Surat Tanda Terima</li>
 <?php $__env->stopSection(); ?>
 
@@ -253,10 +252,8 @@
         <div class="empty-state">
             <i class="fas fa-file-alt d-block"></i>
             <p class="mb-1 fw-bold" style="font-size: 0.875rem;">Belum Ada Data</p>
-            <p class="mb-2" style="font-size: 0.75rem;">Tidak ada transaksi barang keluar yang bisa dicetak menjadi surat.</p>
-            <a href="<?php echo e(route('transaksi.create')); ?>" class="btn btn-primary rounded-pill px-3" style="font-size: 0.75rem;">
-                <i class="fas fa-plus me-1"></i>Input Barang Keluar
-            </a>
+            <p class="mb-0 text-muted" style="font-size: 0.75rem;">Tidak ada transaksi barang keluar yang bisa dicetak menjadi surat.</p>
+            <p class="mt-2 text-muted" style="font-size: 0.7rem;"><i class="fas fa-info-circle me-1"></i>Silakan input barang keluar melalui tombol di atas</p>
         </div>
     </div>
 </div>

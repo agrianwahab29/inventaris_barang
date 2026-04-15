@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Manajemen User - Aplikasi Inventaris')
+@section('page_title', 'Manajemen User')
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Manajemen User</li>
+@endsection
 
 @section('styles')
 <style>

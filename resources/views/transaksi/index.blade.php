@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Riwayat Transaksi - Aplikasi Inventaris')
+@section('page_title', 'Riwayat Transaksi')
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Riwayat Transaksi</li>
+@endsection
 
 @section('styles')
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -502,37 +506,108 @@
                     </div>
                     @endif
 
-                    <!-- Range Section -->
+                    <!-- Range Section - Fleksibel Datepicker -->
                     <div id="rangeSection" class="export-section" style="display: none;">
-                        <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tanggal</label>
+                        <!-- Panduan Export Rentang Tanggal -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Rentang Tanggal</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar-alt text-primary me-1"></i>Pilih tanggal awal (dari) dengan mengklik icon kalender</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-calendar-alt text-primary me-1"></i>Pilih tanggal akhir (sampai) dengan mengklik icon kalender</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik tombol Export untuk generate file</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-circle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Anda bisa memilih tanggal bebas, tidak terbatas pada tanggal transaksi yang ada</li>
+                                        <li>Jika tidak ada transaksi di rentang tanggal yang dipilih, hasil export akan kosong</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Gunakan filter "Semua Tanggal" terlebih dahulu untuk melihat tanggal apa saja yang memiliki transaksi
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tanggal <span class="text-muted fw-normal">(Pilih tanggal bebas)</span></label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
                                 <div class="col-md-6">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Dari Tanggal</label>
-                                    <select id="rangeDariDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="if(this.value) document.getElementById('rangeDariManual').value=this.value">
-                                        <option value="">-- Pilih dari daftar --</option>
-                                        @foreach($availableDates as $date)
-                                            <option value="{{ $date }}">{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="date" name="tanggal_dari" id="rangeDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;">
+                                    <input type="date" name="tanggal_dari" id="rangeDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" onchange="validateDateRange()">
+                                    <small class="text-muted" style="font-size: 0.5rem;">Klik icon kalender untuk memilih tanggal</small>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Sampai Tanggal</label>
-                                    <select id="rangeSampaiDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="if(this.value) document.getElementById('rangeSampaiManual').value=this.value">
-                                        <option value="">-- Pilih dari daftar --</option>
-                                        @foreach($availableDates as $date)
-                                            <option value="{{ $date }}">{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="date" name="tanggal_sampai" id="rangeSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;">
+                                    <input type="date" name="tanggal_sampai" id="rangeSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" onchange="validateDateRange()">
+                                    <small class="text-muted" style="font-size: 0.5rem;">Klik icon kalender untuk memilih tanggal</small>
                                 </div>
+                            </div>
+                            <div id="rangeValidationMsg" class="alert alert-warning mt-2 mb-0 py-1 px-2" style="font-size: 0.625rem; display: none;">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Tanggal awal harus sebelum atau sama dengan tanggal akhir
+                            </div>
+                            <div class="alert alert-info mt-2 mb-0 py-1 px-2" style="font-size: 0.5rem;">
+                                <i class="fas fa-info-circle me-1"></i><strong>Tips:</strong> Sistem akan menampilkan transaksi yang ada di rentang tanggal yang dipilih. Jika tidak ada transaksi di tanggal tertentu, data akan kosong.
                             </div>
                         </div>
                     </div>
 
                     <!-- Dates Section -->
                     <div id="datesSection" class="export-section" style="display: none;">
+                        <!-- Panduan Export Pilih Tanggal -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Pilih Tanggal</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tanggal dari dropdown</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-plus text-primary me-1"></i>Klik Tambah</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
+                                        <span><i class="fas fa-redo text-primary me-1"></i>Ulangi untuk tanggal lain</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">4</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik Export</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-triangle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Bisa pilih banyak tanggal sekaligus</li>
+                                        <li>Sistem akan export semua transaksi di tanggal-tanggal yang dipilih</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Tambahkan tanggal secara berurutan untuk memudahkan tracking
+                                </div>
+                            </div>
+                        </div>
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Pilih Tanggal</label>
                         <input type="hidden" name="tanggal_list" id="tanggalListInput">
                         <div class="border rounded p-2 bg-light">
@@ -556,6 +631,37 @@
 
                     <!-- Year Section -->
                     <div id="yearSection" class="export-section" style="display: none;">
+                        <!-- Panduan Export Pilih Tahun -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Pilih Tahun</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tahun dari dropdown</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik Export</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-triangle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Export semua transaksi dalam satu tahun penuh</li>
+                                        <li>Data dikelompokkan per bulan secara otomatis</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Pastikan tahun yang dipilih memiliki data transaksi
+                                </div>
+                            </div>
+                        </div>
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Pilih Tahun</label>
                         <div class="border rounded p-2 bg-light">
                             <select name="tahun" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
@@ -574,6 +680,41 @@
 
                     <!-- Year Range Section -->
                     <div id="yearRangeSection" class="export-section" style="display: none;">
+                        <!-- Panduan Export Rentang Tahun -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Rentang Tahun</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tahun awal</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tahun akhir</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik Export</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-triangle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Rentang bisa mencakup beberapa tahun</li>
+                                        <li>Export semua transaksi dari tahun awal sampai tahun akhir</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Gunakan untuk laporan tahunan atau evaluasi panjang
+                                </div>
+                            </div>
+                        </div>
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tahun</label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
@@ -605,6 +746,41 @@
 
                     <!-- Month Section -->
                     <div id="monthSection" class="export-section" style="display: none;">
+                        <!-- Panduan Export Pilih Bulan -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Pilih Bulan</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tahun</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-calendar-day text-primary me-1"></i>Pilih bulan</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik Export</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-triangle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Export transaksi untuk satu bulan spesifik</li>
+                                        <li>Berguna untuk laporan bulanan rutin</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Kombinasikan dengan filter user untuk laporan individual
+                                </div>
+                            </div>
+                        </div>
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Pilih Bulan</label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
@@ -631,6 +807,41 @@
 
                     <!-- Month Range Section -->
                     <div id="monthRangeSection" class="export-section" style="display: none;">
+                        <!-- Panduan Export Rentang Bulan -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Rentang Bulan</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tahun & bulan awal</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-calendar text-primary me-1"></i>Pilih tahun & bulan akhir</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik Export</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-triangle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Rentang bisa mencakup beberapa bulan atau lintas tahun</li>
+                                        <li>Export transaksi dari bulan awal sampai bulan akhir</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Cocok untuk laporan kuartal atau semester
+                                </div>
+                            </div>
+                        </div>
                         <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Bulan</label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
@@ -700,7 +911,7 @@ console.log('Available years:', Object.keys(monthsByYear));
 
 const exportGuides = {
     all: 'Klik <strong>Export</strong> untuk mengunduh seluruh data transaksi dalam format Excel.',
-    range: 'Pilih tanggal <strong>awal</strong> dan <strong>akhir</strong>. Hanya tanggal yang ada transaksinya yang muncul di dropdown.',
+    range: 'Pilih tanggal <strong>awal</strong> dan <strong>akhir</strong> sesuka Anda menggunakan kalender. Sistem akan menampilkan transaksi yang ada di rentang tersebut (meski tidak ada transaksi di tanggal tertentu).',
     dates: 'Pilih satu atau beberapa <strong>tanggal spesifik</strong> dari dropdown, lalu klik Tambah. Cocok untuk export tanggal tertentu saja.',
     year: 'Pilih <strong>satu tahun</strong>. Hanya tahun yang memiliki data transaksi yang ditampilkan.',
     year_range: 'Pilih tahun <strong>awal</strong> dan <strong>akhir</strong>. Tahun sampai otomatis disesuaikan agar tidak lebih kecil dari tahun awal.',
@@ -800,6 +1011,41 @@ function filterYearRangeSampai() {
         else { opt.disabled = false; }
     });
     if (sampai.value && parseInt(sampai.value) < parseInt(dari)) sampai.value = '';
+}
+
+// === Date Range Validation for Manual Date Inputs ===
+function validateDateRange() {
+    const dariInput = document.getElementById('rangeDariManual');
+    const sampaiInput = document.getElementById('rangeSampaiManual');
+    const validationMsg = document.getElementById('rangeValidationMsg');
+    
+    const dari = dariInput ? dariInput.value : '';
+    const sampai = sampaiInput ? sampaiInput.value : '';
+    
+    // If either date is empty, hide validation message
+    if (!dari || !sampai) {
+        if (validationMsg) validationMsg.style.display = 'none';
+        return true;
+    }
+    
+    // Compare dates
+    const dariDate = new Date(dari);
+    const sampaiDate = new Date(sampai);
+    
+    if (dariDate > sampaiDate) {
+        // Invalid range: show validation message
+        if (validationMsg) validationMsg.style.display = 'block';
+        
+        // Optional: auto-correct by setting sampai = dari
+        // Uncomment the next line if you want auto-correction
+        // sampaiInput.value = dari;
+        
+        return false;
+    } else {
+        // Valid range: hide validation message
+        if (validationMsg) validationMsg.style.display = 'none';
+        return true;
+    }
 }
 
 // === Multiple Dates ===

@@ -28,11 +28,29 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+<!-- Single-Admin System Notice -->
+<div class="alert alert-info d-flex align-items-center mb-4" role="alert">
+    <i class="fas fa-info-circle me-2 fs-5"></i>
+    <div>
+        <strong>Single-Admin System:</strong> Sistem ini dirancang untuk satu administrator yang menginput data. 
+        Pegawai dapat mengakses laporan tanpa login. 
+        <span class="text-muted">Status user digunakan untuk mengontrol akses login admin.</span>
+    </div>
+</div>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="mb-0"><i class="fas fa-users-cog me-2"></i>Manajemen User</h4>
-    <a href="<?php echo e(route('users.create')); ?>" class="btn btn-primary">
-        <i class="fas fa-plus me-2"></i>Tambah User
-    </a>
+    <div class="d-flex gap-2">
+        <a href="<?php echo e(route('users.index', ['status' => 'nonaktif'])); ?>" class="btn btn-outline-secondary <?php echo e(request('status') == 'nonaktif' ? 'active' : ''); ?>">
+            <i class="fas fa-eye-slash me-2"></i>Lihat Nonaktif
+        </a>
+        <a href="<?php echo e(route('users.index')); ?>" class="btn btn-outline-success <?php echo e(!request('status') ? 'active' : ''); ?>">
+            <i class="fas fa-user-check me-2"></i>User Aktif
+        </a>
+        <a href="<?php echo e(route('users.create')); ?>" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Tambah User
+        </a>
+    </div>
 </div>
 
 <!-- Bulk Delete Toolbar (Sticky Top) -->
@@ -71,6 +89,7 @@
                         <th>Username</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>Status</th>
                         <th>Dibuat</th>
                         <th>Aksi</th>
                     </tr>
@@ -93,6 +112,12 @@
 
                                 </span>
                             </td>
+                            <td>
+                                <span class="badge bg-<?php echo e($user->status == 'aktif' ? 'success' : 'secondary'); ?>">
+                                    <?php echo e(ucfirst($user->status)); ?>
+
+                                </span>
+                            </td>
                             <td><?php echo e($user->created_at->format('d M Y')); ?></td>
                             <td>
                                 <a href="<?php echo e(route('users.edit', $user)); ?>" class="btn btn-sm btn-warning btn-action me-1">
@@ -111,7 +136,7 @@
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
-                            <td colspan="8" class="text-center py-4">
+                            <td colspan="9" class="text-center py-4">
                                 <i class="fas fa-inbox fa-2x mb-2 text-muted"></i>
                                 <p class="mb-0 text-muted">Tidak ada data user</p>
                             </td>

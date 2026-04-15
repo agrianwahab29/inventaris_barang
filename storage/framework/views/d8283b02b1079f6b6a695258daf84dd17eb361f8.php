@@ -1,6 +1,10 @@
 
 
 <?php $__env->startSection('title', 'Riwayat Transaksi - Aplikasi Inventaris'); ?>
+<?php $__env->startSection('page_title', 'Riwayat Transaksi'); ?>
+<?php $__env->startSection('breadcrumb'); ?>
+    <li class="breadcrumb-item active">Riwayat Transaksi</li>
+<?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('styles'); ?>
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
@@ -504,31 +508,63 @@
                     </div>
                     <?php endif; ?>
 
-                    <!-- Range Section -->
+                    <!-- Range Section - Fleksibel Datepicker -->
                     <div id="rangeSection" class="export-section" style="display: none;">
-                        <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tanggal</label>
+                        <!-- Panduan Export Rentang Tanggal -->
+                        <div class="card border-info mb-2" style="font-size: 0.625rem;">
+                            <div class="card-header bg-info text-white py-1 px-2">
+                                <i class="fas fa-info-circle me-1"></i><strong>Panduan Export Rentang Tanggal</strong>
+                            </div>
+                            <div class="card-body py-2 px-2" style="font-size: 0.625rem;">
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">1</span>
+                                        <span><i class="fas fa-calendar-alt text-primary me-1"></i>Pilih tanggal awal (dari) dengan mengklik icon kalender</span>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-1">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">2</span>
+                                        <span><i class="fas fa-calendar-alt text-primary me-1"></i>Pilih tanggal akhir (sampai) dengan mengklik icon kalender</span>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <span class="badge bg-primary me-2" style="font-size: 0.5rem;">3</span>
+                                        <span><i class="fas fa-file-export text-primary me-1"></i>Klik tombol Export untuk generate file</span>
+                                    </div>
+                                </div>
+                                <hr class="my-1" style="opacity: 0.2;">
+                                <div class="alert alert-warning py-1 px-2 mb-1" style="font-size: 0.625rem;">
+                                    <i class="fas fa-exclamation-circle me-1 text-warning"></i>
+                                    <strong>Catatan Penting:</strong>
+                                    <ul class="mb-0 ps-3 mt-1">
+                                        <li>Anda bisa memilih tanggal bebas, tidak terbatas pada tanggal transaksi yang ada</li>
+                                        <li>Jika tidak ada transaksi di rentang tanggal yang dipilih, hasil export akan kosong</li>
+                                    </ul>
+                                </div>
+                                <div class="alert alert-light border py-1 px-2 mb-0" style="font-size: 0.625rem;">
+                                    <i class="fas fa-lightbulb text-warning me-1"></i>
+                                    <strong>Tips:</strong> Gunakan filter "Semua Tanggal" terlebih dahulu untuk melihat tanggal apa saja yang memiliki transaksi
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="form-label fw-bold" style="font-size: 0.75rem;">Rentang Tanggal <span class="text-muted fw-normal">(Pilih tanggal bebas)</span></label>
                         <div class="border rounded p-2 bg-light">
                             <div class="row g-2">
                                 <div class="col-md-6">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Dari Tanggal</label>
-                                    <select id="rangeDariDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="if(this.value) document.getElementById('rangeDariManual').value=this.value">
-                                        <option value="">-- Pilih dari daftar --</option>
-                                        <?php $__currentLoopData = $availableDates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($date); ?>"><?php echo e(\Carbon\Carbon::parse($date)->translatedFormat('d F Y')); ?></option>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
-                                    <input type="date" name="tanggal_dari" id="rangeDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;">
+                                    <input type="date" name="tanggal_dari" id="rangeDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" onchange="validateDateRange()">
+                                    <small class="text-muted" style="font-size: 0.5rem;">Klik icon kalender untuk memilih tanggal</small>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label text-muted" style="font-size: 0.625rem;">Sampai Tanggal</label>
-                                    <select id="rangeSampaiDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="if(this.value) document.getElementById('rangeSampaiManual').value=this.value">
-                                        <option value="">-- Pilih dari daftar --</option>
-                                        <?php $__currentLoopData = $availableDates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($date); ?>"><?php echo e(\Carbon\Carbon::parse($date)->translatedFormat('d F Y')); ?></option>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
-                                    <input type="date" name="tanggal_sampai" id="rangeSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;">
+                                    <input type="date" name="tanggal_sampai" id="rangeSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" onchange="validateDateRange()">
+                                    <small class="text-muted" style="font-size: 0.5rem;">Klik icon kalender untuk memilih tanggal</small>
                                 </div>
+                            </div>
+                            <div id="rangeValidationMsg" class="alert alert-warning mt-2 mb-0 py-1 px-2" style="font-size: 0.625rem; display: none;">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Tanggal awal harus sebelum atau sama dengan tanggal akhir
+                            </div>
+                            <div class="alert alert-info mt-2 mb-0 py-1 px-2" style="font-size: 0.5rem;">
+                                <i class="fas fa-info-circle me-1"></i><strong>Tips:</strong> Sistem akan menampilkan transaksi yang ada di rentang tanggal yang dipilih. Jika tidak ada transaksi di tanggal tertentu, data akan kosong.
                             </div>
                         </div>
                     </div>
@@ -702,7 +738,7 @@ console.log('Available years:', Object.keys(monthsByYear));
 
 const exportGuides = {
     all: 'Klik <strong>Export</strong> untuk mengunduh seluruh data transaksi dalam format Excel.',
-    range: 'Pilih tanggal <strong>awal</strong> dan <strong>akhir</strong>. Hanya tanggal yang ada transaksinya yang muncul di dropdown.',
+    range: 'Pilih tanggal <strong>awal</strong> dan <strong>akhir</strong> sesuka Anda menggunakan kalender. Sistem akan menampilkan transaksi yang ada di rentang tersebut (meski tidak ada transaksi di tanggal tertentu).',
     dates: 'Pilih satu atau beberapa <strong>tanggal spesifik</strong> dari dropdown, lalu klik Tambah. Cocok untuk export tanggal tertentu saja.',
     year: 'Pilih <strong>satu tahun</strong>. Hanya tahun yang memiliki data transaksi yang ditampilkan.',
     year_range: 'Pilih tahun <strong>awal</strong> dan <strong>akhir</strong>. Tahun sampai otomatis disesuaikan agar tidak lebih kecil dari tahun awal.',
@@ -802,6 +838,41 @@ function filterYearRangeSampai() {
         else { opt.disabled = false; }
     });
     if (sampai.value && parseInt(sampai.value) < parseInt(dari)) sampai.value = '';
+}
+
+// === Date Range Validation for Manual Date Inputs ===
+function validateDateRange() {
+    const dariInput = document.getElementById('rangeDariManual');
+    const sampaiInput = document.getElementById('rangeSampaiManual');
+    const validationMsg = document.getElementById('rangeValidationMsg');
+    
+    const dari = dariInput ? dariInput.value : '';
+    const sampai = sampaiInput ? sampaiInput.value : '';
+    
+    // If either date is empty, hide validation message
+    if (!dari || !sampai) {
+        if (validationMsg) validationMsg.style.display = 'none';
+        return true;
+    }
+    
+    // Compare dates
+    const dariDate = new Date(dari);
+    const sampaiDate = new Date(sampai);
+    
+    if (dariDate > sampaiDate) {
+        // Invalid range: show validation message
+        if (validationMsg) validationMsg.style.display = 'block';
+        
+        // Optional: auto-correct by setting sampai = dari
+        // Uncomment the next line if you want auto-correction
+        // sampaiInput.value = dari;
+        
+        return false;
+    } else {
+        // Valid range: hide validation message
+        if (validationMsg) validationMsg.style.display = 'none';
+        return true;
+    }
 }
 
 // === Multiple Dates ===

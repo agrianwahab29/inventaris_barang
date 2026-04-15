@@ -4,7 +4,6 @@
 
 @section('page_title', 'Stok Opname Triwulan')
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
     <li class="breadcrumb-item active">Stok Opname Triwulan</li>
 @endsection
 

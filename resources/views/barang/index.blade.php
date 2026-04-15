@@ -3,7 +3,6 @@
 @section('title', 'Data Barang - Aplikasi Inventaris')
 @section('page_title', 'Data Barang')
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
     <li class="breadcrumb-item active">Barang</li>
 @endsection
 
@@ -204,12 +203,12 @@
                 <span class="input-group-text" style="border-radius: 10px 0 0 10px; background: #f8fafc;">
                     <i class="fas fa-search text-muted"></i>
                 </span>
-                <input type="text" name="search" class="form-control" placeholder="Nama barang..." value="{{ request('search') }}" style="border-radius: 0 10px 10px 0;">
+                <input type="text" id="search_barang" name="search" class="form-control" placeholder="Nama barang..." value="{{ request('search') }}" style="border-radius: 0 10px 10px 0;" aria-label="Cari barang berdasarkan nama">
             </div>
         </div>
         <div class="col-md-3">
-            <label class="form-label" style="font-size: 0.75rem; font-weight: 600;">Kategori</label>
-            <select name="kategori" class="form-select" style="border-radius: 10px;">
+            <label class="form-label" for="filter_kategori" style="font-size: 0.75rem; font-weight: 600;">Kategori</label>
+            <select id="filter_kategori" name="kategori" class="form-select" style="border-radius: 10px;" aria-label="Filter berdasarkan kategori barang">
                 <option value="">Semua Kategori</option>
                 @foreach($kategoris as $kat)
                     <option value="{{ $kat }}" {{ request('kategori') == $kat ? 'selected' : '' }}>{{ $kat }}</option>
@@ -217,8 +216,8 @@
             </select>
         </div>
         <div class="col-md-3">
-            <label class="form-label" style="font-size: 0.75rem; font-weight: 600;">Status</label>
-            <select name="status" class="form-select" style="border-radius: 10px;">
+            <label class="form-label" for="filter_status" style="font-size: 0.75rem; font-weight: 600;">Status</label>
+            <select id="filter_status" name="status" class="form-select" style="border-radius: 10px;" aria-label="Filter berdasarkan status stok barang">
                 <option value="">Semua Status</option>
                 <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
                 <option value="rendah" {{ request('status') == 'rendah' ? 'selected' : '' }}>Stok Rendah</option>
@@ -282,7 +281,7 @@
                 <tr>
                     @if(Auth::user()->isAdmin())
                     <th style="width: 50px;" class="text-center">
-                        <input type="checkbox" id="selectAll" class="form-check-input">
+                        <input type="checkbox" id="selectAll" name="select_all_barang" class="form-check-input" aria-label="Pilih semua barang">
                     </th>
                     @endif
                     <th>Nama Barang</th>
@@ -299,7 +298,7 @@
                     <tr>
                         @if(Auth::user()->isAdmin())
                         <td class="text-center">
-                            <input type="checkbox" class="bulk-checkbox form-check-input" value="{{ $barang->id }}">
+                            <input type="checkbox" id="barang_{{ $barang->id }}" name="barang_ids[]" class="bulk-checkbox form-check-input" value="{{ $barang->id }}" aria-label="Pilih barang {{ $barang->nama_barang }}">
                         </td>
                         @endif
                         <td>
@@ -318,7 +317,7 @@
                                 </span>
                                 <div class="stok-edit-form" style="display: none;">
                                     <div class="input-group" style="max-width: 160px; margin: 0 auto;">
-                                        <input type="number" class="form-control form-control-sm stok-input" value="{{ $barang->stok }}" min="0" style="text-align: center;">
+                                        <input type="number" id="stok_input_{{ $barang->id }}" name="stok_barang" class="form-control form-control-sm stok-input" value="{{ $barang->stok }}" min="0" style="text-align: center;" aria-label="Edit stok {{ $barang->nama_barang }}">
                                         <button class="btn btn-success btn-sm btn-simpan-stok" type="button" title="Simpan">
                                             <i class="fas fa-check"></i>
                                         </button>

@@ -3,7 +3,6 @@
 @section('title', 'Surat Tanda Terima Barang - Aplikasi Inventaris')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
     <li class="breadcrumb-item active">Surat Tanda Terima</li>
 @endsection
 

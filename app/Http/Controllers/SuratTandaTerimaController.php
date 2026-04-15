@@ -176,7 +176,7 @@ class SuratTandaTerimaController extends Controller
         $centerAlign = ['alignment' => 'center'];
         $leftAlign = ['alignment' => 'left'];
 
-        $headers = ['No', 'Nama Barang', 'Jumlah', 'Satuan', 'Paraf (Penerima)', 'Paraf (Penyerah)'];
+        $headers = ['No', 'Nama Barang', 'Jumlah', 'Satuan', 'Yang Menerima', 'Yang Menyerahkan'];
         $widths = [600, 2800, 1000, 1000, 2200, 2200];
 
         foreach ($headers as $i => $header) {
