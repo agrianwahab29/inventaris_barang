@@ -1067,7 +1067,7 @@
         
         @if($berkas->hasPages())
         <div class="pagination-wrapper">
-            {{ $berkas->links('pagination::bootstrap-5') }}
+            {{ $berkas->links('pagination::bootstrap-4') }}
         </div>
         @endif
     </div>
