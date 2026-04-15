@@ -660,79 +660,87 @@
     }
 
     @media (max-width: 767.98px) {
-        /* === AGGRESSIVE SPACING REDUCTION FOR MOBILE === */
+        /* === ULTRA-COMPACT MOBILE LAYOUT === */
         
-        /* Welcome banner - minimal bottom margin */
+        /* Welcome banner - eliminate bottom space */
         .welcome-banner.mb-4 {
-            margin-bottom: 0.375rem !important;
+            margin-bottom: 0.25rem !important;
         }
         
         .welcome-banner .card-body {
-            padding: 12px 14px !important;
+            padding: 10px 12px !important;
         }
         
         .welcome-banner h4 {
-            font-size: 0.9375rem !important;
-            margin-bottom: 0.25rem !important;
+            font-size: 0.875rem !important;
+            margin-bottom: 0.125rem !important;
         }
         
         .welcome-banner p {
+            font-size: 0.6875rem !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .welcome-banner .btn-lg {
+            padding: 6px 12px !important;
             font-size: 0.75rem !important;
         }
 
-        /* Stat cards row - eliminate cumulative gap */
+        /* Stat cards row - ZERO gap between cards */
         .stat-cards-row {
-            margin-bottom: 0.25rem !important;
-            gap: 0.25rem !important;
+            margin-bottom: 0.125rem !important;
+            gap: 0.125rem !important;
         }
 
         .stat-cards-row .col-12 {
             margin-bottom: 0 !important;
-            padding-top: 0.125rem;
-            padding-bottom: 0.125rem;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
 
-        /* Make stat cards more compact on mobile */
+        /* Ultra-compact stat cards */
         .stat-cards-row .stat-card {
-            padding: 10px 12px;
+            padding: 8px 10px;
             min-height: auto;
-            border-radius: 12px;
+            border-radius: 10px;
         }
 
         .stat-cards-row .stat-value {
-            font-size: 1.125rem;
-            margin-bottom: 2px;
+            font-size: 1rem;
+            margin-bottom: 1px;
+            line-height: 1;
         }
 
         .stat-cards-row .stat-icon {
-            width: 36px;
-            height: 36px;
-            font-size: 14px;
-            margin-bottom: 6px;
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            font-size: 12px;
+            margin-bottom: 4px;
+            border-radius: 6px;
         }
 
         .stat-cards-row .stat-label {
-            font-size: 0.6875rem;
-            line-height: 1.2;
+            font-size: 0.625rem;
+            line-height: 1.1;
+            margin-bottom: 2px;
         }
 
         .stat-cards-row .stat-badge {
-            font-size: 0.5625rem;
-            padding: 2px 6px;
-            margin-top: 6px;
-            border-radius: 12px;
+            font-size: 0.5rem;
+            padding: 1px 4px;
+            margin-top: 3px;
+            border-radius: 8px;
         }
 
-        /* Chart row - tight gap */
+        /* Chart row - eliminate gap with stat cards */
         .chart-actions-row {
             margin-top: 0 !important;
-            gap: 0.375rem !important;
+            gap: 0.125rem !important;
         }
         
         /* Bottom row - tight gap */
         .mt-1 {
-            margin-top: 0.25rem !important;
+            margin-top: 0.125rem !important;
         }
 
         .chart-empty-state {
