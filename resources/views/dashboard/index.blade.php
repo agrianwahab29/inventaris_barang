@@ -863,20 +863,37 @@
     </div>
 </div>
 
-<!-- Second Row - Alerts -->
+<!-- Second Row - Stock Status -->
 <div class="row g-3 mb-4">
     <div class="col-xl-3 col-md-6 col-6">
-        <div class="stat-card stat-card-danger animate-fade-up animate-delay-5">
+        @php
+            $totalAlert = $stokRendah + $stokHabis;
+        @endphp
+        @if($totalAlert > 0)
+        <div class="stat-card stat-card-danger animate-fade-up animate-delay-5" style="box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);">
             <div class="stat-icon stat-icon-danger">
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <div class="stat-value">{{ number_format($stokRendah + $stokHabis) }}</div>
+            <div class="stat-value">{{ number_format($totalAlert) }}</div>
             <div class="stat-label">Perlu Perhatian</div>
             <div class="stat-badge stat-badge-danger">
-                <span class="badge bg-white text-danger me-1" style="font-size: 0.625rem;">{{ $stokHabis }} habis</span>
-                <span class="badge bg-white text-warning" style="font-size: 0.625rem;">{{ $stokRendah }} rendah</span>
+                @if($stokHabis > 0)<span class="badge bg-white text-danger me-1" style="font-size: 0.625rem;">{{ $stokHabis }} habis</span>@endif
+                @if($stokRendah > 0)<span class="badge bg-white text-warning" style="font-size: 0.625rem;">{{ $stokRendah }} rendah</span>@endif
             </div>
         </div>
+        @else
+        <div class="stat-card animate-fade-up animate-delay-5" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15);">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; box-shadow: 0 8px 16px -8px rgba(34, 197, 94, 0.5);">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-value" style="background: linear-gradient(135deg, #166534 0%, #15803d 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">0</div>
+            <div class="stat-label">Stok Aman</div>
+            <div class="stat-badge" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #166534;">
+                <i class="fas fa-check me-1"></i>
+                <span>Semua stok tersedia</span>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 
