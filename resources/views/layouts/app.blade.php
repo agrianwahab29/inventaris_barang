@@ -8,17 +8,20 @@
     
     <!-- Favicon - Logo Tut Wuri Handayani -->
     <!-- PNG Favicon untuk browser modern (tidak stretch) -->
-    <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=3">
+    <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=5">
     <!-- ICO Fallback untuk browser lama -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=3">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=5">
     <!-- SVG untuk high-res display -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=3">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=5">
     <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="{{ asset('image/tut-wuri-handayani.png') }}?v=3">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('image/tut-wuri-handayani.png') }}?v=3">
+    <link rel="apple-touch-icon" href="{{ asset('image/tut-wuri-handayani.png') }}?v=5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('image/tut-wuri-handayani.png') }}?v=5">
     
     <!-- Force favicon refresh -->
     <meta name="theme-color" content="#1e1b4b">
+    
+    <!-- Meta Description -->
+    <meta name="description" content="Sistem Inventaris Barang - Balai Bahasa Provinsi Sulawesi Tenggara. Kelola inventaris ATK, transaksi masuk/keluar, dan arsip dokumen digital.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -1049,7 +1052,7 @@
         </div>
         
         <!-- Content Area -->
-        <div class="content-area">
+        <main class="content-area">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show animate-fade-in mb-4" role="alert">
                     <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -1065,7 +1068,7 @@
             @endif
             
             @yield('content')
-        </div>
+        </main>
     </div>
     
     <!-- Mobile Toggle Button -->

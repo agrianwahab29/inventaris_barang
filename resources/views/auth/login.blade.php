@@ -5,9 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistem Inventaris Barang</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=4">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=4">
+    <!-- Favicon - Logo Tut Wuri Handayani -->
+    <!-- PNG Favicon untuk browser modern (tidak stretch) -->
+    <link rel="icon" type="image/png" href="{{ asset('image/tut-wuri-handayani.png') }}?v=5">
+    <!-- ICO Fallback untuk browser lama -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=5">
+    <!-- SVG untuk high-res display -->
+    <link rel="icon" type="image/svg+xml" href="{{ asset('image/tut-wuri-handayani.svg') }}?v=5">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="{{ asset('image/tut-wuri-handayani.png') }}?v=5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('image/tut-wuri-handayani.png') }}?v=5">
+
+    <!-- Force favicon refresh -->
+    <meta name="theme-color" content="#1e1b4b">
 
     <style>
         /* Elegant Government Design System */

@@ -6,6 +6,17 @@
 
 @section('styles')
 <style>
+    /* Heading sizing overrides for sequential heading order */
+    .welcome-banner h2 {
+        font-size: 1.5rem;
+    }
+    .quick-action h4, .alert-item h4, .transaction-item h4 {
+        font-size: 0.875rem;
+    }
+    h4.chart-empty-title {
+        font-size: 1rem;
+    }
+
     /* Keyframe Animations */
     @keyframes fadeInUp {
         from {
@@ -671,7 +682,7 @@
             padding: 10px 12px !important;
         }
         
-        .welcome-banner h4 {
+        .welcome-banner h2 {
             font-size: 0.875rem !important;
             margin-bottom: 0.125rem !important;
         }
@@ -864,7 +875,7 @@
             font-size: 0.6875rem;
         }
         
-        .quick-action h6 {
+        .quick-action h4 {
             font-size: 0.75rem !important;
         }
         
@@ -889,7 +900,7 @@
             margin-bottom: 6px;
         }
         
-        .alert-item h6 {
+        .alert-item h4 {
             font-size: 0.6875rem !important;
         }
         
@@ -898,7 +909,7 @@
             margin-bottom: 4px;
         }
         
-        .transaction-item h6 {
+        .transaction-item h4 {
             font-size: 0.75rem !important;
         }
         
@@ -943,7 +954,7 @@
             padding: 8px 10px !important;
         }
         
-        .welcome-banner h4 {
+        .welcome-banner h2 {
             font-size: 0.75rem !important;
         }
         
@@ -984,10 +995,10 @@
     <div class="card-body p-4 position-relative">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h4 class="text-white mb-2 fw-bold">
+                <h2 class="text-white mb-2 fw-bold">
                     <i class="fas fa-hand-sparkles me-2"></i>
                     Selamat Datang, {{ Auth::user()->name }}!
-                </h4>
+                </h2>
                 <p class="text-white-50 mb-0" style="font-size: 0.9375rem;">
                     Kelola inventaris barang dengan mudah dan efisien. Semua yang Anda butuhkan ada di sini.
                 </p>
@@ -1096,10 +1107,10 @@
     <div class="col-lg-8 col-md-12 col-12">
         <div class="chart-container animate-fade-left animate-delay-2 d-flex flex-column h-100">
             <div class="section-header">
-                <h5 class="section-title">
+                <h3 class="section-title">
                     <i class="fas fa-chart-line" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
                     Grafik Aktivitas 7 Hari Terakhir
-                </h5>
+                </h3>
                 <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Detail
                 </a>
@@ -1116,7 +1127,7 @@
                         <div class="chart-empty-icon">
                             <i class="fas fa-chart-area"></i>
                         </div>
-                        <h6 class="chart-empty-title">Belum Ada Transaksi</h6>
+                        <h4 class="chart-empty-title">Belum Ada Transaksi</h4>
                         <p class="chart-empty-desc">Tidak ada transaksi dalam 7 hari terakhir. Data akan muncul setelah ada barang masuk atau keluar.</p>
                         <a href="{{ route('transaksi.create') }}" class="btn btn-sm rounded-pill" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                             <i class="fas fa-plus me-1"></i>Tambah Transaksi
@@ -1131,10 +1142,10 @@
     <div class="col-lg-4 col-md-12 col-12">
         <div class="chart-container animate-fade-right animate-delay-3 h-100">
             <div class="section-header">
-                <h5 class="section-title">
+                <h3 class="section-title">
                     <i class="fas fa-bolt" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white;"></i>
                     Aksi Cepat
-                </h5>
+                </h3>
             </div>
             
             <a href="{{ route('transaksi.create') }}" class="quick-action">
@@ -1142,7 +1153,7 @@
                     <i class="fas fa-plus"></i>
                 </div>
                 <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Barang Masuk/Keluar</h6>
+                    <h4 class="mb-0 fw-bold" style="font-size: 0.875rem;">Barang Masuk/Keluar</h4>
                     <small class="text-muted" style="font-size: 0.75rem;">Catat barang masuk atau keluar</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -1153,7 +1164,7 @@
                     <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Stok Opname Triwulan</h6>
+                    <h4 class="mb-0 fw-bold" style="font-size: 0.875rem;">Stok Opname Triwulan</h4>
                     <small class="text-muted" style="font-size: 0.75rem;">Lihat laporan stok per triwulan</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -1164,7 +1175,7 @@
                     <i class="fas fa-box-open"></i>
                 </div>
                 <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Kelola Barang</h6>
+                    <h4 class="mb-0 fw-bold" style="font-size: 0.875rem;">Kelola Barang</h4>
                     <small class="text-muted" style="font-size: 0.75rem;">Lihat dan edit data barang</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -1175,7 +1186,7 @@
                     <i class="fas fa-history"></i>
                 </div>
                 <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Riwayat Transaksi</h6>
+                    <h4 class="mb-0 fw-bold" style="font-size: 0.875rem;">Riwayat Transaksi</h4>
                     <small class="text-muted" style="font-size: 0.75rem;">Lihat semua riwayat</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -1186,7 +1197,7 @@
                     <i class="fas fa-file-pdf"></i>
                 </div>
                 <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Berkas Transaksi</h6>
+                    <h4 class="mb-0 fw-bold" style="font-size: 0.875rem;">Berkas Transaksi</h4>
                     <small class="text-muted" style="font-size: 0.75rem;">Kelola arsip dokumen digital</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -1198,7 +1209,7 @@
                     <i class="fas fa-users-cog"></i>
                 </div>
                 <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold" style="font-size: 0.875rem;">Manajemen User</h6>
+                    <h4 class="mb-0 fw-bold" style="font-size: 0.875rem;">Manajemen User</h4>
                     <small class="text-muted" style="font-size: 0.75rem;">Kelola pengguna sistem</small>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -1213,10 +1224,10 @@
     <div class="col-lg-4">
         <div class="chart-container animate-fade-up animate-delay-4">
             <div class="section-header">
-                <h5 class="section-title">
+                <h3 class="section-title">
                     <i class="fas fa-bell" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;"></i>
                     Peringatan Stok
-                </h5>
+                </h3>
                 <a href="{{ route('barang.index', ['status' => 'rendah']) }}" class="btn btn-sm btn-outline-danger rounded-pill" style="font-size: 0.6875rem;">
                     Semua
                 </a>
@@ -1226,7 +1237,7 @@
                 @forelse($barangStokRendah as $barang)
                     <a href="{{ route('barang.show', $barang->id) }}" class="alert-item {{ $barang->isStokHabis() ? 'alert-danger-item' : 'alert-warning-item' }} text-decoration-none">
                         <div class="flex-grow-1" style="min-width: 0;">
-                            <h6 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.8125rem;">{{ $barang->nama_barang }}</h6>
+                            <h4 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.8125rem;">{{ $barang->nama_barang }}</h4>
                             <small class="text-muted" style="font-size: 0.6875rem;">{{ $barang->kategori }}</small>
                         </div>
                         <span class="badge {{ $barang->isStokHabis() ? 'bg-danger' : 'bg-warning text-dark' }} rounded-pill ms-2" style="font-size: 0.625rem;">
@@ -1238,7 +1249,7 @@
                         <div class="empty-state-icon" style="background: #d1fae5;">
                             <i class="fas fa-check-circle text-success" style="font-size: 1.5rem;"></i>
                         </div>
-                        <h6 class="text-muted fw-semibold" style="font-size: 0.875rem;">Semua Stok Aman</h6>
+                        <h4 class="text-muted fw-semibold" style="font-size: 0.875rem;">Semua Stok Aman</h4>
                         <p class="text-muted mb-0" style="font-size: 0.75rem;">Tidak ada barang dengan stok rendah</p>
                     </div>
                 @endforelse
@@ -1250,10 +1261,10 @@
     <div class="col-lg-8">
         <div class="chart-container animate-fade-up animate-delay-5">
             <div class="section-header">
-                <h5 class="section-title">
+                <h3 class="section-title">
                     <i class="fas fa-clock" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;"></i>
                     Transaksi Terakhir
-                </h5>
+                </h3>
                 <a href="{{ route('transaksi.index') }}" class="btn btn-sm rounded-pill px-3" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                     <i class="fas fa-arrow-right me-1"></i>Semua
                 </a>
@@ -1268,7 +1279,7 @@
                         <div class="flex-grow-1" style="min-width: 0; overflow: hidden;">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div style="min-width: 0; overflow: hidden;">
-                                    <h6 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.875rem;">{{ $transaksi->barang->nama_barang }}</h6>
+                                    <h4 class="mb-0 fw-semibold text-truncate text-dark" style="font-size: 0.875rem;">{{ $transaksi->barang->nama_barang }}</h4>
                                     <small class="text-muted" style="font-size: 0.75rem;">
                                         <i class="fas fa-user me-1"></i>{{ $transaksi->user->name }}
                                         @if($transaksi->tipe == 'keluar' && $transaksi->ruangan)
@@ -1291,7 +1302,7 @@
                         <div class="empty-state-icon" style="background: #f1f5f9;">
                             <i class="fas fa-inbox text-muted" style="font-size: 1.5rem;"></i>
                         </div>
-                        <h6 class="text-muted fw-semibold" style="font-size: 0.875rem;">Belum Ada Transaksi</h6>
+                        <h4 class="text-muted fw-semibold" style="font-size: 0.875rem;">Belum Ada Transaksi</h4>
                         <a href="{{ route('transaksi.create') }}" class="btn rounded-pill mt-2" style="background: linear-gradient(135deg, #1e4d8c 0%, #3b82f6 100%); color: white; font-size: 0.75rem;">
                             <i class="fas fa-plus me-1"></i>Barang Masuk/Keluar
                         </a>
