@@ -10,7 +10,11 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .transaction-card { transition: all 0.3s ease; border-radius: 12px; overflow: hidden; }
-    .filter-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white; }
+    .filter-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; }
+    .filter-card .form-select, .filter-card .form-control { font-size: .8rem; border-radius: 6px; border-color: #cbd5e1; }
+    .filter-card .form-select:focus, .filter-card .form-control:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,.15); }
+    .filter-card .form-label { font-size: .7rem; font-weight: 600; color: #64748b; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .3px; }
+    .filter-card .btn-filter { font-size: .8rem; border-radius: 6px; }
     .stat-box { border-radius: 10px; padding: 12px; color: white; position: relative; overflow: hidden; }
     .stat-box::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: rgba(255,255,255,0.1); border-radius: 50%; }
     .stat-masuk { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
@@ -205,8 +209,12 @@
             font-size: 1rem !important;
         }
         
-        .filter-card .row.g-2 {
-            row-gap: 6px;
+        .filter-card .card-body {
+            padding: 10px !important;
+        }
+        
+        .filter-card .form-label {
+            font-size: .65rem;
         }
         
         .bulk-toolbar {
@@ -332,61 +340,49 @@
 <input type="hidden" id="lastTransactionTimestamp" value="{{ $latestTimestamp ?? '' }}">
 
 <!-- Filter Section -->
-<div class="card filter-card mb-3 border-0 shadow">
+<div class="card filter-card mb-3 shadow-sm">
     <div class="card-body py-2 px-3">
         <form method="GET" action="{{ route('transaksi.index') }}">
             <div class="row g-2 align-items-end">
                 @if(Auth::user()->isAdmin())
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">User</label>
-                    <select name="user_id" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
-                        <option value="">Semua</option>
+                <div class="col-lg col-md-4 col-6">
+                    <label class="form-label">User</label>
+                    <select name="user_id" class="form-select">
+                        <option value="">Semua User</option>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 @endif
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Tipe</label>
-                    <select name="tipe" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
-                        <option value="">Semua</option>
+                <div class="col-lg col-md-4 col-6">
+                    <label class="form-label">Tipe</label>
+                    <select name="tipe" class="form-select">
+                        <option value="">Semua Tipe</option>
                         <option value="masuk" {{ request('tipe') == 'masuk' ? 'selected' : '' }}>Masuk</option>
                         <option value="keluar" {{ request('tipe') == 'keluar' ? 'selected' : '' }}>Keluar</option>
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Barang</label>
-                    <select name="barang_id" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
-                        <option value="">Semua</option>
+                <div class="col-lg col-md-4 col-6">
+                    <label class="form-label">Barang</label>
+                    <select name="barang_id" class="form-select">
+                        <option value="">Semua Barang</option>
                         @foreach($barangs as $barang)
                             <option value="{{ $barang->id }}" {{ request('barang_id') == $barang->id ? 'selected' : '' }}>{{ $barang->nama_barang }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Dari</label>
-                    <select id="filterDariDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="syncFilterDari()">
-                        <option value="">-- Pilih --</option>
-                        @foreach($availableDates as $date)
-                            <option value="{{ $date }}" {{ request('tanggal_dari') == $date ? 'selected' : '' }}>{{ \Carbon\Carbon::parse($date)->translatedFormat('d M Y') }}</option>
-                        @endforeach
-                    </select>
-                    <input type="date" name="tanggal_dari" id="filterDariManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" value="{{ request('tanggal_dari') }}" onchange="syncFilterDariDropdown()">
+                <div class="col-lg col-md-3 col-6">
+                    <label class="form-label">Dari Tanggal</label>
+                    <input type="date" name="tanggal_dari" class="form-control" value="{{ request('tanggal_dari') }}">
                 </div>
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Sampai</label>
-                    <select id="filterSampaiDropdown" class="form-select mb-1" style="font-size: 0.75rem; padding: 4px 8px;" onchange="syncFilterSampai()">
-                        <option value="">-- Pilih --</option>
-                        @foreach($availableDates as $date)
-                            <option value="{{ $date }}" {{ request('tanggal_sampai') == $date ? 'selected' : '' }}>{{ \Carbon\Carbon::parse($date)->translatedFormat('d M Y') }}</option>
-                        @endforeach
-                    </select>
-                    <input type="date" name="tanggal_sampai" id="filterSampaiManual" class="form-control" style="font-size: 0.75rem; padding: 4px 8px;" value="{{ request('tanggal_sampai') }}" onchange="syncFilterSampaiDropdown()">
+                <div class="col-lg col-md-3 col-6">
+                    <label class="form-label">Sampai Tanggal</label>
+                    <input type="date" name="tanggal_sampai" class="form-control" value="{{ request('tanggal_sampai') }}">
                 </div>
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Tahun</label>
-                    <select name="tahun" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
+                <div class="col-lg col-md-3 col-6">
+                    <label class="form-label">Tahun</label>
+                    <select name="tahun" class="form-select">
                         <option value="">Semua</option>
                         @forelse($availableYears as $tahun)
                             <option value="{{ $tahun }}" {{ request('tahun') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
@@ -395,19 +391,19 @@
                         @endforelse
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4 col-6">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Bulan</label>
-                    <select name="bulan" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
+                <div class="col-lg col-md-3 col-6">
+                    <label class="form-label">Bulan</label>
+                    <select name="bulan" class="form-select">
                         <option value="">Semua</option>
                         @for($b = 1; $b <= 12; $b++)
                             <option value="{{ $b }}" {{ request('bulan') == $b ? 'selected' : '' }}>{{ \Carbon\Carbon::create(null, $b)->translatedFormat('F') }}</option>
                         @endfor
                     </select>
                 </div>
-                <div class="col-lg-2 col-md-4 col-6">
+                <div class="col-lg-auto col-md-auto col-12">
                     <div class="d-flex gap-1">
-                        <button type="submit" class="btn btn-light flex-fill" style="font-size: 0.75rem; padding: 4px 8px;"><i class="fas fa-filter me-1"></i>Filter</button>
-                        <a href="{{ route('transaksi.index') }}" class="btn btn-outline-light" style="font-size: 0.75rem; padding: 4px 8px;" title="Reset"><i class="fas fa-undo"></i></a>
+                        <button type="submit" class="btn btn-primary btn-filter"><i class="fas fa-search me-1"></i>Cari</button>
+                        <a href="{{ route('transaksi.index') }}" class="btn btn-outline-secondary btn-filter" title="Reset"><i class="fas fa-undo"></i></a>
                     </div>
                 </div>
             </div>

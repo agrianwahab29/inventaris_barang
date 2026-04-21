@@ -12,10 +12,14 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .filter-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 12px;
-        color: white;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
     }
+    .filter-card .form-select, .filter-card .form-control { font-size: .8rem; border-radius: 6px; border-color: #cbd5e1; }
+    .filter-card .form-select:focus, .filter-card .form-control:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,.15); }
+    .filter-card .form-label { font-size: .7rem; font-weight: 600; color: #64748b; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .3px; }
+    .filter-card .btn-filter { font-size: .8rem; border-radius: 6px; }
     .group-card {
         border-radius: 12px;
         box-shadow: 0 2px 6px -1px rgba(0,0,0,0.1);
@@ -189,14 +193,14 @@
 </div>
 
 <!-- Filter Section -->
-<div class="card filter-card mb-3 border-0 shadow">
+<div class="card filter-card mb-3 shadow-sm">
     <div class="card-body py-2 px-3">
         <form method="GET" action="{{ route('surat-tanda-terima.index') }}">
             <div class="row g-2 align-items-end">
-                <div class="col-lg-4 col-md-4 col-12">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Pengambil</label>
-                    <select name="pengambil" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
-                        <option value="">-- Semua Pengambil --</option>
+                <div class="col-lg col-md-4 col-12">
+                    <label class="form-label">Pengambil</label>
+                    <select name="pengambil" class="form-select">
+                        <option value="">Semua Pengambil</option>
                         @foreach($daftarPengambil as $pengambil)
                             <option value="{{ $pengambil }}" {{ request('pengambil') == $pengambil ? 'selected' : '' }}>
                                 {{ $pengambil }}
@@ -204,10 +208,10 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4 col-12">
-                    <label class="form-label text-white-50" style="font-size: 0.625rem;">Tanggal Keluar</label>
-                    <select name="tanggal" class="form-select" style="font-size: 0.75rem; padding: 4px 8px;">
-                        <option value="">-- Pilih Tanggal --</option>
+                <div class="col-lg col-md-4 col-12">
+                    <label class="form-label">Tanggal Keluar</label>
+                    <select name="tanggal" class="form-select">
+                        <option value="">Semua Tanggal</option>
                         @foreach($daftarTanggal as $tgl)
                             <option value="{{ $tgl['value'] }}" {{ request('tanggal') == $tgl['value'] ? 'selected' : '' }}>
                                 {{ $tgl['label'] }}
@@ -215,12 +219,10 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-4 col-12">
+                <div class="col-lg-auto col-md-4 col-12">
                     <div class="d-flex gap-1">
-                        <button type="submit" class="btn btn-light flex-fill" style="font-size: 0.75rem; padding: 4px 8px;">
-                            <i class="fas fa-filter me-1"></i>Filter
-                        </button>
-                        <a href="{{ route('surat-tanda-terima.index') }}" class="btn btn-outline-light" style="font-size: 0.75rem; padding: 4px 8px;" title="Reset">
+                        <button type="submit" class="btn btn-primary btn-filter"><i class="fas fa-search me-1"></i>Cari</button>
+                        <a href="{{ route('surat-tanda-terima.index') }}" class="btn btn-outline-secondary btn-filter" title="Reset">
                             <i class="fas fa-undo"></i>
                         </a>
                     </div>

@@ -41,6 +41,14 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            // Optimasi untuk multi-user kecil (2-3 user)
+            'pragma' => [
+                'journal_mode' => 'WAL',        // Write-Ahead Logging - reduces locking
+                'synchronous' => 'NORMAL',   // Balance speed/safety
+                'cache_size' => 2000,        // 2MB cache
+                'temp_store' => 'MEMORY',     // Temp tables in memory
+                'busy_timeout' => 5000,      // Wait up to 5s when locked
+            ],
         ],
 
         'mysql' => [
